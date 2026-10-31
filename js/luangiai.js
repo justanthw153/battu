@@ -14,6 +14,7 @@
     var r = mod(cs.CAN_HANH[s] - cs.CHI_HANH[b], 5);
     return ['dongHanh', 'chiSinhCan', 'chiKhacCan', 'canKhacChi', 'canSinhChi'][r];
   }
+  function nhomChi(b) { return [0, 3, 6, 9].indexOf(b) >= 0 ? 'chinh' : ([4, 10, 1, 7].indexOf(b) >= 0 ? 'mo' : 'sinh'); }
   var TEN_CACH_CC = { dongHanh: 'Đồng thể', chiSinhCan: 'Tải (Chi sinh Can)', chiKhacCan: 'Tiệt cước (Chi khắc Can)', canKhacChi: 'Cái đầu (Can khắc Chi)', canSinhChi: 'Phúc (Can sinh Chi)' };
   function li(arr) { return arr.length ? '<ul>' + arr.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' : ''; }
   function sec(id, tieuDe, noiDung, moTa) {
@@ -87,7 +88,7 @@
     var napAm = T.napAmTinhCach[D.napAm] ? ['Nạp âm ' + D.napAm + ': ' + T.napAmTinhCach[D.napAm] + '.'] : [];
     out += li([txt].concat(napAm).concat([
       'Nhật chủ ngồi trên ' + cs.CHI[D.chi] + ' ở trạng thái <b>' + cs.TRUONG_SINH[D.truongSinh] + '</b>: ' + T.truongSinh[D.truongSinh],
-      'Cung phối ngẫu – ' + T.chiNgay[D.chi]]));
+      'Hình ảnh cung phối ngẫu <i>(tham khảo cổ điển, ngoài bài giảng)</i> – ' + T.chiNgay[D.chi]]));
     var dacDiem = [];
     var chis = ls.tru.filter(Boolean).map(function (t) { return t.chi; });
     var tuChinh = chis.filter(function (b) { return [0, 3, 6, 9].indexOf(b) >= 0; }).length;
@@ -101,7 +102,11 @@
       }
     });
     if (dacDiem.length) out += '<h4>Đặc điểm nổi bật</h4>' + li(dacDiem);
+    // Tính cách theo địa chi ngày (buổi 7)
+    var nhom = nhomChi(D.chi);
+    out += '<h4>Tính cách theo chi ngày ' + tenChi(D.chi) + ' (buổi 7)</h4>' + li([T.chi[D.chi], 'Thuộc nhóm <b>' + T.nhomChi[nhom].ten + '</b>: ' + T.nhomChi[nhom].tc + '.']);
     out += '<h4>Nghề nghiệp hợp với bản chất ' + c.ten + '</h4>' + p(c.congViec);
+    if (c.ghiChu) out += p('<small class="mota">' + c.ghiChu + '</small>');
     return sec('nhat-chu', 'Nhật chủ & Tính cách', out, 'Thiên can ngày sinh (Nhật chủ) cho biết tư tưởng, quan điểm sống và cách bạn đối xử với những người thân thiết.');
   }
 
@@ -178,7 +183,13 @@
         : 'Bài giảng mô tả: khi ngũ hành Nhật can yếu xuống thì <b>độ năng động giảm, sự thụ động trong suy nghĩ – tinh thần tăng lên</b>. Người Nhật chủ yếu thường lúc mới bước ra đời gặp nhiều thứ chưa ổn, nhờ trưởng bối, anh em và việc học mà vững dần.') + '</div>';
     // Bước 4: ai đang làm mất cân bằng
     var b4, b5, b6;
-    if (dt.cachDac) {
+    if (dt.thuaMua) {
+      var tm = dt.thuaMua, pT = ls.nguHanh.pct;
+      b4 = 'Xét theo sức (bước 3) thì Nhật chủ ' + (vs.score < 46 ? 'hơi yếu' : 'không yếu') + ', nhưng nhìn bảng ngũ hành thì ' + tagHanh(tm.T) + ' lại là hành <b>thừa nhất</b> (' + pT[tm.T].toFixed(0) + '%), còn ' + tagHanh(tm.W) + ' yếu nhất (' + pT[tm.W].toFixed(0) + '%). Nếu chỉ theo phép phù ức (yếu thì bồi, mạnh thì tiết – chế) sẽ chọn ' + cs.HANH[tm.phuUcDung] + '/' + cs.HANH[tm.phuUcHy] + ' – tức là đổ thêm vào chính hành đang thừa.';
+      b5 = 'Thầy dạy (buổi 16, 19): <b>hành thừa mứa thì thành kỵ thần</b>, và hỷ thần là hành <b>vừa làm hao hành thừa vừa bù hành thiếu</b>. Ví dụ “Superman” của thầy: Quý Thủy sinh tháng Thổ nên Nhật chủ nhược, nhưng Thủy quá nhiều → thầy chọn <b>Mộc</b> làm dụng thần, Tỷ Kiếp (Thủy) là kỵ. Áp vào lá số này: ' +
+        tagHanh(tm.tiet) + ' hao bớt ' + cs.HANH[tm.T] + ' (' + cs.HANH[tm.T] + ' sinh ' + cs.HANH[tm.tiet] + '), ' + tagHanh(tm.che) + ' chế ngự ' + cs.HANH[tm.T] + (mod(tm.che + 1, 5) === tm.W ? ' và còn sinh cho ' + cs.HANH[tm.W] + ' đang thiếu' : '') + '. Chọn <b>' + cs.HANH[dt.dung] + '</b> làm dụng thần, ' + cs.HANH[dt.hy] + ' làm hỷ thần. Thầy cũng nói một lá số có thể có 2–3 hỷ thần, nên cả ' + cs.HANH[tm.tiet] + ' và ' + cs.HANH[tm.che] + ' đều có ích.';
+      b6 = 'Kỵ thần là ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + ' – hành đang thừa và hành sinh ra nó.' + (pT[tm.W] < 10 && tm.W === mod(tm.T - 1, 5) ? ' Dù ' + cs.HANH[tm.W] + ' rất ít, không nên bù vì ' + cs.HANH[tm.W] + ' sinh thêm ' + cs.HANH[tm.T] + ' – đúng lời thầy: khuyết thiếu không luôn là nhược điểm.' : '');
+    } else if (dt.cachDac) {
       b4 = 'Nhật chủ không còn chút gốc hay sinh trợ nào – trường hợp đặc biệt.';
       b5 = dt.lyDo; b6 = 'Kỵ thần là những hành cứu Nhật chủ (' + dt.ky.map(function (x) { return cs.HANH[x]; }).join(', ') + ') vì sẽ phá thế thuận theo.';
     } else if (vs.score < 46) {
@@ -357,7 +368,8 @@
       var na = T.napAmTinhCach[t.napAm] ? ' Nạp âm ' + t.napAm + ': ' + T.napAmTinhCach[t.napAm] + '.' : '';
       out += '<div class="tru-luan"><h4>Trụ ' + VI_TRI[i] + ': ' + gz(t.can, t.chi) + ' <small>' + t.napAm + ' · ' + TEN_CACH_CC[kcc] + '</small></h4>' + p(ti.yNghia) +
         p('Thiên can ' + cs.CAN[t.can] + (i === 2 ? ' (Nhật chủ)' : ' là <b>' + ttName(t.thapThanCan) + '</b>') + '; địa chi ' + cs.CHI[t.chi] + ' tàng ' + t.tangCan.map(function (tc) { return cs.CAN[tc.can] + ' (' + cs.THAP_THAN_TAT[tc.thapThan] + ')'; }).join(', ') + '. Nhật chủ tại đây: ' + cs.TRUONG_SINH[t.truongSinh] + '.') +
-        p(T.canChi[kcc] + rieng + (i !== 2 ? ' <i>(ứng vào giai đoạn và lĩnh vực của trụ ' + VI_TRI[i] + ')</i>' : '') + na) + '</div>';
+        p(T.canChi[kcc] + rieng + (i !== 2 ? ' <i>(ứng vào giai đoạn và lĩnh vực của trụ ' + VI_TRI[i] + ')</i>' : '') + na) +
+        (i !== 2 ? p('<small>Chữ ' + cs.CHI[t.chi] + ' ở trụ ' + VI_TRI[i] + ' (buổi 7): ' + T.chi[t.chi].replace(/^[^:]+: /, '') + '</small>') : '') + '</div>';
     });
     var qh = ls.tuongTac;
     if (qh.length) {
@@ -372,6 +384,9 @@
         out += '<div class="qh ' + lopQuanHe(x.q) + '"><span class="qh-tag">' + nhanQuanHe(x.q) + '</span> <b>' + noi + '</b>' + p(moTaQuanHe(x) + linhVuc) + '</div>';
       });
       out += '</div>';
+      var coHinh = qh.some(function (x) { return x.q.loai === 'hinh' || x.q.loai === 'tamhinh'; });
+      var coQN = ls.tru.some(function (t) { return t && t.thanSat.some(function (s) { return ['Thiên Đức Quý Nhân', 'Nguyệt Đức Quý Nhân', 'Thiên Ất Quý Nhân'].indexOf(s.ten) >= 0; }); });
+      if (coHinh && coQN) out += p('<b>Lưu ý:</b> lá số có quý nhân (Thiên Đức / Nguyệt Đức / Thiên Ất). ' + T.hinhGiam);
       out += p('<i>Xung, phá, hại, hình mang đến rắc rối nhưng cũng tạo ra sự phát triển nội lực và cơ hội; kết quả tồi tệ hay chuyển hóa thành cơ hội tùy vào thái độ nhìn nhận và cách đón nhận của mình.</i>');
     } else out += p('Các trụ không có xung – hợp – hình – hại đáng kể: cuộc sống nội tại tương đối êm, biến động chủ yếu đến từ đại vận và lưu niên.');
     return sec('tu-tru', 'Tứ trụ & Tương tác can chi', out);
@@ -406,7 +421,17 @@
     out.push('Sao phối ngẫu: ' + tenSao + ' chiếm ≈ ' + tong.toFixed(0) + '%. ' + (tong < 5 ? 'Sao phối ngẫu yếu/ẩn: duyên đến muộn hoặc ít đặt nặng hôn nhân; nên chủ động mở lòng.' : (tong > 30 ? 'Sao phối ngẫu rất mạnh: nhiều duyên, nhiều lựa chọn – dễ phân tán hoặc chịu ảnh hưởng lớn từ người bạn đời.' : 'Sao phối ngẫu vừa phải: hôn nhân là một phần cân bằng của đời sống.')));
     if (nam && pct[4] > 6 && pct[5] > 6) out.push('Có cả Chính Tài và Thiên Tài: đời sống tình cảm phong phú, cần rõ ràng để tránh rắc rối.');
     if (!nam && ls.canLo.indexOf(6) >= 0 && ls.canLo.indexOf(7) >= 0) out.push('Quan Sát hỗn tạp với nữ: tình cảm dễ phức tạp, có nhiều người theo đuổi hoặc lưỡng lự lựa chọn.');
-    out.push('Cung phối ngẫu (chi ngày) ' + T.chiNgay[D.chi]);
+    out.push('Hình ảnh cung phối ngẫu – chi ngày <i>(tham khảo cổ điển, ngoài bài giảng)</i>: ' + T.chiNgay[D.chi]);
+    // Buổi 20, 21: chất lượng sao phối ngẫu
+    if (nam) {
+      if (pct[5] >= 20) out.push('Chính Tài nhiều: theo bài giảng có xu hướng nhiều lần đổi vợ (có trường hợp đa thê) – cần chung thủy và rõ ràng.');
+      if (pct[4] >= 20) out.push('Thiên Tài nhiều: thường nhiều bạn gái, duyên tình cảm phong phú.');
+      if (ls.nhom[2] > 28 && ls.nhom[0] < 12) out.push('Tài tinh nhiều mà ít Tỷ Kiếp: người vợ dễ là người “áp chế” mình – trong nhà vợ có tiếng nói lớn.');
+    } else {
+      if (ls.nhom[3] < 3) out.push('Lá số không có Chính Quan, Thất Sát (buổi 21): vẫn có thể có chồng, bạn trai nhưng mối quan hệ ít chặt chẽ, mạnh mẽ; có người không có nhu cầu lấy chồng, nhất là khi đại vận cũng không gặp Quan Sát.');
+    }
+    if (ls.nhom[2] > 30 && ls.nhom[4] >= 3) out.push('Tài tinh nhiều khắc Ấn (Ấn là mẹ): người mẹ thường vất vả, sức khỏe mẹ cần được quan tâm.');
+    if (ls.nhom[2] < 3) out.push('Thiếu Tài tinh (buổi 21): ít ý thức quản lý tiền bạc, hay phát sinh vấn đề với người cha.');
     var tc = D.tangCan[0].thapThan;
     out.push('Chi ngày tàng ' + ttName(tc) + ': ' + (T.thapThanTru[tc].Ngày || 'phối ngẫu mang màu sắc của ' + ttName(tc) + '.'));
     ls.tuongTac.forEach(function (x) {
@@ -536,6 +561,17 @@
     var sao = BT.ts.saoTrenTru(ls, s, b, loai).map(function (x) { return x.ten; });
     var tenVan = loai === 'Đại vận' ? 'Vận này' : 'Năm này';
     var dh = cs.CAN_HANH[d];
+    // Ba nhóm địa chi (buổi 7): tương tác của chi vận/năm với chi ngày
+    var Dc = ls.tru[2].chi, nD = nhomChi(Dc), nV = nhomChi(b);
+    if (b !== Dc && nD === nV && !dg.qh.some(function (x) { return x.tang === 'chi' && x.b === 2 && x.q.loai === 'luchop'; })) out.push('<span class="tag-lv">Thay đổi</span> Chi ' + cs.CHI[b] + ' ' + T.nhomChiVan.cungNhom[nD] + '.');
+    if (nD === 'sinh' && nV === 'mo') out.push('<span class="tag-lv">Tính khí</span> ' + T.nhomChiVan.sinhGapMo);
+    if (nD === 'sinh' && nV === 'chinh') out.push('<span class="tag-lv">Tính khí</span> ' + T.nhomChiVan.sinhGapChinh);
+    // Tự hình: năm/vận xung với chữ tự hình là lúc học được bài học (buổi 15)
+    var chisLS = ls.tru.filter(Boolean).map(function (t) { return t.chi; });
+    Object.keys(T.tuHinhXung).forEach(function (k) {
+      k = +k;
+      if (chisLS.filter(function (c) { return c === k; }).length >= 2 && T.tuHinhXung[k] === b) out.push('<span class="tag-lv">Bài học</span> Lá số có ' + cs.CHI[k] + '–' + cs.CHI[k] + ' tự hình; ' + tenVan.toLowerCase() + ' gặp chữ ' + cs.CHI[b] + ' xung với nó – theo thầy là lúc <b>học được bài học thấm thía</b>, thay đổi nhiều về điều mình hay lặp lại.');
+    });
     // Tình cảm theo sao phối ngẫu (buổi 25): nam xét Tài, nữ xét Quan Sát
     var nhomPN = ls.gioiTinh === 'nam' ? 2 : 3, hPN = cs.hanhCuaNhom(dh, nhomPN);
     var tenSao = (ls.gioiTinh === 'nam' ? 'Tài tinh' : 'Quan Sát') + ' – hành ' + cs.HANH[hPN];

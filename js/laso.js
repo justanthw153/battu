@@ -181,6 +181,24 @@
       else if (hai === 2) { dung = H(0); hy = H(4); lyDo = 'Thân nhược vì Tài nhiều (Tài đa thân nhược) – lấy Tỷ Kiếp (' + cs.HANH[H(0)] + ') giúp thân gánh Tài, Ấn (' + cs.HANH[H(4)] + ') làm hỷ.'; ky = [H(2), H(1)]; }
       else { dung = H(4); hy = H(0); lyDo = 'Thân nhược vì Thực Thương tiết khí – lấy Ấn (' + cs.HANH[H(4)] + ') chế Thực Thương, sinh thân.'; ky = [H(1), H(2)]; }
     }
+    // Tiêu chuẩn 2 của bài giảng (buổi 16, 19): hành THỪA MỨA thành kỵ thần – không bao giờ chọn nó làm dụng/hỷ.
+    // Ví dụ “Superman” của thầy: Quý Thủy nhược theo tháng nhưng Thủy quá nhiều → dụng Mộc, Tỷ Kiếp là kỵ.
+    // Ví dụ Giáp Mộc của thầy: Hỏa thừa, thiếu Kim → Thổ (vừa hao Hỏa vừa sinh Kim).
+    var thuaMua = null, pct0 = ls.nguHanh.pct;
+    var xep = [0, 1, 2, 3, 4].sort(function (a, b) { return pct0[b] - pct0[a]; });
+    var T = xep[0], W = xep[4];
+    var anH = mod(dh - 1, 5), sinhT = mod(T - 1, 5);
+    if (!cachDac && pct0[T] >= 30 && (dung === T || hy === T || ((T === dh || T === anH) && (dung === sinhT || hy === sinhT)))) {
+      var tiet = mod(T + 1, 5), che = mod(T - 2, 5);
+      var diemUV = function (x) { return (mod(x + 1, 5) === W || x === W ? 2 : 0) - (pct0[x] >= 25 ? 1.5 : 0) + (x === che ? 0.2 : 0); };
+      var uv = [tiet, che].sort(function (a, b) { return diemUV(b) - diemUV(a); });
+      var phu = pct0[uv[1]] >= 25 ? mod(uv[0] - 1, 5) : uv[1]; // nếu ứng viên thứ hai đã nhiều thì lấy hành sinh cho dụng thần
+      if (phu === T || phu === mod(T - 1, 5)) phu = uv[1];
+      thuaMua = { T: T, W: W, phuUcDung: dung, phuUcHy: hy, tiet: tiet, che: che };
+      dung = uv[0]; hy = phu;
+      ky = [T, mod(T - 1, 5)];
+      lyDo = cs.HANH[T] + ' là hành thừa nhất (' + pct0[T].toFixed(0) + '%) nên theo tiêu chuẩn thừa – thiếu của thầy, ' + cs.HANH[T] + ' là kỵ thần; dùng ' + cs.HANH[dung] + ' để ' + (dung === tiet ? 'hao bớt (tiết)' : 'chế ngự') + ' ' + cs.HANH[T] + (mod(dung + 1, 5) === W ? ' và sinh cho ' + cs.HANH[W] + ' đang thiếu' : '') + ', ' + cs.HANH[hy] + ' làm hỷ.';
+    }
     // Tiêu chuẩn 1 của bài giảng (buổi 16, 19): chọn theo tháng sinh – hành tiết chế sự chèn ép của mùa sinh lên Nhật chủ
     // (ví dụ của thầy: Canh/Tân sinh tháng Ngọ, Hỏa quá vượng khắc Kim → Thủy là hỷ thần). Thêm điều hậu đông lạnh / hạ nóng.
     var mB = ls.tru[1].chi, dieuHau = null;
@@ -199,7 +217,7 @@
     var hanhTot = [dung, hy];
     if (dieuHau && hanhTot.indexOf(dieuHau.hanh) < 0 && ky.indexOf(dieuHau.hanh) < 0) hanhTot.push(dieuHau.hanh);
     var trung = [0, 1, 2, 3, 4].filter(function (x) { return hanhTot.indexOf(x) < 0 && ky.indexOf(x) < 0; });
-    ls.dungThan = { dung: dung, hy: hy, ky: ky, nhan: trung, dieuHau: dieuHau, cachDac: cachDac, lyDo: lyDo, tot: hanhTot };
+    ls.dungThan = { dung: dung, hy: hy, ky: ky, nhan: trung, dieuHau: dieuHau, cachDac: cachDac, lyDo: lyDo, tot: hanhTot, thuaMua: thuaMua };
   }
 
   // Đánh giá một hành với lá số: +2 dụng, +1.5 hỷ/điều hậu, 0 nhàn, -1.5 kỵ
