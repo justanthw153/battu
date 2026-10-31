@@ -178,7 +178,7 @@ main,aside,.wrap>*,.tq-grid>*,.kv>*,.dt-grid>*{min-width:0}
 </header>
 <div class="wrap">
   <aside>
-    <form class="card" id="form">
+    <form class="card" id="form" onsubmit="return false">
       <h2>Thông tin sinh</h2>
       <label>Họ tên</label>
       <input type="text" id="f-ten" placeholder="Tùy chọn">
@@ -221,7 +221,7 @@ main,aside,.wrap>*,.tq-grid>*,.kv>*,.dt-grid>*{min-width:0}
       <button class="btn ghost full" type="button" id="b-mau">Xem lá số mẫu</button>
     </form>
     <div class="card"><h2>Mục lục</h2><nav id="toc" hidden></nav></div>
-    <form class="card" id="form-hk">
+    <form class="card" id="form-hk" onsubmit="return false">
       <h2>Xem hợp – khắc</h2>
       <div class="hint">Người thứ nhất là lá số đang mở. Nhập người thứ hai:</div>
       <label>Loại quan hệ</label>
@@ -249,6 +249,7 @@ main,aside,.wrap>*,.tq-grid>*,.kv>*,.dt-grid>*{min-width:0}
       </div>
       <label class="chk"><input type="checkbox" id="h-khonggio"> Không rõ giờ sinh</label>
       <button class="btn full" type="submit">Xem hợp – khắc</button>
+      <div id="h-msg" class="warn" hidden></div>
     </form>
     <div class="card"><h2>Lá số đã lưu</h2><ul id="ds-luu"></ul><div class="hint">Lưu trên trình duyệt của bạn.</div></div>
   </aside>
@@ -257,13 +258,13 @@ main,aside,.wrap>*,.tq-grid>*,.kv>*,.dt-grid>*{min-width:0}
   </main>
 </div>
 <footer>Kiến thức tổng hợp từ khóa Bát Tự BTK1 (25 buổi) và lý thuyết Tứ trụ cổ điển. Bát tự là công cụ nhận thức vận mệnh để sống thuận theo quy luật – không phải để phán định tốt xấu.</footer>
-<script src="js/lich.js"></script>
-<script src="js/coso.js"></script>
-<script src="js/thansat.js"></script>
-<script src="js/trithuc.js"></script>
-<script src="js/laso.js"></script>
-<script src="js/luangiai.js"></script>
-<script src="js/hophon.js"></script>
-<script src="js/app.js"></script>
+<script src="js/lich.js?v=4"></script>
+<script src="js/coso.js?v=4"></script>
+<script src="js/thansat.js?v=4"></script>
+<script src="js/trithuc.js?v=4"></script>
+<script src="js/laso.js?v=4"></script>
+<script src="js/luangiai.js?v=4"></script>
+<script src="js/hophon.js?v=4"></script>
+<script src="js/app.js?v=4"></script>
 </body>
 </html>
