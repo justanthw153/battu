@@ -117,6 +117,46 @@
     }).join('') : '<li class="empty">Chưa có lá số nào được lưu.</li>';
     document.querySelectorAll('#ds-luu .lnk').forEach(function (b) { b.onclick = function () { var inp = luuDS()[+b.dataset.i].input; ganForm(inp); hienThi(BT.ls.lapLaSo(inp)); }; });
     document.querySelectorAll('#ds-luu .x').forEach(function (b) { b.onclick = function () { var d = luuDS(); d.splice(+b.dataset.x, 1); ghiDS(d); veDS(); }; });
+    $('h-chon').innerHTML = '<option value="">— Nhập mới bên dưới —</option>' + ds.map(function (x, i) {
+      var t = x.input; return '<option value="' + i + '">' + esc(t.ten || 'Không tên') + ' (' + (+t.d) + '/' + (+t.m) + '/' + (+t.y) + ')</option>';
+    }).join('');
+  }
+
+  // ===== Hợp – khắc =====
+  function docFormB() {
+    var d = +$('h-ngay').value, m = +$('h-thang').value, y = +$('h-nam').value, tz = +$('f-tz').value;
+    if (document.querySelector('input[name=hlich]:checked').value === 'am') {
+      var s = BT.lich.lunar2Solar(d, m, y, $('h-nhuan').checked ? 1 : 0, tz);
+      if (!s) { alert('Ngày âm lịch của người thứ hai không hợp lệ.'); return null; }
+      d = s.d; m = s.m; y = s.y;
+    }
+    return {
+      ten: $('h-ten').value.trim().slice(0, 60), gioiTinh: document.querySelector('input[name=hgt]:checked').value,
+      y: y, m: m, d: d, h: +$('h-gio').value, mi: +$('h-phut').value, tz: tz,
+      khongGio: $('h-khonggio').checked, tyMuon: $('f-tymuon').value
+    };
+  }
+  function ganFormB(inp) {
+    $('h-ten').value = inp.ten || '';
+    document.querySelector('input[name=hgt][value=' + inp.gioiTinh + ']').checked = true;
+    document.querySelector('input[name=hlich][value=duong]').checked = true;
+    $('h-ngay').value = inp.d; $('h-thang').value = inp.m; $('h-nam').value = inp.y;
+    $('h-gio').value = inp.h; $('h-phut').value = inp.mi; $('h-khonggio').checked = !!inp.khongGio;
+    capNhatLich();
+  }
+  function xemHopKhac(e) {
+    e.preventDefault();
+    if (!hienTai) { alert('Hãy lập lá số người thứ nhất trước (form "Thông tin sinh" phía trên).'); return; }
+    var inp = docFormB(); // chọn từ danh sách đã điền sẵn vào form
+    if (!inp) return;
+    if (inp.y < 1900 || inp.y > 2100) { alert('Năm sinh nên trong khoảng 1900–2100.'); return; }
+    try {
+      var B = BT.ls.lapLaSo(inp), old = $('hop-khac');
+      if (old) old.remove();
+      $('la-so').insertAdjacentHTML('afterend', BT.hh.html(hienTai, B, $('h-loai').value));
+      if (!$('toc').querySelector('a[href="#hop-khac"]')) $('toc').insertAdjacentHTML('afterbegin', '<a href="#hop-khac">Hợp – khắc</a>');
+      $('hop-khac').scrollIntoView({ behavior: 'smooth' });
+    } catch (err) { console.error(err); alert('Có lỗi khi so sánh: ' + err.message); }
   }
 
   function capNhatLich() {
@@ -124,11 +164,15 @@
     $('nhuan-wrap').hidden = !am;
     $('f-gio').disabled = $('f-phut').disabled = $('f-khonggio').checked;
     $('kinhdo-wrap').hidden = !$('f-gmt').checked;
+    $('h-nhuan-wrap').hidden = document.querySelector('input[name=hlich]:checked').value !== 'am';
+    $('h-gio').disabled = $('h-phut').disabled = $('h-khonggio').checked;
   }
 
   function init() {
     var nam = new Date().getFullYear();
-    document.querySelectorAll('input[name=lich], #f-khonggio, #f-gmt').forEach(function (e) { e.onchange = capNhatLich; });
+    document.querySelectorAll('input[name=lich], #f-khonggio, #f-gmt, input[name=hlich], #h-khonggio').forEach(function (e) { e.onchange = capNhatLich; });
+    $('form-hk').onsubmit = xemHopKhac;
+    $('h-chon').onchange = function () { var ds = luuDS(), v = $('h-chon').value; if (v !== '' && ds[+v]) ganFormB(ds[+v].input); };
     $('form').onsubmit = function (e) {
       e.preventDefault();
       var inp = docForm(); if (!inp) return;
