@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luận Giải Bát Tự An Thư</title>
+<style>
+:root{
+  --bg:#f6f1e7; --card:#fffdf8; --ink:#2a2420; --mute:#7a6f63; --line:#e4d9c6; --accent:#8b2e1f; --accent2:#b8862b;
+  --moc:#2f7d4a; --hoa:#c2410c; --tho:#a16207; --kim:#64748b; --thuy:#1d4ed8;
+  --moc-bg:#e3f2e7; --hoa-bg:#fde5d8; --tho-bg:#f6ecd0; --kim-bg:#eceff3; --thuy-bg:#dfe8fc;
+  --ok:#15803d; --ok-bg:#dcfce7; --bad:#b91c1c; --bad-bg:#fee2e2; --mid:#a16207; --mid-bg:#fef3c7;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#17130f; --card:#211b16; --ink:#efe6d8; --mute:#a89c8c; --line:#3a3027; --accent:#e0805f; --accent2:#e3b765;
+  --moc:#6fcf8f; --hoa:#fb923c; --tho:#e2b54a; --kim:#b4bfcc; --thuy:#7aa2ff;
+  --moc-bg:#17301f; --hoa-bg:#3a1f12; --tho-bg:#33290f; --kim-bg:#272c33; --thuy-bg:#162345;
+  --ok:#4ade80; --ok-bg:#12301d; --bad:#f87171; --bad-bg:#3a1515; --mid:#facc15; --mid-bg:#332a0d;
+}}
+:root[data-theme="dark"]{
+  --bg:#17130f; --card:#211b16; --ink:#efe6d8; --mute:#a89c8c; --line:#3a3027; --accent:#e0805f; --accent2:#e3b765;
+  --moc:#6fcf8f; --hoa:#fb923c; --tho:#e2b54a; --kim:#b4bfcc; --thuy:#7aa2ff;
+  --moc-bg:#17301f; --hoa-bg:#3a1f12; --tho-bg:#33290f; --kim-bg:#272c33; --thuy-bg:#162345;
+  --ok:#4ade80; --ok-bg:#12301d; --bad:#f87171; --bad-bg:#3a1515; --mid:#facc15; --mid-bg:#332a0d;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:5}
+header h1{margin:0;font-size:20px;color:var(--accent);letter-spacing:.5px}
+header h1 span{font-family:"Noto Serif SC","SimSun",serif;margin-right:6px}
+.wrap{display:grid;grid-template-columns:320px 1fr;gap:20px;max-width:1300px;margin:0 auto;padding:20px}
+aside{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 90px);overflow:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:18px}
+h2{margin:0 0 10px;font-size:19px;color:var(--accent)}
+h3{font-size:16px;margin:8px 0}
+h4{margin:14px 0 6px;font-size:15px;color:var(--accent2)}
+label{display:block;font-size:13px;color:var(--mute);margin-top:8px}
+input[type=text],input[type=number],select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.row{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.radio{display:flex;gap:14px;margin-top:6px}
+.radio label,.chk{display:flex;align-items:center;gap:6px;color:var(--ink);font-size:14px;margin:0}
+.chk{margin-top:8px}
+.btn{background:var(--accent);color:#fff;border:0;border-radius:9px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.btn.full{width:100%;margin-top:14px}
+.hint{font-size:12px;color:var(--mute);margin-top:4px}
+#ds-luu{list-style:none;padding:0;margin:0}
+#ds-luu li{display:flex;align-items:center;border-bottom:1px solid var(--line)}
+#ds-luu .lnk{flex:1;text-align:left;background:none;border:0;color:var(--ink);padding:7px 0;cursor:pointer;font:inherit}
+#ds-luu .lnk small{color:var(--mute);display:block}
+#ds-luu .x{background:none;border:0;color:var(--mute);font-size:18px;cursor:pointer}
+#ds-luu .empty{color:var(--mute);font-size:13px;padding:6px 0}
+#toc{display:flex;flex-wrap:wrap;gap:6px}
+#toc a{font-size:13px;padding:4px 9px;border-radius:20px;background:var(--bg);border:1px solid var(--line);color:var(--ink);text-decoration:none}
+#toc a:hover{border-color:var(--accent);color:var(--accent)}
+.ls-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.acts{display:flex;gap:8px}
+.info{font-size:14px;color:var(--mute);margin:6px 0 12px}
+.info b{color:var(--ink)}
+.warn{color:var(--bad);margin-top:4px}
+.scroll-x{overflow-x:auto}
+table.bazi{width:100%;border-collapse:collapse;min-width:520px;text-align:center}
+table.bazi th,table.bazi td{border:1px solid var(--line);padding:6px 4px;vertical-align:middle}
+table.bazi thead th{background:var(--bg);font-size:14px}
+table.bazi tbody th{font-size:12px;color:var(--mute);font-weight:500;width:84px;background:var(--bg)}
+table.bazi tr.tt td{font-weight:600;font-size:13px;color:var(--accent2)}
+.glyph{display:flex;flex-direction:column;align-items:center;font-weight:700;font-size:15px;padding:4px 0;border-radius:10px}
+.glyph .han{font-family:"Noto Serif SC","SimSun","Songti SC",serif;font-size:34px;line-height:1.1}
+.glyph small{font-weight:400;font-size:11px;color:var(--mute)}
+.g-moc{color:var(--moc);background:var(--moc-bg)} .g-hoa{color:var(--hoa);background:var(--hoa-bg)} .g-tho{color:var(--tho);background:var(--tho-bg)} .g-kim{color:var(--kim);background:var(--kim-bg)} .g-thuy{color:var(--thuy);background:var(--thuy-bg)}
+.tc{font-size:13px;white-space:nowrap} .tc small{color:var(--mute)}
+.hanh{font-weight:600}
+.h-moc{color:var(--moc)} .h-hoa{color:var(--hoa)} .h-tho{color:var(--tho)} .h-kim{color:var(--kim)} .h-thuy{color:var(--thuy)}
+.ts{display:inline-block;font-size:11px;padding:1px 6px;border-radius:10px;margin:2px}
+.ts.tot{background:var(--ok-bg);color:var(--ok)} .ts.xau{background:var(--bad-bg);color:var(--bad)}
+.mota{color:var(--mute);font-size:13px;margin-top:-4px}
+.tq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+.tq-grid>div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
+.tq-grid b{font-size:12px;color:var(--mute);font-weight:500}
+.tq-grid .big{font-size:18px;font-weight:700;margin:2px 0}
+.tq-grid small{font-size:12px;color:var(--mute)}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
+.kv p{margin:0 0 6px}
+.bars{display:flex;flex-direction:column;gap:6px;margin:6px 0 10px}
+.bar-row{display:grid;grid-template-columns:90px 1fr 56px 64px;align-items:center;gap:8px;font-size:14px}
+.bar{height:14px;background:var(--bg);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.fill{height:100%;border-radius:8px}
+.f-moc{background:var(--moc)} .f-hoa{background:var(--hoa)} .f-tho{background:var(--tho)} .f-kim{background:var(--kim)} .f-thuy{background:var(--thuy)}
+.bv{text-align:right;font-variant-numeric:tabular-nums} .bd{font-size:12px;color:var(--mute)}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+.tbl th{background:var(--bg)}
+.dt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:8px 0}
+.dt-card{border-radius:10px;padding:10px 12px;border:1px solid var(--line)}
+.dt-card small{display:block;color:var(--mute);margin:2px 0 4px}
+.dt-card ul{margin:0;padding-left:18px;font-size:13px}
+.b-moc{background:var(--moc-bg)} .b-hoa{background:var(--hoa-bg)} .b-tho{background:var(--tho-bg)} .b-kim{background:var(--kim-bg)} .b-thuy{background:var(--thuy-bg)}
+.tt-item{border-left:3px solid var(--accent2);padding:2px 0 2px 12px;margin:8px 0}
+.tt-item p{margin:3px 0}
+.luan ul{padding-left:20px} .luan li{margin:5px 0}
+.vt{color:var(--mute);font-size:12px}
+.tru-luan{border-bottom:1px dashed var(--line);padding-bottom:4px}
+.tru-luan p{margin:4px 0}
+.qh{border-radius:10px;padding:8px 12px;margin:8px 0;border:1px solid var(--line)}
+.qh p{margin:4px 0 0}
+.qh.tot{background:var(--ok-bg)} .qh.xau{background:var(--bad-bg)}
+.qh-tag{font-size:12px;font-weight:700;padding:1px 8px;border-radius:10px;background:var(--card)}
+.dv-strip{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin:10px 0}
+.dv-cell{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;border-radius:10px;border:2px solid transparent;cursor:pointer;font:inherit;color:var(--ink);background:var(--bg)}
+.dv-cell b{font-size:16px;line-height:1.25}
+.dv-cell small{font-size:11px;color:var(--mute)}
+.dv-cell .muc{font-size:11px;font-weight:600}
+.dv-cell.active{box-shadow:0 0 0 2px var(--accent2) inset}
+.dv-cell.sel{border-color:var(--accent)}
+.r-rt{background:var(--ok-bg)!important} .r-rt .muc,.pill.r-rt{color:var(--ok)}
+.r-t{background:color-mix(in srgb,var(--ok-bg) 55%,var(--bg))!important} .r-t .muc,.pill.r-t{color:var(--ok)}
+.r-b{background:var(--mid-bg)!important} .r-b .muc,.pill.r-b{color:var(--mid)}
+.r-k{background:color-mix(in srgb,var(--bad-bg) 60%,var(--bg))!important} .r-k .muc,.pill.r-k{color:var(--bad)}
+.r-x{background:var(--bad-bg)!important} .r-x .muc,.pill.r-x{color:var(--bad)}
+.pill{font-size:12px;padding:2px 9px;border-radius:12px;font-weight:700;vertical-align:middle}
+.ct{background:var(--bg);border-radius:12px;padding:10px 14px;border:1px solid var(--line)}
+.ln-ctl{display:flex;gap:10px;align-items:end;margin-bottom:8px}
+.ln-ctl label{margin:0} .ln-ctl input{width:120px}
+.ln-month{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.mcell{border-radius:10px;padding:6px 8px;display:flex;flex-direction:column;font-size:13px}
+.mcell small{color:var(--mute);font-size:11px} .mcell span{font-weight:600;font-size:12px} .mcell em{font-size:11px;color:var(--bad);font-style:normal}
+.ln-row{cursor:pointer} .ln-row:hover td{background:var(--bg)}
+details summary{cursor:pointer;color:var(--accent2);margin-top:8px}
+.empty-state{text-align:center;color:var(--mute);padding:50px 20px}
+.empty-state .han{font-family:"Noto Serif SC","SimSun",serif;font-size:64px;color:var(--accent);opacity:.8}
+footer{text-align:center;color:var(--mute);font-size:12px;padding:20px}
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;padding:12px 16px}
+  aside{position:static;max-height:none}
+  .tq-grid{grid-template-columns:1fr 1fr}
+  .kv{grid-template-columns:1fr}
+  .dv-strip{grid-template-columns:repeat(5,1fr)}
+  .ln-month{grid-template-columns:repeat(3,1fr)}
+  .bar-row{grid-template-columns:78px 1fr 50px}
+  .bar-row .bd{display:none}
+}
+@media print{
+  header,aside,.acts,.ln-ctl,#b-theme{display:none!important}
+  .wrap{display:block;padding:0} body{background:#fff;color:#000}
+  .card{break-inside:avoid-page;border-color:#ccc}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1><span>八字</span>Luận Giải Bát Tự An Thư</h1>
+  <button class="btn ghost" id="b-theme" title="Đổi giao diện sáng/tối">☾ / ☀</button>
+</header>
+<div class="wrap">
+  <aside>
+    <form class="card" id="form">
+      <h2>Thông tin sinh</h2>
+      <label>Họ tên</label>
+      <input type="text" id="f-ten" placeholder="Tùy chọn">
+      <label>Giới tính</label>
+      <div class="radio"><label><input type="radio" name="gt" value="nam" checked> Nam</label><label><input type="radio" name="gt" value="nu"> Nữ</label></div>
+      <label>Loại lịch</label>
+      <div class="radio"><label><input type="radio" name="lich" value="duong" checked> Dương lịch</label><label><input type="radio" name="lich" value="am"> Âm lịch</label></div>
+      <div class="row">
+        <div><label>Ngày</label><input type="number" id="f-ngay" min="1" max="31" value="1" required></div>
+        <div><label>Tháng</label><input type="number" id="f-thang" min="1" max="12" value="1" required></div>
+        <div><label>Năm</label><input type="number" id="f-nam" min="1900" max="2100" value="1995" required></div>
+      </div>
+      <label class="chk" id="nhuan-wrap" hidden><input type="checkbox" id="f-nhuan"> Tháng nhuận</label>
+      <div class="row2">
+        <div><label>Giờ</label><input type="number" id="f-gio" min="0" max="23" value="12"></div>
+        <div><label>Phút</label><input type="number" id="f-phut" min="0" max="59" value="0"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="f-khonggio"> Không rõ giờ sinh</label>
+      <details>
+        <summary>Tùy chọn nâng cao</summary>
+        <label>Múi giờ</label>
+        <select id="f-tz">
+          <option value="7" selected>GMT+7 (Việt Nam)</option>
+          <option value="8">GMT+8 (miền Nam VN 1959–1975, TQ, SG)</option>
+          <option value="9">GMT+9</option>
+          <option value="6">GMT+6</option>
+          <option value="0">GMT+0</option>
+          <option value="-5">GMT-5</option>
+          <option value="-8">GMT-8</option>
+        </select>
+        <label>Giờ Tý muộn (23:00–24:00)</label>
+        <select id="f-tymuon">
+          <option value="sau" selected>Tính sang ngày hôm sau</option>
+          <option value="truoc">Giữ ngày hôm trước</option>
+        </select>
+        <label class="chk"><input type="checkbox" id="f-gmt"> Dùng giờ mặt trời thực</label>
+        <div id="kinhdo-wrap" hidden><label>Kinh độ nơi sinh (°E)</label><input type="number" id="f-kinhdo" step="0.1" value="105.8"><div class="hint">Hà Nội 105.8 · Huế 107.6 · Đà Nẵng 108.2 · TP.HCM 106.7 · Cần Thơ 105.8</div></div>
+      </details>
+      <button class="btn full" type="submit">Lập lá số &amp; luận giải</button>
+      <button class="btn ghost full" type="button" id="b-mau">Xem lá số mẫu</button>
+    </form>
+    <div class="card"><h2>Mục lục</h2><nav id="toc" hidden></nav></div>
+    <div class="card"><h2>Lá số đã lưu</h2><ul id="ds-luu"></ul><div class="hint">Lưu trên trình duyệt của bạn.</div></div>
+  </aside>
+  <main id="ket-qua">
+    <div class="card empty-state"><div class="han">八字</div><p>Nhập ngày giờ sinh để lập lá số Tứ trụ và xem luận giải chi tiết:<br>tính cách, ngũ hành, dụng thần, thập thần, cách cục, thần sát, hôn nhân, sự nghiệp, sức khỏe, đại vận, lưu niên.</p></div>
+  </main>
+</div>
+<footer>Kiến thức tổng hợp từ khóa Bát Tự BTK1 (25 buổi) và lý thuyết Tứ trụ cổ điển. Bát tự là công cụ nhận thức vận mệnh để sống thuận theo quy luật – không phải để phán định tốt xấu.</footer>
+<script src="js/lich.js"></script>
+<script src="js/coso.js"></script>
+<script src="js/thansat.js"></script>
+<script src="js/trithuc.js"></script>
+<script src="js/laso.js"></script>
+<script src="js/luangiai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
