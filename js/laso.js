@@ -142,11 +142,48 @@
         if (cs.CAN_HANH[tc.can] === an) sinhTro.push(cs.CAN[tc.can] + ' tàng trong ' + cs.CHI[t.chi] + ' (' + cs.THAP_THAN[tc.thapThan] + ')');
       });
     });
-    var soDieuKien = (dacLenh ? 1 : 0) + (sinhTro.length ? 1 : 0) + (goc.length ? 1 : 0);
-    // Đắc lệnh thì Nhật chủ không suy, trừ khi lực khắc chế (Tài + Quan Sát) quá áp đảo
+    // Tỷ Kiếp tàng trong địa chi các trụ khác cũng là sinh trợ (buổi 24: ví dụ Giáp sinh tháng Thân có Nhâm tàng)
+    ls.tru.forEach(function (t, i) {
+      if (!t || i === 2) return;
+      t.tangCan.forEach(function (tc) { if (cs.CAN_HANH[tc.can] === dh) sinhTro.push(cs.CAN[tc.can] + ' tàng trong ' + cs.CHI[t.chi] + ' (' + cs.THAP_THAN[tc.thapThan] + ')'); });
+    });
+    // Điều kiện 3 (buổi 24): THẤU CĂN – địa chi của trụ NGÀY có tàng can cùng hành Nhật chủ (ví dụ Giáp Dần, Canh Tuất)
+    var thauCan = ls.tru[2].tangCan.filter(function (tc) { return cs.CAN_HANH[tc.can] === dh; }).map(function (tc) { return cs.CAN[tc.can] + ' tàng trong ' + cs.CHI[ls.tru[2].chi]; });
+    // Điều kiện 4 (buổi 24): ngũ hành “ẩn” do hợp hóa (can ngày với can lộ), nhị hợp, tam hợp, bán tam hợp sinh ra hành của Nhật chủ hoặc Ấn
+    var hopSinh = [];
+    ls.tru.forEach(function (t, i) {
+      if (!t || i === 2) return;
+      cs.quanHeCan(d, t.can).forEach(function (q) { if (q.loai === 'hop' && (q.hanh === dh || q.hanh === an)) hopSinh.push(cs.CAN[d] + '–' + cs.CAN[t.can] + ' hợp hóa ' + cs.HANH[q.hanh]); });
+    });
+    for (var a = 0; a < 4; a++) for (var b2 = a + 1; b2 < 4; b2++) {
+      var A = ls.tru[a], B = ls.tru[b2];
+      if (!A || !B) continue;
+      cs.quanHeChi(A.chi, B.chi).forEach(function (q) {
+        if ((q.loai === 'luchop' || (q.loai === 'banhop' && q.conTrungTam)) && (q.hanh === dh || q.hanh === an))
+          hopSinh.push(cs.CHI[A.chi] + '–' + cs.CHI[B.chi] + (q.loai === 'luchop' ? ' nhị hợp ' : ' bán tam hợp ') + cs.HANH[q.hanh]);
+      });
+    }
+    hopSinh = hopSinh.filter(function (x, k, arr) { return arr.indexOf(x) === k; });
+    var soDieuKien = (dacLenh ? 1 : 0) + (sinhTro.length ? 1 : 0) + (thauCan.length ? 1 : 0) + (hopSinh.length ? 1 : 0);
     var khacChe = ls.nhom[2] + ls.nhom[3];
-    if (dacLenh && score < 46 && khacChe < 50) { score = 46; muc = 'Trung hòa'; }
-    ls.vuongSuy = { dacLenh: dacLenh, trangThaiLenh: trangThaiLenh, goc: goc, dacThe: dacThe, sinhTro: sinhTro, soDieuKien: soDieuKien, khacChe: khacChe, pctPhe: pct, score: score, muc: muc, mainMonth: mainMonth };
+    // Kết luận theo quy trình buổi 24:
+    // - Được lệnh tháng → không suy (trừ khi Tài + Quan Sát quá áp đảo); thỏa hết mọi điều kiện → quá vượng.
+    // - Không được lệnh tháng → đạt 1 điều kiện chỉ “gỡ gạt” chút ít; nên đạt 2–3 điều kiện mới vững.
+    var khoang;
+    if (dacLenh) {
+      if (soDieuKien === 4) khoang = ['Cực vượng', 72, 100];
+      else if (khacChe >= 50) khoang = ['Trung hòa', 46, 55];
+      else khoang = ['Thân vượng', 56, 71];
+    } else {
+      var k = soDieuKien;
+      if (k === 0) khoang = pct < 20 ? ['Cực nhược', 0, 27] : ['Thân nhược', 28, 45];
+      else if (k === 1) khoang = ['Thân nhược', 28, 45];
+      else if (k === 2) khoang = ['Trung hòa', 46, 55];
+      else khoang = (pct >= 50 && khacChe < 40) ? ['Thân vượng', 56, 71] : ['Trung hòa', 46, 55];
+    }
+    muc = khoang[0];
+    score = Math.max(khoang[1], Math.min(khoang[2], score));
+    ls.vuongSuy = { dacLenh: dacLenh, trangThaiLenh: trangThaiLenh, goc: goc, thauCan: thauCan, hopSinh: hopSinh, dacThe: dacThe, sinhTro: sinhTro, soDieuKien: soDieuKien, khacChe: khacChe, pctPhe: pct, score: score, muc: muc, mainMonth: mainMonth };
   }
 
   // ===== Dụng thần (phù ức + điều hậu + tòng/chuyên vượng) =====
@@ -154,18 +191,16 @@
     var d = ls.nhatChu, dh = cs.CAN_HANH[d], vs = ls.vuongSuy, nhom = ls.nhom;
     var H = function (n) { return cs.hanhCuaNhom(dh, n); };
     var dung, hy, ky = [], cachDac = null, lyDo = '';
-    // Tòng cách (ngoài giáo trình BTK1): chỉ xét khi Nhật chủ hoàn toàn không có gốc và không có bất kỳ Ấn/Tỷ Kiếp nào, kể cả tàng can
+    // Tòng cách / Chuyên vượng là lý thuyết cổ điển – khóa BTK1 KHÔNG dạy. App luận theo bài giảng (Nhật chủ yếu thì cần
+    // Ấn – Tỷ Kiếp; hành thừa mứa là kỵ thần), chỉ ghi chú cách cổ điển để tham khảo.
+    var ghiChuCoDien = null;
     if (vs.muc === 'Cực nhược' && vs.goc.length === 0 && vs.sinhTro.length === 0) {
-      // Tòng cách: theo nhóm mạnh nhất trong Thực thương, Tài, Quan sát
       var best = [1, 2, 3].sort(function (a, b) { return nhom[b] - nhom[a]; })[0];
-      cachDac = ['', 'Tòng Nhi', 'Tòng Tài', 'Tòng Sát'][best];
-      dung = H(best); hy = H(best === 1 ? 2 : (best === 2 ? 1 : 2)); ky = [H(0), H(4)];
-      lyDo = 'Nhật chủ cực nhược, không có gốc và không có bất kỳ Ấn/Tỷ Kiếp nào (kể cả tàng can) – theo lý thuyết cổ điển có thể xét Tòng cách: thuận theo thế mạnh nhất (' + cs.NHOM[best] + '). Lưu ý: khóa BTK1 không dạy tòng cách, nên tham khảo thêm cách luận phù ức (cần Ấn – Tỷ Kiếp).';
+      ghiChuCoDien = 'Theo lý thuyết cổ điển (ngoài bài giảng), lá số không có chút gốc hay Ấn/Tỷ Kiếp nào có thể được xét là ' + ['', 'Tòng Nhi', 'Tòng Tài', 'Tòng Sát'][best] + ' (thuận theo ' + cs.NHOM[best] + '). App không áp dụng vì khóa học không dạy cách này.';
     } else if (vs.muc === 'Cực vượng' && nhom[2] + nhom[3] < 12) {
-      cachDac = 'Chuyên Vượng';
-      dung = H(nhom[4] > nhom[0] ? 4 : 0); hy = H(1); ky = [H(3), H(2)];
-      lyDo = 'Nhật chủ cực vượng, Tài–Quan rất yếu – thuận theo thế vượng, dùng ' + cs.HANH[dung] + ', thích tiết tú (' + cs.HANH[hy] + '), kỵ Quan Sát nghịch thế.';
-    } else if (vs.score >= 46) {
+      ghiChuCoDien = 'Theo lý thuyết cổ điển (ngoài bài giảng), lá số này có thể được xét là Chuyên Vượng. App không áp dụng vì khóa học không dạy cách này.';
+    }
+    if (vs.score >= 46) {
       // Thân vượng hoặc trung hòa thiên vượng: cần khắc/tiết/hao
       if (nhom[0] >= nhom[4]) { // Tỷ kiếp nhiều -> Quan Sát chế, hoặc Thực thương tiết
         if (nhom[3] >= 6) { dung = H(3); hy = H(2); lyDo = 'Thân vượng do Tỷ Kiếp – lấy Quan Sát (' + cs.HANH[H(3)] + ') chế thân, Tài (' + cs.HANH[H(2)] + ') sinh Quan.'; }
@@ -188,36 +223,64 @@
     var xep = [0, 1, 2, 3, 4].sort(function (a, b) { return pct0[b] - pct0[a]; });
     var T = xep[0], W = xep[4];
     var anH = mod(dh - 1, 5), sinhT = mod(T - 1, 5);
-    if (!cachDac && pct0[T] >= 30 && (dung === T || hy === T || ((T === dh || T === anH) && (dung === sinhT || hy === sinhT)))) {
+    var benTa = (T === dh || T === anH); // hành thừa thuộc phe Nhật chủ (Tỷ Kiếp/Ấn) hay phe tiêu hao (Thực Thương/Tài/Quan Sát)
+    var thuaRo = pct0[T] >= 30 && (pct0[T] - pct0[xep[1]] >= 8); // “quá ư thừa mứa” – vượt hẳn các hành khác
+    if (!cachDac && pct0[T] >= 30 && (thuaRo || dung === T || hy === T)) {
       var tiet = mod(T + 1, 5), che = mod(T - 2, 5);
-      var diemUV = function (x) { return (mod(x + 1, 5) === W || x === W ? 2 : 0) - (pct0[x] >= 25 ? 1.5 : 0) + (x === che ? 0.2 : 0); };
+      // Chấm điểm theo 5 ví dụ của thầy (buổi 19, 24):
+      //  + tiết (thông quan) được ưu tiên: Mộc nhiều Thổ ít → Hỏa; Thủy nhiều (Superman) → Mộc; Hỏa nhiều thiếu Kim → Thổ; Thủy (Ấn) nhiều → Mộc
+      //  + sinh cho hành đang thiếu (+2); ứng viên chính là hành thiếu (+1); đã nhiều (−1.5)
+      //  + hành thừa thuộc phe ta: ứng viên nuôi ngược hành sinh ra nó bị trừ (Kim chế Mộc nhưng sinh Thủy, Thủy lại sinh Mộc)
+      //  + hành thừa đang rút sức Nhật chủ: ứng viên vừa chế nó vừa nuôi Nhật chủ được cộng (ví dụ “Khang”: Quý Thủy, Mộc nhiều → Kim)
+      //  + rút sức hành đang thiếu (−1)
+      //  + hành thừa đang rút sức Nhật chủ: ứng viên sinh ra hành khắc Nhật chủ bị trừ nặng (thầy: dùng Hỏa thì Hỏa sinh Thổ,
+      //    Thổ khắc Thủy – “cô đơn hơn, sức khỏe kém hơn”, nên Kim hợp lý hơn)
+      var khacDM = mod(dh + 3, 5);
+      var diemUV = function (x) {
+        var sinhRaKhacDM = !benTa && mod(x + 1, 5) === khacDM;
+        return (mod(x + 1, 5) === W && !sinhRaKhacDM ? 2 : 0) + (x === W ? 1 : 0) - (pct0[x] >= 25 ? 1.5 : 0) + (x === tiet ? 1.5 : 0) +
+          (benTa && mod(x + 1, 5) === sinhT && pct0[sinhT] >= 15 ? -1.5 : 0) +
+          (!benTa && (x === dh || x === anH) ? 3 : 0) + (sinhRaKhacDM ? -2.5 : 0) + (mod(W + 1, 5) === x ? -1 : 0);
+      };
       var uv = [tiet, che].sort(function (a, b) { return diemUV(b) - diemUV(a); });
-      var phu = pct0[uv[1]] >= 25 ? mod(uv[0] - 1, 5) : uv[1]; // nếu ứng viên thứ hai đã nhiều thì lấy hành sinh cho dụng thần
-      if (phu === T || phu === mod(T - 1, 5)) phu = uv[1];
-      thuaMua = { T: T, W: W, phuUcDung: dung, phuUcHy: hy, tiet: tiet, che: che };
+      var phu = (pct0[uv[1]] >= 25 || diemUV(uv[1]) < 0) ? mod(uv[0] + 1, 5) : uv[1]; // ứng viên thứ hai không tốt → lấy hành do dụng thần sinh ra
+      if (phu === T || (benTa && phu === sinhT) || phu === uv[0]) phu = mod(uv[0] - 1, 5);
+      if (phu === T || (benTa && phu === sinhT)) phu = uv[1];
+      thuaMua = { T: T, W: W, phuUcDung: dung, phuUcHy: hy, tiet: tiet, che: che, benTa: benTa };
       dung = uv[0]; hy = phu;
-      ky = [T, mod(T - 1, 5)];
-      lyDo = cs.HANH[T] + ' là hành thừa nhất (' + pct0[T].toFixed(0) + '%) nên theo tiêu chuẩn thừa – thiếu của thầy, ' + cs.HANH[T] + ' là kỵ thần; dùng ' + cs.HANH[dung] + ' để ' + (dung === tiet ? 'hao bớt (tiết)' : 'chế ngự') + ' ' + cs.HANH[T] + (mod(dung + 1, 5) === W ? ' và sinh cho ' + cs.HANH[W] + ' đang thiếu' : '') + ', ' + cs.HANH[hy] + ' làm hỷ.';
+      // Kỵ thần (buổi 24): hành thừa mứa; thêm hành sinh ra nó nếu đó không phải Nhật chủ/Ấn đang cần
+      ky = [T];
+      if (sinhT !== dung && sinhT !== hy && (benTa || (sinhT !== dh && sinhT !== anH))) ky.push(sinhT);
+      lyDo = cs.HANH[T] + ' là hành thừa nhất (' + pct0[T].toFixed(0) + '%) nên theo tiêu chuẩn thừa – thiếu của thầy, ' + cs.HANH[T] + ' là kỵ thần; dùng ' + cs.HANH[dung] + ' để ' + (dung === tiet ? 'hao bớt (tiết – thông quan)' : 'chế ngự') + ' ' + cs.HANH[T] + (mod(dung + 1, 5) === W ? ' và sinh cho ' + cs.HANH[W] + ' đang thiếu' : '') + (!benTa && (dung === dh || dung === anH) ? ', đồng thời nuôi Nhật chủ' : '') + ', ' + cs.HANH[hy] + ' làm hỷ.';
     }
-    // Tiêu chuẩn 1 của bài giảng (buổi 16, 19): chọn theo tháng sinh – hành tiết chế sự chèn ép của mùa sinh lên Nhật chủ
-    // (ví dụ của thầy: Canh/Tân sinh tháng Ngọ, Hỏa quá vượng khắc Kim → Thủy là hỷ thần). Thêm điều hậu đông lạnh / hạ nóng.
+    // Tiêu chuẩn 1 của bài giảng (buổi 16, 19, 24): chọn theo tháng sinh – hành tiết chế sự chèn ép của mùa sinh lên Nhật chủ
+    // (ví dụ của thầy: Canh/Tân sinh tháng Ngọ, Hỏa quá vượng khắc Kim → Nhâm/Quý Thủy là hỷ thần). Thêm điều hậu đông lạnh / hạ nóng.
     var mB = ls.tru[1].chi, dieuHau = null;
     var dongLanh = [11, 0, 1].indexOf(mB) >= 0, haNong = [5, 6, 7].indexOf(mB) >= 0;
     var pct = ls.nguHanh.pct;
     var MUA_TEN = ['xuân', 'hạ', 'thu', 'đông'], muaIdx = Math.floor(mod(mB - 2, 12) / 3), mh = [0, 1, 3, 4][muaIdx];
     if (mod(mh - dh, 5) === 3) { // hành của mùa khắc Nhật chủ
-      var che = mod(mh - 2, 5);
-      dieuHau = { hanh: che, theoThang: true, ghiChu: 'Theo tháng sinh (tiêu chuẩn 1 của bài giảng): sinh mùa ' + MUA_TEN[muaIdx] + ', ' + cs.HANH[mh] + ' đang vượng và khắc ' + cs.HANH[dh] + ' – dùng ' + cs.HANH[che] + ' để chế bớt ' + cs.HANH[mh] + '. (Ví dụ của thầy: Canh/Tân sinh tháng Ngọ thì Thủy là hỷ thần, vì tuy Kim cần Hỏa tôi luyện nhưng quá nhiều Hỏa sẽ làm hỏng Kim.)' };
+      var cheMua = mod(mh - 2, 5);
+      dieuHau = { hanh: cheMua, theoThang: true, mua: mh, ghiChu: 'Theo tháng sinh (tiêu chuẩn 1 của bài giảng): sinh mùa ' + MUA_TEN[muaIdx] + ', ' + cs.HANH[mh] + ' đang vượng và khắc ' + cs.HANH[dh] + ' – dùng ' + cs.HANH[cheMua] + ' để chế bớt ' + cs.HANH[mh] + '. (Ví dụ của thầy: Canh/Tân sinh tháng Ngọ thì Nhâm, Quý Thủy là hỷ thần, vì tuy Kim cần Hỏa tôi luyện nhưng quá nhiều Hỏa sẽ làm hỏng Kim.)' };
     } else if (dongLanh && pct[1] < 12) dieuHau = { hanh: 1, ghiChu: 'Theo tháng sinh: sinh mùa đông, khí lạnh ẩm – cần Hỏa sưởi ấm. Hỏa giúp tinh thần ấm áp, có động lực.' };
     else if (haNong && pct[4] < 12) dieuHau = { hanh: 4, ghiChu: 'Theo tháng sinh: sinh mùa hạ, khí nóng khô – cần Thủy làm mát. Thủy giúp bình tĩnh, linh hoạt, giảm nóng vội.' };
-    if (dieuHau && dieuHau.theoThang && ky.indexOf(dieuHau.hanh) >= 0) {
-      dieuHau.xungDot = true; // hai tiêu chuẩn cho kết quả ngược nhau – ghi chú, không tự thêm
-      dieuHau.ghiChu += ' Tuy nhiên theo cách xét thừa – thiếu (tiêu chuẩn 2), ' + cs.HANH[dieuHau.hanh] + ' lại đang là kỵ thần – nên ưu tiên tiêu chuẩn 2, chỉ dùng ' + cs.HANH[dieuHau.hanh] + ' ở mức vừa phải.';
+    if (dieuHau && ky.indexOf(dieuHau.hanh) >= 0) {
+      if (dieuHau.hanh === T && thuaMua) {
+        // hành theo tháng lại chính là hành thừa mứa → tiêu chuẩn 2 thắng, chỉ ghi chú
+        dieuHau.xungDot = true;
+        dieuHau.ghiChu += ' Tuy nhiên ' + cs.HANH[dieuHau.hanh] + ' đang là hành thừa nhất trong lá số nên thành kỵ thần (tiêu chuẩn 2) – chỉ dùng ở mức vừa phải.';
+      } else {
+        // kỵ thần của thầy là hành thừa mứa; hành theo tháng không thừa thì không xếp kỵ
+        ky = ky.filter(function (x) { return x !== dieuHau.hanh; });
+      }
     }
+    // Mùa sinh khắc Nhật chủ: hành của mùa là lực gây sức ép – xếp vào kỵ nếu chưa là dụng/hỷ (buổi 16: “Hỏa quá vượng sẽ làm hỏng Kim”)
+    if (dieuHau && dieuHau.theoThang && !thuaMua && dieuHau.mua !== dung && dieuHau.mua !== hy && ky.indexOf(dieuHau.mua) < 0) ky.unshift(dieuHau.mua);
+    if (!ky.length) ky = [T];
     var hanhTot = [dung, hy];
     if (dieuHau && hanhTot.indexOf(dieuHau.hanh) < 0 && ky.indexOf(dieuHau.hanh) < 0) hanhTot.push(dieuHau.hanh);
     var trung = [0, 1, 2, 3, 4].filter(function (x) { return hanhTot.indexOf(x) < 0 && ky.indexOf(x) < 0; });
-    ls.dungThan = { dung: dung, hy: hy, ky: ky, nhan: trung, dieuHau: dieuHau, cachDac: cachDac, lyDo: lyDo, tot: hanhTot, thuaMua: thuaMua };
+    ls.dungThan = { dung: dung, hy: hy, ky: ky, nhan: trung, dieuHau: dieuHau, cachDac: cachDac, lyDo: lyDo, tot: hanhTot, thuaMua: thuaMua, ghiChuCoDien: ghiChuCoDien };
   }
 
   // Đánh giá một hành với lá số: +2 dụng, +1.5 hỷ/điều hậu, 0 nhàn, -1.5 kỵ

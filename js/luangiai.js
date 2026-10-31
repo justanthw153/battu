@@ -167,14 +167,15 @@
     else if (mh === mod(dh + 1, 5)) lenh += cs.HANH[dh] + ' phải bỏ sức ra sinh cho ' + cs.HANH[mh] + ' của mùa → bị hao, mất lệnh tháng.';
     else if (mh === mod(dh + 3, 5)) lenh += cs.HANH[mh] + ' của mùa khắc ' + cs.HANH[dh] + ' → bị khắc, mất lệnh tháng.';
     else lenh += cs.HANH[dh] + ' phải đi khắc ' + cs.HANH[mh] + ' của mùa → tốn sức, mất lệnh tháng.';
-    h += '<div class="buoc"><h4>Bước 2 – Kiểm tra 3 điều kiện (buổi 24)</h4><ol class="dk-list">' +
+    h += '<div class="buoc"><h4>Bước 2 – Kiểm tra 4 điều kiện (buổi 24)</h4><ol class="dk-list">' +
       '<li><b>Được lệnh tháng?</b> ' + dk(vs.dacLenh) + '<br>' + lenh + '</li>' +
       '<li><b>Có Ấn / Tỷ Kiếp sinh trợ?</b> ' + dk(vs.sinhTro.length > 0) + '<br>' + (vs.sinhTro.length ? 'Có: ' + vs.sinhTro.join('; ') + '.' : 'Trong lá số không có ' + cs.HANH[mod(dh - 1, 5)] + ' (Ấn) hay ' + cs.HANH[dh] + ' (Tỷ Kiếp) nào ngoài Nhật chủ.') + '</li>' +
-      '<li><b>Có thấu căn (gốc cùng hành trong địa chi)?</b> ' + dk(vs.goc.length > 0) + '<br>' + (vs.goc.length ? 'Gốc: ' + vs.goc.map(function (g) { return g.chi + ' trụ ' + g.tru + ' (' + g.loai + ')'; }).join(', ') + '. Lưu ý: năm/vận xung phá chữ chi làm gốc sẽ làm gốc yếu đi.' : 'Không có chữ ' + cs.HANH[dh] + ' nào tàng trong địa chi.') + '</li></ol>';
+      '<li><b>Có thấu căn (địa chi của trụ NGÀY tàng can cùng hành Nhật chủ)?</b> ' + dk(vs.thauCan.length > 0) + '<br>' + (vs.thauCan.length ? 'Có: ' + vs.thauCan.join(', ') + '. Lưu ý: năm/vận xung (mạnh nhất), hình, hại chi ngày ' + cs.CHI[ls.tru[2].chi] + ' sẽ làm thấu căn yếu đi – những năm đó dễ mệt hơn.' : 'Chi ngày ' + cs.CHI[ls.tru[2].chi] + ' không tàng ' + cs.HANH[dh] + '.') + '</li>' +
+      '<li><b>Có hợp hóa / nhị hợp / tam hợp sinh ra hành trợ giúp?</b> ' + dk(vs.hopSinh.length > 0) + '<br>' + (vs.hopSinh.length ? 'Có: ' + vs.hopSinh.join('; ') + ' – đây là phần ngũ hành “ẩn” mà bảng tỷ trọng không thể hiện.' : 'Không có tổ hợp nào sinh thêm ' + cs.HANH[dh] + ' hoặc ' + cs.HANH[mod(dh - 1, 5)] + '.') + '</li></ol>';
     var quyTac = vs.dacLenh
       ? 'Theo bài giảng: <i>đã được lệnh tháng thì Nhật chủ không suy</i> – chỉ bị yếu đi khi lực khắc chế (Tài + Quan Sát) quá nhiều.'
-      : 'Theo bài giảng: <i>không được lệnh tháng chưa chắc đã yếu</i>, nhưng nên đạt 2–3 điều kiện mới vững; đạt 1 điều kiện thì “gỡ gạt” lại được chút ít; không đạt điều kiện nào thì yếu rõ.';
-    h += p('Đạt <b>' + vs.soDieuKien + '/3</b> điều kiện. ' + quyTac) + '</div>';
+      : 'Theo bài giảng: <i>không được lệnh tháng chưa chắc đã yếu</i>, nhưng nên đạt 2–3 điều kiện còn lại mới vững; đạt 1 điều kiện thì “gỡ gạt” lại được chút ít; không đạt điều kiện nào thì yếu rõ.';
+    h += p('Đạt <b>' + vs.soDieuKien + '/4</b> điều kiện. ' + quyTac) + '</div>';
     // Bước 3: kết luận mạnh yếu
     var lucKhac = nhom[1] + nhom[2] + nhom[3];
     h += '<div class="buoc"><h4>Bước 3 – Kết luận mạnh hay yếu</h4>' +
@@ -185,10 +186,22 @@
     var b4, b5, b6;
     if (dt.thuaMua) {
       var tm = dt.thuaMua, pT = ls.nguHanh.pct;
-      b4 = 'Xét theo sức (bước 3) thì Nhật chủ ' + (vs.score < 46 ? 'hơi yếu' : 'không yếu') + ', nhưng nhìn bảng ngũ hành thì ' + tagHanh(tm.T) + ' lại là hành <b>thừa nhất</b> (' + pT[tm.T].toFixed(0) + '%), còn ' + tagHanh(tm.W) + ' yếu nhất (' + pT[tm.W].toFixed(0) + '%). Nếu chỉ theo phép phù ức (yếu thì bồi, mạnh thì tiết – chế) sẽ chọn ' + cs.HANH[tm.phuUcDung] + '/' + cs.HANH[tm.phuUcHy] + ' – tức là đổ thêm vào chính hành đang thừa.';
+      b4 = 'Xét theo sức (bước 3) thì Nhật chủ ' + (vs.score < 46 ? 'hơi yếu' : 'không yếu') + ', nhưng nhìn bảng ngũ hành thì ' + tagHanh(tm.T) + ' lại là hành <b>thừa nhất</b> (' + pT[tm.T].toFixed(0) + '%), còn ' + tagHanh(tm.W) + ' yếu nhất (' + pT[tm.W].toFixed(0) + '%). Nếu chỉ theo phép phù ức (yếu thì bồi, mạnh thì tiết – chế) sẽ chọn ' + cs.HANH[tm.phuUcDung] + '/' + cs.HANH[tm.phuUcHy] +
+        ([tm.phuUcDung, tm.phuUcHy].some(function (x) { return x === tm.T || x === mod(tm.T - 1, 5); }) ? ' – tức là đổ thêm vào chính hành đang thừa.' : ' – chưa phải lựa chọn tối ưu theo tiêu chuẩn thừa – thiếu của thầy (xem bước 5).');
       b5 = 'Thầy dạy (buổi 16, 19): <b>hành thừa mứa thì thành kỵ thần</b>, và hỷ thần là hành <b>vừa làm hao hành thừa vừa bù hành thiếu</b>. Ví dụ “Superman” của thầy: Quý Thủy sinh tháng Thổ nên Nhật chủ nhược, nhưng Thủy quá nhiều → thầy chọn <b>Mộc</b> làm dụng thần, Tỷ Kiếp (Thủy) là kỵ. Áp vào lá số này: ' +
-        tagHanh(tm.tiet) + ' hao bớt ' + cs.HANH[tm.T] + ' (' + cs.HANH[tm.T] + ' sinh ' + cs.HANH[tm.tiet] + '), ' + tagHanh(tm.che) + ' chế ngự ' + cs.HANH[tm.T] + (mod(tm.che + 1, 5) === tm.W ? ' và còn sinh cho ' + cs.HANH[tm.W] + ' đang thiếu' : '') + '. Chọn <b>' + cs.HANH[dt.dung] + '</b> làm dụng thần, ' + cs.HANH[dt.hy] + ' làm hỷ thần. Thầy cũng nói một lá số có thể có 2–3 hỷ thần, nên cả ' + cs.HANH[tm.tiet] + ' và ' + cs.HANH[tm.che] + ' đều có ích.';
-      b6 = 'Kỵ thần là ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + ' – hành đang thừa và hành sinh ra nó.' + (pT[tm.W] < 10 && tm.W === mod(tm.T - 1, 5) ? ' Dù ' + cs.HANH[tm.W] + ' rất ít, không nên bù vì ' + cs.HANH[tm.W] + ' sinh thêm ' + cs.HANH[tm.T] + ' – đúng lời thầy: khuyết thiếu không luôn là nhược điểm.' : '');
+        tagHanh(tm.tiet) + ' hao bớt ' + cs.HANH[tm.T] + ' (' + cs.HANH[tm.T] + ' sinh ' + cs.HANH[tm.tiet] + '), ' + tagHanh(tm.che) + ' chế ngự ' + cs.HANH[tm.T] + (mod(tm.che + 1, 5) === tm.W ? ' và còn sinh cho ' + cs.HANH[tm.W] + ' đang thiếu' : '') + '.' + (function () {
+          var sT = mod(tm.T - 1, 5), lyDoBo = [];
+          [tm.tiet, tm.che].forEach(function (x) {
+            if (x === dt.dung || x === dt.hy) return;
+            var v = [];
+            if (mod(x + 1, 5) === sT && pT[sT] >= 15) v.push(cs.HANH[x] + ' lại sinh ' + cs.HANH[sT] + ' (' + pT[sT].toFixed(0) + '%), mà ' + cs.HANH[sT] + ' sinh ngược cho ' + cs.HANH[tm.T] + ' – chế bên này lại nuôi bên kia');
+            if (mod(tm.W + 1, 5) === x) v.push(cs.HANH[x] + ' còn rút sức của ' + cs.HANH[tm.W] + ' vốn đang thiếu (' + cs.HANH[tm.W] + ' sinh ' + cs.HANH[x] + ')');
+            if (pT[x] >= 25) v.push(cs.HANH[x] + ' trong lá số đã khá nhiều (' + pT[x].toFixed(0) + '%)');
+            if (v.length) lyDoBo.push('Không lấy ' + cs.HANH[x] + ' làm chính vì ' + v.join('; ') + '.');
+          });
+          return lyDoBo.length ? ' ' + lyDoBo.join(' ') : '';
+        })() + ' Chọn <b>' + cs.HANH[dt.dung] + '</b> làm dụng thần, ' + cs.HANH[dt.hy] + ' làm hỷ thần. Thầy cũng nói một lá số có thể có 2–3 hỷ thần – quan trọng là hiểu tác dụng của từng hành.';
+      b6 = 'Kỵ thần là ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + ' – ' + (dt.ky.length > 1 ? 'hành đang thừa và hành nuôi nó.' : 'hành đang thừa mứa.') + (!tm.benTa ? ' Không xếp ' + cs.HANH[dh] + ' (Nhật chủ) và Ấn vào kỵ vì hành thừa đang rút sức chính Nhật chủ.' : '') + (pT[tm.W] < 10 && tm.W === mod(tm.T - 1, 5) ? ' Dù ' + cs.HANH[tm.W] + ' rất ít, không nên bù vì ' + cs.HANH[tm.W] + ' sinh thêm ' + cs.HANH[tm.T] + ' – đúng lời thầy: khuyết thiếu không luôn là nhược điểm.' : '');
     } else if (dt.cachDac) {
       b4 = 'Nhật chủ không còn chút gốc hay sinh trợ nào – trường hợp đặc biệt.';
       b5 = dt.lyDo; b6 = 'Kỵ thần là những hành cứu Nhật chủ (' + dt.ky.map(function (x) { return cs.HANH[x]; }).join(', ') + ') vì sẽ phá thế thuận theo.';
@@ -235,6 +248,7 @@
   function dungThan(ls) {
     var dt = ls.dungThan, out = giaiThichDungThan(ls);
     if (dt.cachDac) out += p('<b>Cách đặc biệt: ' + dt.cachDac + '</b> – ' + T.cachCuc[dt.cachDac]);
+    if (dt.ghiChuCoDien) out += p('<small class="mota">' + dt.ghiChuCoDien + '</small>');
     var bang = '<div class="dt-grid">';
     var muc = [['Dụng thần', dt.dung, 'Hành quan trọng nhất giúp lá số cân bằng.'], ['Hỷ thần', dt.hy, 'Hành hỗ trợ dụng thần – thường là những thứ bản năng bạn tự tìm đến (màu sắc, hoạt động khiến bạn dễ chịu).']];
     if (dt.dieuHau && !dt.dieuHau.xungDot && dt.dieuHau.hanh !== dt.dung && dt.dieuHau.hanh !== dt.hy) muc.push(['Hỷ thần theo tháng sinh', dt.dieuHau.hanh, 'Hành làm dịu sức ép của mùa sinh (tiêu chuẩn 1 của bài giảng).']);
@@ -246,7 +260,7 @@
     out += bang;
     out += p('<b>Kỵ thần</b>: ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + ' – những năm/vận mang hành này nhiều thì dễ mất cân bằng; không cần né tránh tuyệt đối mà nên chủ động điều hòa bằng dụng – hỷ thần.');
     if (dt.nhan.length) out += p('<b>Nhàn thần</b>: ' + dt.nhan.map(function (x) { return tagHanh(x); }).join(', ') + ' – ảnh hưởng trung tính.');
-    return sec('dung-than', 'Vượng suy & Dụng thần', out, 'Giải thích từng bước theo 3 điều kiện xét vượng suy của buổi 24: lệnh tháng, Ấn/Tỷ Kiếp sinh trợ, thấu căn.');
+    return sec('dung-than', 'Vượng suy & Dụng thần', out, 'Giải thích từng bước theo 4 điều kiện xét vượng suy của buổi 24: lệnh tháng, Ấn/Tỷ Kiếp sinh trợ, thấu căn (chi ngày), hợp hóa/tam hợp sinh trợ.');
   }
 
   // ===== 5. Thập thần =====
@@ -566,6 +580,12 @@
     if (b !== Dc && nD === nV && !dg.qh.some(function (x) { return x.tang === 'chi' && x.b === 2 && x.q.loai === 'luchop'; })) out.push('<span class="tag-lv">Thay đổi</span> Chi ' + cs.CHI[b] + ' ' + T.nhomChiVan.cungNhom[nD] + '.');
     if (nD === 'sinh' && nV === 'mo') out.push('<span class="tag-lv">Tính khí</span> ' + T.nhomChiVan.sinhGapMo);
     if (nD === 'sinh' && nV === 'chinh') out.push('<span class="tag-lv">Tính khí</span> ' + T.nhomChiVan.sinhGapChinh);
+    // Buổi 24: năm/vận xung (mạnh nhất), hình, hại chi ngày làm thấu căn yếu đi
+    var vsx = ls.vuongSuy;
+    if (vsx.thauCan && vsx.thauCan.length && !vsx.dacLenh) {
+      var pham = dg.qh.filter(function (x) { return x.tang === 'chi' && x.b === 2 && ['xung', 'hai', 'hinh', 'pha'].indexOf(x.q.loai) >= 0; });
+      if (pham.length) out.push('<span class="tag-lv">Sức lực</span> ' + tenVan + ' ' + pham.map(function (x) { return nhanQuanHe(x.q).toLowerCase(); }).join(', ') + ' chi ngày ' + cs.CHI[Dc] + ' – chính là chỗ thấu căn (gốc) của Nhật chủ, mà Nhật chủ lại không được lệnh tháng. Theo bài giảng, giai đoạn này dễ <b>mệt hơn</b>, sức chống đỡ giảm' + (pham.some(function (x) { return x.q.loai === 'xung'; }) ? ' (xung là nặng nhất)' : '') + '.');
+    }
     // Tự hình: năm/vận xung với chữ tự hình là lúc học được bài học (buổi 15)
     var chisLS = ls.tru.filter(Boolean).map(function (t) { return t.chi; });
     Object.keys(T.tuHinhXung).forEach(function (k) {
