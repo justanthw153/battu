@@ -141,6 +141,19 @@ footer{text-align:center;color:var(--mute);font-size:12px;padding:20px}
   .bar-row{grid-template-columns:78px 1fr 50px}
   .bar-row .bd{display:none}
 }
+@media (max-width:560px){
+  .tq-grid{grid-template-columns:1fr}
+  .dv-strip{grid-template-columns:repeat(4,1fr)}
+  .ln-month{grid-template-columns:repeat(2,1fr)}
+  .card{padding:14px}
+  .tbl{display:block;overflow-x:auto}
+  header{padding:10px 16px}
+  header h1{font-size:16px}
+  #b-theme{padding:6px 10px;white-space:nowrap;flex-shrink:0}
+}
+main,aside,.wrap>*,.tq-grid>*,.kv>*,.dt-grid>*{min-width:0}
+.wrap{grid-template-columns:320px minmax(0,1fr)}
+@media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}}
 @media print{
   header,aside,.acts,.ln-ctl,#b-theme{display:none!important}
   .wrap{display:block;padding:0} body{background:#fff;color:#000}
