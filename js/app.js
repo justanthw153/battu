@@ -61,10 +61,9 @@
     return h;
   }
 
-  function hienThi(ls) {
-    hienTai = ls;
+  function thongTin(ls) {
     var inp = ls.input, al = ls.amLich;
-    var info = '<div class="info">' +
+    return '<div class="info">' +
       '<div><b>' + esc(ls.ten || 'Lá số') + '</b> · ' + (ls.gioiTinh === 'nam' ? 'Nam' : 'Nữ') + ' · ' + (ls.daiVan.thuan ? (ls.gioiTinh === 'nam' ? 'Dương nam' : 'Âm nữ') : (ls.gioiTinh === 'nam' ? 'Âm nam' : 'Dương nữ')) + '</div>' +
       '<div>Dương lịch: ' + inp.d + '/' + inp.m + '/' + inp.y + (inp.khongGio ? ' (không rõ giờ)' : ' ' + String(inp.h).padStart(2, '0') + ':' + String(inp.mi).padStart(2, '0')) + ' (GMT' + (inp.tz >= 0 ? '+' : '') + inp.tz + ')</div>' +
       '<div>Âm lịch: ' + al.d + '/' + al.m + (al.leap ? ' (nhuận)' : '') + '/' + al.y + ' – năm ' + cs.CAN[ls.tru[0].can] + ' ' + cs.CHI[ls.tru[0].chi] + ' (' + ls.tru[0].napAm + ')</div>' +
@@ -73,6 +72,22 @@
       (ls.gioGiap ? '<div class="warn">⚠ Sinh sát thời điểm giao tiết (dưới 1 ngày) – trụ tháng/năm có thể thay đổi nếu giờ sinh lệch; hãy kiểm tra kỹ giờ sinh.</div>' : '') +
       (inp.khongGio ? '<div class="warn">⚠ Không có giờ sinh: lá số chỉ có 3 trụ (Tam trụ), phần luận về con cái – hậu vận – nội tâm bị hạn chế.</div>' : '') +
       '</div>';
+  }
+
+  // Tóm tắt nhanh một lá số (dùng cho người thứ hai trong phần hợp – khắc)
+  function tomTat(ls) {
+    var d = ls.nhatChu, dt = ls.dungThan, h = function (x) { return '<span class="hanh h-' + cs.HANH_KEY[x] + '">' + cs.HANH[x] + '</span>'; };
+    var cc = lg.xacDinhCachCuc(ls).ten;
+    return '<div class="tq-grid">' +
+      '<div><b>Nhật chủ</b><div class="big">' + h(cs.CAN_HANH[d]).replace(cs.HANH[cs.CAN_HANH[d]], cs.CAN[d] + ' ' + cs.HANH[cs.CAN_HANH[d]]) + '</div><small>' + BT.tt.can[d].hinhTuong + '</small></div>' +
+      '<div><b>Vượng suy</b><div class="big">' + ls.vuongSuy.muc + '</div><small>' + (ls.vuongSuy.dacLenh ? 'Đắc lệnh' : 'Thất lệnh') + '</small></div>' +
+      '<div><b>Cách cục</b><div class="big">' + cc + '</div></div>' +
+      '<div><b>Dụng / Hỷ thần</b><div class="big">' + h(dt.dung) + ' · ' + h(dt.hy) + '</div><small>Kỵ: ' + dt.ky.map(h).join(', ') + '</small></div></div>';
+  }
+
+  function hienThi(ls) {
+    hienTai = ls;
+    var inp = ls.input, info = thongTin(ls);
     $('ket-qua').innerHTML = '<section class="card" id="la-so"><div class="ls-head"><h2>Lá số Bát Tự</h2><div class="acts"><button class="btn ghost" id="b-luu">Lưu lá số</button><button class="btn ghost" id="b-in">In / PDF</button></div></div>' + info + '<div class="scroll-x">' + veBangTuTru(ls) + '</div></section>' + lg.tatCa(ls);
     $('toc').innerHTML = [['la-so', 'Lá số'], ['tong-quan', 'Tổng quan'], ['nhat-chu', 'Nhật chủ'], ['ngu-hanh', 'Ngũ hành'], ['dung-than', 'Dụng thần'], ['thap-than', 'Thập thần'], ['cach-cuc', 'Cách cục'], ['tu-tru', 'Tương tác'], ['than-sat', 'Thần sát'], ['hon-nhan', 'Hôn nhân'], ['su-nghiep', 'Sự nghiệp'], ['suc-khoe', 'Sức khỏe'], ['dai-van', 'Đại vận'], ['luu-nien', 'Lưu niên']]
       .map(function (x) { return '<a href="#' + x[0] + '">' + x[1] + '</a>'; }).join('');
@@ -159,7 +174,29 @@
       var B = BT.ls.lapLaSo(inp), old = $('hop-khac');
       if (old) old.remove();
       $('la-so').insertAdjacentHTML('afterend', BT.hh.html(hienTai, B, $('h-loai').value));
-      if (!$('toc').querySelector('a[href="#hop-khac"]')) $('toc').insertAdjacentHTML('afterbegin', '<a href="#hop-khac">Hợp – khắc</a>');
+      var tenB = esc(B.ten || 'Người thứ hai');
+      $('hop-khac').querySelector('.hk-toc').insertAdjacentHTML('afterend',
+        '<details class="hk-ls" id="hk-ls" open><summary>Lá số của ' + tenB + '</summary>' + thongTin(B) +
+        '<div class="scroll-x">' + veBangTuTru(B) + '</div>' + tomTat(B) +
+        '<div class="acts hk-acts"><button type="button" class="btn ghost" id="b-luu-b">Lưu lá số ' + tenB + '</button>' +
+        '<button type="button" class="btn ghost" id="b-xem-b">Xem luận giải đầy đủ của ' + tenB + '</button></div></details>');
+      $('b-luu-b').onclick = function () {
+        var ds = luuDS(), id = inp.ten + '|' + inp.y + inp.m + inp.d + inp.h + inp.mi;
+        ds = ds.filter(function (x) { return x.id !== id; });
+        ds.unshift({ id: id, input: inp }); ghiDS(ds.slice(0, 50)); veDS();
+        this.textContent = '✓ Đã lưu'; this.disabled = true;
+      };
+      $('b-xem-b').onclick = function () {
+        if (!confirm('Chuyển sang xem luận giải đầy đủ của ' + (B.ten || 'người thứ hai') + '? (Lá số đang mở sẽ được thay thế; hãy lưu lại nếu cần.)')) return;
+        ganForm(inp); hienThi(B); window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+      // Mục lục bên trái: nhóm Hợp – khắc ở đầu, sau đó là lá số người thứ nhất
+      var cu = $('toc').querySelector('.toc-hk'); if (cu) cu.remove();
+      var hkLinks = [['hop-khac', 'Điểm tương hợp'], ['hk-ls', 'Lá số ' + (B.ten || 'Người thứ hai')]].concat(
+        [].map.call($('hop-khac').querySelectorAll('.hk-toc a:not([href="#hk-ls"])'), function (a) { return [a.getAttribute('href').slice(1), a.textContent]; }));
+      $('toc').insertAdjacentHTML('afterbegin', '<div class="toc-hk"><div class="toc-tt">Hợp – khắc</div>' +
+        hkLinks.map(function (x) { return '<a href="#' + x[0] + '">' + esc(x[1]) + '</a>'; }).join('') +
+        '<div class="toc-tt">' + esc(/^lá số/i.test(hienTai.ten || '') ? hienTai.ten : 'Lá số ' + (hienTai.ten || 'người thứ nhất')) + '</div></div>');
       $('hop-khac').scrollIntoView({ behavior: 'smooth' });
     } catch (err) { console.error(err); alert('Có lỗi khi so sánh: ' + err.message); }
   }

@@ -186,12 +186,16 @@
     h += '<div class="hk-head"><div class="hk-p"><b>' + r.nA + '</b><span>' + [0, 1, 2, 3].map(function (i) { return A.tru[i] ? cs.CAN[A.tru[i].can] + ' ' + cs.CHI[A.tru[i].chi] : '—'; }).join(' · ') + '</span></div>' +
       '<div class="hk-score ' + r.ket[1] + '"><b>' + r.pct + '%</b><span>' + r.ket[0] + '</span></div>' +
       '<div class="hk-p"><b>' + r.nB + '</b><span>' + [0, 1, 2, 3].map(function (i) { return B.tru[i] ? cs.CAN[B.tru[i].can] + ' ' + cs.CHI[B.tru[i].chi] : '—'; }).join(' · ') + '</span></div></div>';
-    r.muc.forEach(function (m) {
-      var lop = m.d >= 1.2 ? 'r-rt' : m.d >= 0.4 ? 'r-t' : m.d > -0.4 ? 'r-b' : m.d > -1.2 ? 'r-k' : 'r-x';
+    var TAT = ['Nhật chủ', loai === 'honphoi' ? 'Cung phối ngẫu' : 'Chi ngày', 'Tuổi', 'Bổ trợ ngũ hành', 'Vai trò của nhau', 'Thần sát chéo', 'Nạp âm'];
+    var lopOf = function (d) { return d >= 1.2 ? 'r-rt' : d >= 0.4 ? 'r-t' : d > -0.4 ? 'r-b' : d > -1.2 ? 'r-k' : 'r-x'; };
+    // Mục lục trong khung kết quả
+    h += '<nav class="hk-toc"><a href="#hk-ls">Lá số ' + r.nB + '</a>' + r.muc.map(function (m, i) { return '<a href="#hk-' + i + '" class="' + lopOf(m.d) + '">' + TAT[i] + '</a>'; }).join('') + '<a href="#hk-lk">Lời khuyên</a></nav>';
+    r.muc.forEach(function (m, i) {
+      var lop = lopOf(m.d);
       var nhan = m.d >= 1.2 ? 'Rất hợp' : m.d >= 0.4 ? 'Hợp' : m.d > -0.4 ? 'Trung tính' : m.d > -1.2 ? 'Có va chạm' : 'Khắc';
-      h += '<div class="hk-item"><h4>' + m.ten + ' <span class="pill ' + lop + '">' + nhan + '</span></h4><ul>' + m.ct.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
+      h += '<div class="hk-item" id="hk-' + i + '"><h4>' + (i + 1) + '. ' + m.ten + ' <span class="pill ' + lop + '">' + nhan + '</span></h4><ul>' + m.ct.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
     });
-    h += '<h4>Lời khuyên</h4><ul>' + loiKhuyen(r).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
+    h += '<h4 id="hk-lk">Lời khuyên</h4><ul>' + loiKhuyen(r).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
     h += '<p class="mota">Xem hợp tuổi chỉ để hiểu nhau hơn, không nên dùng để quyết định chia tay hay từ chối ai.</p></section>';
     return h;
   }
