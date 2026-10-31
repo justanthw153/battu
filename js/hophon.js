@@ -189,16 +189,165 @@
     var TAT = ['Nhật chủ', loai === 'honphoi' ? 'Cung phối ngẫu' : 'Chi ngày', 'Tuổi', 'Bổ trợ ngũ hành', 'Vai trò của nhau', 'Thần sát chéo', 'Nạp âm'];
     var lopOf = function (d) { return d >= 1.2 ? 'r-rt' : d >= 0.4 ? 'r-t' : d > -0.4 ? 'r-b' : d > -1.2 ? 'r-k' : 'r-x'; };
     // Mục lục trong khung kết quả
-    h += '<nav class="hk-toc"><a href="#hk-ls">Lá số ' + r.nB + '</a>' + r.muc.map(function (m, i) { return '<a href="#hk-' + i + '" class="' + lopOf(m.d) + '">' + TAT[i] + '</a>'; }).join('') + '<a href="#hk-lk">Lời khuyên</a></nav>';
+    h += '<nav class="hk-toc"><a href="#hk-ls">Lá số ' + r.nB + '</a>' + r.muc.map(function (m, i) { return '<a href="#hk-' + i + '" class="' + lopOf(m.d) + '">' + TAT[i] + '</a>'; }).join('') + '<a href="#hk-dv">Đại vận chung</a><a href="#hk-ln">Lưu niên chung</a><a href="#hk-lk">Lời khuyên</a></nav>';
     r.muc.forEach(function (m, i) {
       var lop = lopOf(m.d);
       var nhan = m.d >= 1.2 ? 'Rất hợp' : m.d >= 0.4 ? 'Hợp' : m.d > -0.4 ? 'Trung tính' : m.d > -1.2 ? 'Có va chạm' : 'Khắc';
       h += '<div class="hk-item" id="hk-' + i + '"><h4>' + (i + 1) + '. ' + m.ten + ' <span class="pill ' + lop + '">' + nhan + '</span></h4><ul>' + m.ct.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>';
     });
+    h += vanTrinhHtml(A, B, loai);
     h += '<h4 id="hk-lk">Lời khuyên</h4><ul>' + loiKhuyen(r).map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>';
     h += '<p class="mota">Xem hợp tuổi chỉ để hiểu nhau hơn, không nên dùng để quyết định chia tay hay từ chối ai.</p></section>';
     return h;
   }
 
-  BT.hh = { soSanh: soSanh, html: html, LOAI: LOAI };
+  // ===== Vận trình chung: đại vận & lưu niên xung – phá – hại =====
+  var VI_TRI = ['Năm', 'Tháng', 'Ngày', 'Giờ'];
+  var XAU = ['xung', 'pha', 'hai', 'hinh', 'tuhinh'];
+  // trụ cần soi theo loại quan hệ
+  var TRU_SOI = { honphoi: [2], laman: [1, 2], banbe: [1, 2], chacon: [0, 2, 3] };
+  var LV = { 0: 'gia đình, cha mẹ, việc đi xa', 1: 'công việc, đồng nghiệp, đối tác', 2: 'bản thân và chuyện tình cảm – hôn phối', 3: 'con cái, cấp dưới, sản phẩm' };
+
+  function ngan(txt) { // rút gọn mô tả cặp: phần sau dấu ":" tới dấu ";" hoặc "." đầu tiên
+    if (!txt) return '';
+    var s = txt.indexOf(':') >= 0 ? txt.slice(txt.indexOf(':') + 1) : txt;
+    return s.split(/[;.]/)[0].trim();
+  }
+  function moTaCap(q, a, b) {
+    var k = cs.key(a, b);
+    if (q.loai === 'xung') return ngan(T.xung[k]);
+    if (q.loai === 'hai') return ngan(T.hai[k]);
+    if (q.loai === 'pha') return ngan(T.pha[k]);
+    if (q.loai === 'hinh') return ngan(T.hinh[q.ten]);
+    if (q.loai === 'tuhinh') return 'tự làm khổ mình, mâu thuẫn nội tâm';
+    if (q.loai === 'luchop') return 'gắn kết, thuận hòa';
+    return '';
+  }
+  // Tác động của một trụ (s,b) lên các trụ cần soi của X
+  function tacDong(X, s, b, loai) {
+    var r = [];
+    TRU_SOI[loai].forEach(function (i) {
+      var t = X.tru[i]; if (!t) return;
+      if (t.can === s && t.chi === b) { r.push({ loai: 'phucngam', i: i, xau: true, nhan: 'Phục ngâm', txt: 'chuyện cũ lặp lại, dễ bế tắc nhưng là dịp tự soi chiếu' }); return; }
+      if ((mod(s - t.can, 10) === 6 || mod(t.can - s, 10) === 6) && mod(b - t.chi, 12) === 6) { r.push({ loai: 'tkdx', i: i, xau: true, nhan: 'Thiên khắc địa xung', txt: 'biến động mạnh cả trong lẫn ngoài' }); return; }
+      cs.quanHeChi(b, t.chi).forEach(function (q) {
+        if (XAU.indexOf(q.loai) >= 0) r.push({ loai: q.loai, i: i, xau: true, nhan: BT.lg.nhanQuanHe(q), txt: moTaCap(q, b, t.chi), chi: t.chi });
+        else if (q.loai === 'luchop') r.push({ loai: q.loai, i: i, xau: false, nhan: 'Lục hợp', txt: 'gắn kết, thuận hòa', chi: t.chi });
+      });
+    });
+    return r;
+  }
+  function moTaTacDong(td) {
+    return td.map(function (x) { return '<span class="hk-tag ' + (x.xau ? 'xau' : 'tot') + '">' + x.nhan + ' ' + VI_TRI[x.i] + '</span>'; }).join(' ');
+  }
+  function khuyenNam(loai, nX, nY, x) {
+    var lv = LV[x.i];
+    var base = nX + ': ' + x.nhan.toLowerCase() + ' trụ ' + VI_TRI[x.i] + (x.chi != null ? ' (' + cs.CHI[x.chi] + ')' : '') + ' → ảnh hưởng ' + lv + (x.txt ? ' – ' + x.txt : '') + '.';
+    var g;
+    if (loai === 'honphoi') g = ' ' + nY + ' nên kiên nhẫn, lắng nghe nhiều hơn, tránh đẩy mâu thuẫn lên cao; ' + nX + ' nên nói rõ cảm xúc thay vì giữ trong lòng.';
+    else if (loai === 'laman') g = x.i === 1 ? ' Dễ trục trặc với đối tác – nên rà soát hợp đồng, phân vai rõ ràng; ' + nY + ' nên giữ vai trò điều phối, đối ngoại.' : ' ' + nX + ' dễ quyết định nóng, đổi cách điều hành – hai bên nên bàn kỹ trước mọi quyết định tài chính.';
+    else if (loai === 'banbe') g = ' Dễ hiểu lầm vì lời nói hoặc áp lực công việc; ' + nY + ' nên giữ khoảng cách vừa đủ và tránh phán xét.';
+    else g = x.i === 3 ? ' Chuyện con cái dễ làm lo lắng – nên đồng hành nhẹ nhàng thay vì áp đặt.' : (x.i === 0 ? ' Gia đình có biến động, có thể phải đi xa hoặc thay đổi chỗ ở – cả nhà nên cùng bàn bạc.' : ' Dễ căng thẳng trong nhà – nên giảm kỳ vọng, tăng thời gian trò chuyện.');
+    return base + g;
+  }
+
+  function bangNam(A, B, loai, tu) {
+    var nA = tenNguoi(A, 'Người A'), nB = tenNguoi(B, 'Người B');
+    var h = '<div class="ln-ctl hk-nav"><button type="button" class="btn ghost" id="hk-truoc">← 12 năm trước</button><b>' + tu + ' – ' + (tu + 11) + '</b><button type="button" class="btn ghost" id="hk-sau">12 năm sau →</button></div>';
+    h += '<div class="scroll-x"><table class="tbl hk-tbl"><tr><th>Năm</th><th>' + nA + '</th><th>' + nB + '</th><th>Nhận định chung</th></tr>';
+    var ghiChu = [];
+    for (var y = tu; y < tu + 12; y++) {
+      var tn = BT.ls.truNam(y);
+      var tA = tacDong(A, tn.can, tn.chi, loai), tB = tacDong(B, tn.can, tn.chi, loai);
+      var dA = BT.lg.danhGiaTru(A, tn.can, tn.chi), dB = BT.lg.danhGiaTru(B, tn.can, tn.chi);
+      var xA = tA.filter(function (x) { return x.xau; }), xB = tB.filter(function (x) { return x.xau; });
+      var hopA = tA.some(function (x) { return !x.xau; }), hopB = tB.some(function (x) { return !x.xau; });
+      var ket;
+      if (xA.length && xB.length) ket = ['Năm nhạy cảm cho cả hai', 'r-x'];
+      else if (xA.length || xB.length) ket = ['Cần nhường nhịn', 'r-k'];
+      else if (dA.score >= 0.7 && dB.score >= 0.7) ket = ['Năm thuận cho cả hai', 'r-rt'];
+      else if (hopA || hopB) ket = ['Gắn kết', 'r-t'];
+      else ket = ['Bình ổn', 'r-b'];
+      h += '<tr><td><b>' + y + '</b><br><small>' + cs.CAN[tn.can] + ' ' + cs.CHI[tn.chi] + '</small></td>' +
+        '<td>' + (moTaTacDong(tA) || '—') + '<br><span class="pill ' + dA.lop + '">' + dA.muc + '</span></td>' +
+        '<td>' + (moTaTacDong(tB) || '—') + '<br><span class="pill ' + dB.lop + '">' + dB.muc + '</span></td>' +
+        '<td><span class="pill ' + ket[1] + '">' + ket[0] + '</span></td></tr>';
+      // lời khuyên cho những năm đáng chú ý
+      var lk = [];
+      xA.forEach(function (x) { lk.push(khuyenNam(loai, nA, nB, x)); });
+      xB.forEach(function (x) { lk.push(khuyenNam(loai, nB, nA, x)); });
+      if (xA.length && xB.length) lk.push('<b>Cả hai cùng gặp năm động:</b> tránh các quyết định lớn (' + (loai === 'honphoi' ? 'cưới hỏi, ly thân, mua nhà' : loai === 'laman' ? 'mở rộng, vay vốn, ký hợp đồng lớn' : 'thay đổi lớn') + '); ưu tiên giữ ổn định và dành thời gian riêng cho mỗi người.');
+      if (!xA.length && !xB.length && dA.score >= 0.7 && dB.score >= 0.7) lk.push('Năm thuận cho cả hai – hợp làm việc lớn cùng nhau: ' + (loai === 'honphoi' ? 'cưới hỏi, mua nhà, sinh con, du lịch xa.' : loai === 'laman' ? 'khởi sự, mở rộng, ký hợp đồng.' : 'cùng thực hiện kế hoạch chung.'));
+      if (!xA.length && !xB.length && (hopA || hopB) && loai === 'honphoi') lk.push('Lưu niên lục hợp với cung phối ngẫu – tình cảm dễ gắn kết, hợp các dịp quan trọng của hai người.');
+      if (lk.length) ghiChu.push('<li><b>' + y + ' (' + cs.CAN[tn.can] + ' ' + cs.CHI[tn.chi] + ')</b><ul>' + lk.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></li>');
+    }
+    h += '</table></div>';
+    h += ghiChu.length ? '<h4>Lời khuyên theo từng năm</h4><ul class="hk-ln">' + ghiChu.join('') + '</ul>' : '<p>Trong 12 năm này không có năm nào xung – phá – hại đáng kể với các trụ quan trọng của hai người.</p>';
+    return h;
+  }
+
+  function daiVanChung(A, B, loai) {
+    var nA = tenNguoi(A, 'Người A'), nB = tenNguoi(B, 'Người B'), nay = new Date().getFullYear();
+    var h = '<div class="scroll-x"><table class="tbl hk-tbl"><tr><th>Người</th><th>Đại vận</th><th>Đánh giá</th><th>Tác động lên chính mình</th><th>Tác động lên người kia</th></tr>';
+    [[A, B, nA, nB], [B, A, nB, nA]].forEach(function (z) {
+      var X = z[0], Y = z[1];
+      X.daiVan.ds.forEach(function (dv) {
+        var den = dv.namBatDau + 9;
+        if (den < nay - 1 || dv.namBatDau > nay + 30) return;
+        var dg = BT.lg.danhGiaTru(X, dv.can, dv.chi);
+        var tdX = tacDong(X, dv.can, dv.chi, loai), tdY = tacDong(Y, dv.can, dv.chi, loai);
+        var dang = nay >= dv.namBatDau && nay <= den;
+        h += '<tr' + (dang ? ' class="hk-dang"' : '') + '><td>' + z[2] + '</td><td><b>' + cs.CAN[dv.can] + ' ' + cs.CHI[dv.chi] + '</b><br><small>' + dv.namBatDau + '–' + den + (dang ? ' · đang chạy' : '') + '</small></td><td><span class="pill ' + dg.lop + '">' + dg.muc + '</span></td><td>' + (moTaTacDong(tdX) || '—') + '</td><td>' + (moTaTacDong(tdY) || '—') + '</td></tr>';
+      });
+    });
+    h += '</table></div>';
+    // Giai đoạn theo năm: ghép vận của hai người
+    var giaiDoan = [], cur = null;
+    for (var y = nay; y <= nay + 30; y++) {
+      var dvA = BT.ls.daiVanTaiNam(A, y), dvB = BT.ls.daiVanTaiNam(B, y);
+      if (!dvA || !dvB) continue;
+      var sA = BT.lg.danhGiaTru(A, dvA.can, dvA.chi).score, sB = BT.lg.danhGiaTru(B, dvB.can, dvB.chi).score;
+      var hits = [];
+      [[A, dvA, nA, nA], [A, dvB, nB, nA], [B, dvB, nB, nB], [B, dvA, nA, nB]].forEach(function (z) {
+        tacDong(z[0], z[1].can, z[1].chi, loai).filter(function (x) { return x.xau; }).forEach(function (x) {
+          hits.push('vận ' + cs.CAN[z[1].can] + ' ' + cs.CHI[z[1].chi] + ' của ' + z[2] + ' ' + x.nhan.toLowerCase() + ' trụ ' + VI_TRI[x.i] + (x.chi != null ? ' (' + cs.CHI[x.chi] + ')' : '') + ' của ' + (z[2] === z[3] ? 'chính mình' : z[3]) + (x.txt ? ' – ' + x.txt : ''));
+        });
+      });
+      var xA = hits.length, xB = 0;
+      var kieu;
+      if (sA <= -0.7 && sB <= -0.7) kieu = 'cungKho';
+      else if (sA <= -0.7 && sB >= 0.7) kieu = 'BdoA';
+      else if (sB <= -0.7 && sA >= 0.7) kieu = 'AdoB';
+      else if (sA >= 0.7 && sB >= 0.7) kieu = 'cungThuan';
+      else kieu = 'binh';
+      if (xA || xB) kieu += '|xung';
+      var key = kieu + '|' + dvA.stt + '|' + dvB.stt;
+      if (cur && cur.key === key) cur.den = y;
+      else { cur = { key: key, kieu: kieu, tu: y, den: y, dvA: dvA, dvB: dvB, hits: hits }; giaiDoan.push(cur); }
+    }
+    var lk = [];
+    giaiDoan.forEach(function (g) {
+      var k = g.kieu.split('|')[0], coXung = g.kieu.indexOf('|xung') >= 0;
+      var vA = cs.CAN[g.dvA.can] + ' ' + cs.CHI[g.dvA.chi], vB = cs.CAN[g.dvB.can] + ' ' + cs.CHI[g.dvB.chi];
+      var t = '<b>' + g.tu + '–' + g.den + '</b> (' + nA + ': vận ' + vA + ' · ' + nB + ': vận ' + vB + '): ';
+      if (k === 'cungKho') t += 'cả hai cùng đi vận khó – dễ đổ lỗi cho nhau khi áp lực. Nên dựa vào nhau, giữ nhịp sống ổn định, tránh mạo hiểm tài chính.';
+      else if (k === 'BdoA') t += nB + ' đang vận thuận, ' + nA + ' đang vận khó – ' + nB + ' nên làm trụ cột, nâng đỡ và kiên nhẫn với ' + nA + '.';
+      else if (k === 'AdoB') t += nA + ' đang vận thuận, ' + nB + ' đang vận khó – ' + nA + ' nên làm trụ cột, nâng đỡ và kiên nhẫn với ' + nB + '.';
+      else if (k === 'cungThuan') t += 'cả hai cùng vận thuận – giai đoạn tốt để cùng xây dựng điều lớn (' + (loai === 'honphoi' ? 'nhà cửa, con cái, tài sản chung' : loai === 'laman' ? 'mở rộng, đầu tư dài hạn' : 'dự án chung') + ').';
+      else t += 'vận của hai người ở mức bình ổn.';
+      if (coXung) t += '<br><i>Lưu ý: ' + g.hits.join('; ') + '. Mâu thuẫn kiểu này dễ âm ỉ kéo dài cả giai đoạn – nên chủ động trò chuyện, đặt quy ước chung và nhường nhau ở đúng lĩnh vực bị ảnh hưởng.</i>';
+      if (k !== 'binh' || coXung) lk.push(t);
+    });
+    h += lk.length ? '<h4>Lời khuyên theo giai đoạn</h4><ul>' + lk.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' : '<p>Trong 30 năm tới vận trình của hai người tương đối bình ổn, không có giai đoạn đối lập rõ rệt.</p>';
+    h += '<p class="mota">Đại vận ảnh hưởng xu hướng 10 năm; lưu niên là “thời tiết” từng năm. Vận của người này xung trụ ngày của người kia thường cho thấy giai đoạn một người vô tình tạo áp lực lên người còn lại.</p>';
+    return h;
+  }
+
+  function vanTrinhHtml(A, B, loai) {
+    var nay = new Date().getFullYear();
+    return '<div class="hk-item" id="hk-dv"><h4>Đại vận chung</h4>' + daiVanChung(A, B, loai) + '</div>' +
+      '<div class="hk-item" id="hk-ln"><h4>Lưu niên chung</h4><p class="mota">Soi lưu niên với ' + TRU_SOI[loai].map(function (i) { return 'trụ ' + VI_TRI[i]; }).join(', ') + ' của mỗi người (theo loại quan hệ). Bấm mũi tên để xem các giai đoạn khác.</p><div id="hk-ln-bang" data-tu="' + nay + '">' + bangNam(A, B, loai, nay) + '</div></div>';
+  }
+
+  BT.hh = { soSanh: soSanh, html: html, LOAI: LOAI, bangNam: bangNam, vanTrinhHtml: vanTrinhHtml };
 })();

@@ -509,5 +509,5 @@
     return tongQuan(ls) + nhatChu(ls) + nguHanh(ls) + dungThan(ls) + thapThan(ls) + cachCuc(ls) + tuTru(ls) + thanSat(ls) + honNhan(ls) + suNghiep(ls) + sucKhoe(ls) + daiVan(ls) + luuNienSec(ls);
   }
 
-  BT.lg = { tatCa: tatCa, chiTietDaiVan: chiTietDaiVan, luuNien: luuNien, bangLuuNien: bangLuuNien, gz: gz, tenCan: tenCan, tenChi: tenChi, xacDinhCachCuc: xacDinhCachCuc };
+  BT.lg = { danhGiaTru: danhGiaTru, nhanQuanHe: nhanQuanHe, tatCa: tatCa, chiTietDaiVan: chiTietDaiVan, luuNien: luuNien, bangLuuNien: bangLuuNien, gz: gz, tenCan: tenCan, tenChi: tenChi, xacDinhCachCuc: xacDinhCachCuc };
 })();

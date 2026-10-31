@@ -180,6 +180,14 @@
         '<div class="scroll-x">' + veBangTuTru(B) + '</div>' + tomTat(B) +
         '<div class="acts hk-acts"><button type="button" class="btn ghost" id="b-luu-b">Lưu lá số ' + tenB + '</button>' +
         '<button type="button" class="btn ghost" id="b-xem-b">Xem luận giải đầy đủ của ' + tenB + '</button></div></details>');
+      var loaiHK = $('h-loai').value, A = hienTai;
+      var ganNav = function () {
+        var box = $('hk-ln-bang');
+        var di = function (buoc) { var tu = +box.dataset.tu + buoc; box.dataset.tu = tu; box.innerHTML = BT.hh.bangNam(A, B, loaiHK, tu); ganNav(); };
+        $('hk-truoc').onclick = function () { di(-12); };
+        $('hk-sau').onclick = function () { di(12); };
+      };
+      ganNav();
       $('b-luu-b').onclick = function () {
         var ds = luuDS(), id = inp.ten + '|' + inp.y + inp.m + inp.d + inp.h + inp.mi;
         ds = ds.filter(function (x) { return x.id !== id; });

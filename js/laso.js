@@ -257,9 +257,8 @@
   // Trụ lưu niên / lưu nguyệt
   function truNam(y) { return { can: mod(y - 4, 10), chi: mod(y - 4, 12) }; }
   function daiVanTaiNam(ls, y) {
-    var tuoi = y - ls.input.y;
     var ds = ls.daiVan.ds;
-    for (var i = ds.length - 1; i >= 0; i--) if (tuoi >= Math.floor(ds[i].tuoiBatDau)) return ds[i];
+    for (var i = ds.length - 1; i >= 0; i--) if (y >= ds[i].namBatDau) return ds[i];
     return null;
   }
 
