@@ -81,7 +81,7 @@
     return '<div class="tq-grid">' +
       '<div><b>Nhật chủ</b><div class="big">' + h(cs.CAN_HANH[d]).replace(cs.HANH[cs.CAN_HANH[d]], cs.CAN[d] + ' ' + cs.HANH[cs.CAN_HANH[d]]) + '</div><small>' + BT.tt.can[d].hinhTuong + '</small></div>' +
       '<div><b>Vượng suy</b><div class="big">' + ls.vuongSuy.muc + '</div><small>' + (ls.vuongSuy.dacLenh ? 'Đắc lệnh' : 'Thất lệnh') + '</small></div>' +
-      '<div><b>Cách cục</b><div class="big">' + cc + '</div></div>' +
+      '<div><b>Cấu trúc</b><div class="big">' + cc + '</div></div>' +
       '<div><b>Dụng / Hỷ thần</b><div class="big">' + h(dt.dung) + ' · ' + h(dt.hy) + '</div><small>Kỵ: ' + dt.ky.map(h).join(', ') + '</small></div></div>';
   }
 
@@ -89,7 +89,7 @@
     hienTai = ls;
     var inp = ls.input, info = thongTin(ls);
     $('ket-qua').innerHTML = '<section class="card" id="la-so"><div class="ls-head"><h2>Lá số Bát Tự</h2><div class="acts"><button class="btn ghost" id="b-luu">Lưu lá số</button><button class="btn ghost" id="b-in">In / PDF</button></div></div>' + info + '<div class="scroll-x">' + veBangTuTru(ls) + '</div></section>' + lg.tatCa(ls);
-    $('toc').innerHTML = [['la-so', 'Lá số'], ['tong-quan', 'Tổng quan'], ['nhat-chu', 'Nhật chủ'], ['ngu-hanh', 'Ngũ hành'], ['dung-than', 'Dụng thần'], ['thap-than', 'Thập thần'], ['cach-cuc', 'Cách cục'], ['tu-tru', 'Tương tác'], ['than-sat', 'Thần sát'], ['hon-nhan', 'Hôn nhân'], ['su-nghiep', 'Sự nghiệp'], ['suc-khoe', 'Sức khỏe'], ['dai-van', 'Đại vận'], ['luu-nien', 'Lưu niên']]
+    $('toc').innerHTML = [['la-so', 'Lá số'], ['tong-quan', 'Tổng quan'], ['nhat-chu', 'Nhật chủ'], ['ngu-hanh', 'Ngũ hành'], ['dung-than', 'Dụng thần'], ['thap-than', 'Thập thần'], ['cach-cuc', 'Cấu trúc'], ['tu-tru', 'Tương tác'], ['than-sat', 'Thần sát'], ['hon-nhan', 'Hôn nhân'], ['su-nghiep', 'Sự nghiệp'], ['suc-khoe', 'Sức khỏe'], ['dai-van', 'Đại vận'], ['luu-nien', 'Lưu niên']]
       .map(function (x) { return '<a href="#' + x[0] + '">' + x[1] + '</a>'; }).join('');
     $('toc').hidden = false;
     // Đại vận đang chạy

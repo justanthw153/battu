@@ -56,18 +56,37 @@
   // ===== Ý nghĩa tứ trụ =====
   T.tru = {
     Năm: { yNghia: 'Gốc gác, ông bà – tổ tiên, cha mẹ, môi trường xã hội lớn; giai đoạn ~1–16 tuổi.', van: 'Năm/vận xung–phá–phục ngâm trụ năm: “bị đi” – phải đi xa, chuyển chỗ dù không muốn và gặp áp lực; dễ có chuyện liên quan cha mẹ, sức khỏe giảm.' },
-    Tháng: { yNghia: 'Cha mẹ, anh chị em, cấp trên – trưởng bối, đồng nghiệp – đối tác; phong cách và cách quản lý công việc; lệnh tháng quyết định khí hậu cả lá số; giai đoạn ~17–32 tuổi.', van: 'Năm/vận xung–phá–hại trụ tháng: trục trặc với đồng nghiệp, cấp trên, đối tác; vấn đề xuất phát từ công việc; sức khỏe vùng lưng – thắt lưng; có thể đổi chỗ ở/chỗ làm.' },
+    Tháng: { yNghia: 'Cha mẹ, anh chị em, cấp trên – trưởng bối, đồng nghiệp – đối tác; phong cách và cách quản lý công việc; lệnh tháng quyết định khí hậu cả lá số; giai đoạn ~17–32 tuổi. (Ở trụ năm và trụ tháng: thiên can ứng với cha, địa chi ứng với mẹ.)', van: 'Năm/vận xung–phá–hại trụ tháng: nên để ý <b>sức khỏe của mẹ</b>; dễ <b>căng thẳng ngầm</b> với cấp trên, đối tác (va chạm ở địa chi là ngầm, ở thiên can là lộ ra ngoài); vấn đề xuất phát từ công việc; sức khỏe vùng lưng – thắt lưng; có thể đổi chỗ ở/chỗ làm.' },
     Ngày: { yNghia: 'Bản thân (thiên can – Nhật chủ: tư tưởng, quan điểm, cách đối xử với người thân thiết) và cung phối ngẫu (địa chi ngày); cách điều hành công việc và cuộc sống; giai đoạn ~33–48 tuổi.', van: 'Năm/vận xung–phá–hại–hình trụ ngày: dễ căng thẳng với người hôn phối (tính chất theo từng cặp), cần xem lại cách điều hành; phục ngâm trụ ngày: tiền có thể “bốc hơi” đột ngột, vấn đề với con hoặc hôn phối.' },
-    Giờ: { yNghia: 'Con cái, học trò, cấp dưới, hậu bối; sản phẩm – thành quả; tài sản đầu tư – tiết kiệm; thế giới nội tâm; tuổi già (~49 tuổi trở đi).', van: 'Năm/vận xung–phá–phục ngâm trụ giờ: chuyện con cái làm buồn lòng (học tập, sức khỏe), sản phẩm/đầu tư biến động.' }
+    Giờ: { yNghia: 'Con cái, học trò, cấp dưới, hậu bối; sản phẩm – thành quả; tài sản đầu tư – tiết kiệm; thế giới nội tâm, ước mơ, lý tưởng sống; tuổi già (~49 tuổi trở đi).', van: 'Năm/vận xung–phá–phục ngâm trụ giờ: chuyện con cái, nhân sự làm buồn lòng (học tập, sức khỏe), sản phẩm/đầu tư biến động; là năm nên dành thời gian chăm sóc thế giới tinh thần của mình.' }
   };
 
   // ===== Quan hệ can–chi trong cùng một trụ =====
+  // Buổi 25: 5 cách can – chi trong một trụ (thiên can = hoàn cảnh bên ngoài, địa chi = nội tình bên trong)
   T.canChi = {
-    chiSinhCan: 'Chi sinh Can: dùng nguồn lực nội tại rải ra bên ngoài để tìm cơ hội – nhờ vậy hay gặp may bất ngờ.',
-    canSinhChi: 'Can sinh Chi: năng lượng bên ngoài nuôi dưỡng nội tình – hay vất vả cho gia đình/người thân, cho đi nhiều hơn nhận.',
-    dongHanh: 'Can Chi tương đồng (cùng hành): có thực lực, đạt thành tựu dựa vào thực lực bản thân; ít trông vào may mắn.',
-    canKhacChi: 'Can khắc Chi: hoàn cảnh bên ngoài đè lên nội tình – kém may hơn, hay phải gồng mình trước áp lực bên ngoài.',
-    chiKhacCan: 'Chi khắc Can: nội tình/gốc rễ chống lại điều thể hiện bên ngoài – dễ có mâu thuẫn giữa trong và ngoài, kém may hơn.'
+    canSinhChi: '<b>Phúc</b> (Can sinh Chi): trường hợp được đánh giá tốt nhất – vừa có thực lực vừa gặp may, dễ thành công; dễ được đánh giá cao và được môi trường bên ngoài giúp đỡ.',
+    chiSinhCan: '<b>Tải</b> (Chi sinh Can): hay gặp may mắn bất ngờ, gặp người chỉ dạy đúng lúc. Thực chất là người đem nguồn lực của mình rải ra bên ngoài để tìm cơ hội, nên cơ hội tìm đến.',
+    dongHanh: '<b>Đồng thể</b> (Can Chi cùng hành): người có thực lực, đạt thành tựu dựa vào thực lực bản thân; may mắn ít hơn cách Phúc.',
+    canKhacChi: '<b>Cái đầu</b> (Can khắc Chi – bị che phía trên): hoàn cảnh bên ngoài cản trở sự phát huy, nhất là <b>lúc mới khởi đầu</b> (không được ủng hộ, bị giới hạn, thiếu nguồn hàng…). Nếu kiên nhẫn và có nghị lực vượt qua thì vẫn phát triển tốt.',
+    chiKhacCan: '<b>Tiệt cước</b> (Chi khắc Can – bị gạt chân): mọi việc đang thông thuận thì <b>đột ngột bị chặn ngang giữa đường</b>, có khi phải làm lại từ đầu. Người có cách này hay bất an, nhưng làm gì cũng cẩn trọng từng bước, khả năng thích nghi rất cao và tích lũy nhiều kinh nghiệm; cố chấp, ngang ngược khi gặp cảnh éo le thì dễ thất bại.'
+  };
+  T.canChiVan = {
+    canSinhChi: 'Vận <b>Phúc</b>: giai đoạn thuận, có thực lực lại gặp may, được bên ngoài nâng đỡ.',
+    chiSinhCan: 'Vận <b>Tải</b>: giai đoạn đi ra ngoài tìm cơ hội, đem nguồn lực chia sẻ – dễ gặp may bất ngờ.',
+    dongHanh: 'Vận <b>Đồng thể</b>: thành quả đến từ thực lực, ít trông vào may mắn.',
+    canKhacChi: 'Vận <b>Cái đầu</b>: lúc mới bắt đầu làm gì cũng hay bị cản trở, không được ủng hộ – kiên nhẫn vượt qua thì về sau vẫn phát triển tốt.',
+    chiKhacCan: 'Vận <b>Tiệt cước</b>: mọi việc tưởng thuận nhưng dễ bị chặn ngang giữa chừng – nên làm từng bước, chuẩn bị phương án dự phòng.'
+  };
+  // Ví dụ riêng thầy nêu trong buổi 25
+  T.canChiRieng = {
+    '5-3': 'Kỷ Mão (Tiệt cước): luôn có ít nhất một lần phải làm lại từ đầu.',
+    '9-1': 'Quý Sửu (Tiệt cước): dễ bị cản trở vì giúp người mà bị hiểu lầm, hoặc vì chuyện từ người thân.'
+  };
+  // Buổi 25: nạp âm của trụ/vận cho biết tính cách, phong cách trong giai đoạn đó (các ví dụ thầy nêu)
+  T.napAmTinhCach = {
+    'Kiếm Phong Kim': 'nghị lực rất lớn, mạnh mẽ nhưng cách giải quyết vấn đề hơi ngạo mạn, quyết liệt',
+    'Lộ Bàng Thổ': 'có xu hướng nâng đỡ, làm những việc mang tính “lót đường” cho người khác',
+    'Dương Liễu Mộc': 'bên ngoài tỏ ra “sao cũng được” nhưng bên trong chính kiến rất cứng, có phần bảo thủ'
   };
 
   // ===== Cung phối ngẫu theo chi ngày =====
@@ -156,7 +175,49 @@
   T.tuHinh = 'Tự hình (Thìn–Thìn, Ngọ–Ngọ, Dậu–Dậu, Hợi–Hợi): tự làm khổ mình, tự mâu thuẫn nội tâm; trong lưu niên (ví dụ sinh ngày Ngọ gặp năm Ngọ) dễ căng thẳng với người hôn phối.';
   T.tamHop = ['Thủy cục (Thân–Tý–Thìn): trí tuệ, giao thiệp, lưu chuyển, khả năng huy động nguồn lực.', 'Mộc cục (Hợi–Mão–Mùi): nhân ái, phát triển, cộng đồng, sáng tạo.', 'Hỏa cục (Dần–Ngọ–Tuất): nhiệt huyết, ý chí, danh tiếng, hành động mạnh.', 'Kim cục (Tỵ–Dậu–Sửu): nguyên tắc, kỷ luật, thi hành, tài năng kỹ thuật.'];
   T.phucNgam = 'Phục ngâm (hai trụ giống hệt nhau): tình huống khó chịu lặp lại, “hai trụ giống nhau lắm nên luôn xảy ra vấn đề với nhau”; nhưng mở ra rất nhiều cơ hội tự phản tỉnh – người có phục ngâm thường trải qua nhiều chuyện và phát triển năng lực tự soi chiếu bản thân. Phục ngâm ngày–giờ: nuôi con vất vả, về già có xu hướng muốn ở một mình.';
-  T.thienKhac = 'Thiên khắc địa xung (can khắc + chi xung): biến động mạnh cả bên ngoài lẫn bên trong, thay đổi lớn về chỗ ở, công việc hoặc quan hệ; cần giữ sức khỏe và tránh quyết định vội.';
+  T.phucNgamThem = 'Năm hay vận có phục ngâm thường mang tin không vui, cảm giác thất vọng, áp lực; nếu đang định khởi sự kinh doanh thì nên <b>chững lại</b> và dành thời gian tự phản tỉnh – nhiều khi chỉ cần đổi thái độ là tìm ra cách giải quyết.';
+  T.thienKhac = '<b>Phản ngâm</b> (thiên khắc địa xung – can khắc nhau, chi xung nhau): ngụ ý <b>rối loạn cảm xúc</b>; thế giới quan, nhân sinh quan bắt đầu mâu thuẫn, dễ “hoài nghi nhân sinh” vì gặp chuyện trái với tư tưởng và cảm nhận tự nhiên của mình. Cách điều hòa: có người hỗ trợ cân bằng cảm xúc (mentor), và học cách linh hoạt trong suy nghĩ – không đổi thì dễ tự cô lập.';
+  // Phản ngâm theo cặp trụ (buổi 25)
+  T.phanNgamTru = {
+    '0-1': 'Phản ngâm trụ Năm – Tháng: phong cách làm việc xung khắc với môi trường gốc – thường được khuyên <b>rời quê lập nghiệp</b> sẽ tốt hơn; hay gặp vấn đề ở trường học.',
+    '0-2': 'Phản ngâm trụ Năm – Ngày: hay có cảm giác <b>không cùng tư tưởng với cha mẹ, họ hàng</b>.',
+    '0-3': 'Phản ngâm trụ Năm – Giờ: con cái không gần gũi họ hàng; ước mơ, lý tưởng sống của mình khó được cha mẹ, họ hàng ủng hộ – một dạng <b>cô đơn về tinh thần</b>.',
+    '1-2': 'Phản ngâm trụ Tháng – Ngày: hay có vấn đề với cha mẹ, anh em, đồng nghiệp vì <b>trái tính nhau</b>.',
+    '1-3': 'Phản ngâm trụ Tháng – Giờ: cách làm việc và thế giới nội tâm, con cái dễ trái chiều nhau.',
+    '2-3': 'Phản ngâm trụ Ngày – Giờ: <b>con cái và người hôn phối khó hòa hợp</b>; với nữ, khi sinh nở có thể gặp khó khăn.'
+  };
+  T.phucNgamTru = {
+    '1-2': 'Phục ngâm trụ Tháng – Ngày: mình với đồng nghiệp, cấp trên cứ hay gặp rắc rối; chuyện công việc, bạn bè, đồng nghiệp không như ý.',
+    '2-3': 'Phục ngâm trụ Ngày – Giờ: nuôi con vất vả; về già có xu hướng thích ở một mình.'
+  };
+  // Tình cảm theo sao phối ngẫu (buổi 25) – nam xét Tài, nữ xét Quan Sát (theo giới tính sinh học)
+  T.saoPhoiNgau = {
+    khac: 'Hành của {van} <b>khắc</b> hành {sao} (sao phối ngẫu của bạn) → giai đoạn dễ căng thẳng trong tình cảm, nặng thì có thể chia tay. Mức độ tùy chất lượng sao gốc: sao vốn quá ít hoặc quá nhiều thì dễ có chuyện hơn; hành khắc nằm ở thiên can thì lộ và nặng hơn, tàng trong địa chi thì ngầm và nhẹ hơn.',
+    sinh: 'Hành của {van} <b>sinh</b> cho {sao} (sao phối ngẫu của bạn) → giai đoạn dễ phát triển mối quan hệ tình cảm.',
+    nhiHop: '{van} <b>nhị hợp với chi ngày</b> → may mắn trong tình cảm (cả với người yêu lẫn người thân thiết): người độc thân dễ được giới thiệu; người đã có đôi thì quan hệ đang rạn có cơ duyên cải thiện.',
+    nhiHopDaoHoa: ' Có thêm <b>Đào Hoa</b> nên khả năng cao là có người yêu trong giai đoạn này (nếu đang độc thân).'
+  };
+  // Thay đổi công việc (buổi 25)
+  T.congViec = {
+    hop: '{van} <b>hợp</b> với trụ chứa Quan Sát ({tru}) → có thay đổi trong công việc, thường mang tính may mắn (thăng chức, đổi vai trò thuận lợi).',
+    xung: '{van} <b>{loai}</b> trụ chứa Quan Sát ({tru}) → công việc có biến động.',
+    vuong: ' Nhật chủ đủ vượng để gánh Quan Sát: biến động là cơ hội thử thách và chứng minh năng lực với cấp trên.',
+    nhuoc: ' Nhật chủ yếu: dù thay đổi có mang tính thăng tiến cũng dễ rất stress vì công việc – nên lượng sức.'
+  };
+  // Học tập (buổi 25)
+  T.hocTap = {
+    9: 'Vận/năm Chính Ấn <b>rất hợp để học</b>, nhất là học thuật, bằng cấp.',
+    8: 'Vận/năm Thiên Ấn hợp để học nhưng cách học thiên trực giác – có thể gặp chút rắc rối khi thi cử, trình bày cách làm bài.',
+    2: 'Vận/năm Thực Thần: hợp học kỹ năng, năng khiếu, học để làm ra sản phẩm; học thuật cao, bằng cấp thì vất vả, điểm số dễ bị ảnh hưởng.',
+    3: 'Vận/năm Thương Quan: hợp học kỹ năng, năng khiếu; thi cử bằng cấp dễ gặp trở ngại, điểm không cao.',
+    mau: 'Vận Mậu Thổ hợp để học – thiên về học chuyên sâu đúng một thứ.',
+    ky: 'Vận Kỷ Thổ hợp để học – hay học thêm nhiều thứ bên ngoài, học chính quy thấy chưa đủ.',
+    sao: 'Có {sao} → dễ học, đi thi lấy bằng cấp có xác suất đỗ cao.',
+    duHoc: ' Sao học tập gặp thêm <b>Dịch Mã</b> → có thể đi du học, ra nước ngoài phát triển kiến thức.',
+    anBiPha: 'Năm Ấn bị khắc phá → kết quả học tập dễ không tốt, dù không phải do mình lười.'
+  };
+  T.quyGiap = 'Đại vận <b>Quý</b> (kế tiếp là vận Giáp): 10 năm vận Quý thường là giai đoạn <b>thay đổi rất nhiều</b>, có người như “đổi tính” hẳn; biên độ thay đổi lớn hơn mọi vận khác trong lá số. Thập thần của vận này cho biết bạn thay đổi ở khía cạnh nào.';
+  T.thapAcPhanNgam = 'Bạn có ngày Thập Ác Đại Bại: bình thường không cần quá lưu ý, nhưng <b>phải lưu ý khi vào vận hoặc năm phản ngâm</b> – cảm xúc dễ hỗn loạn và thử thách nhiều hơn.';
 
   // ===== Thần sát =====
   T.thanSat = {
@@ -190,7 +251,7 @@
     'Thiên La': 'Thiên La (nam ngày Tuất gặp Hợi): dễ bị vướng víu, trói buộc, khó thoát; cần kiên nhẫn.',
     'Địa Võng': 'Địa Võng (nữ ngày Thìn gặp Tỵ): dễ vướng lưới rắc rối, kiện tụng; cần cẩn trọng giấy tờ.',
     'Thiên La Địa Võng (Thìn–Tuất)': 'Có đủ Thìn và Tuất: cảm giác bị trói buộc giữa trời và đất, nhiều trở ngại; nhưng cũng là người kiên trì, hợp ngành luật, y, tâm linh.',
-    'Thập Ác Đại Bại': 'Ngày Thập ác đại bại: dễ có suy nghĩ tiêu cực, hao tán của cải tổ nghiệp; cần tự lực gây dựng, tránh liều lĩnh tài chính.',
+    'Thập Ác Đại Bại': 'Ngày Thập ác đại bại: dễ có suy nghĩ tiêu cực, hao tán của cải tổ nghiệp; cần tự lực gây dựng, tránh liều lĩnh tài chính. Theo bài giảng: bình thường không cần quá lưu ý, nhưng phải để ý khi vào vận hoặc năm <b>phản ngâm</b> với lá số.',
     'Âm Dương Sai Thác': 'Ngày Âm dương sai thác: chuyện hôn nhân – họ hàng nhà phối ngẫu dễ trắc trở, lệch pha.',
     'Khôi Cang': 'Ngày Khôi cang: thông minh, quyết đoán, có uy, tính cương; hợp lãnh đạo nhưng hôn nhân cần mềm mỏng.',
     'Cô Loan Sát': 'Ngày Cô loan: tình cảm dễ cô quạnh, khó hòa hợp; nên chủ động vun đắp quan hệ.',
@@ -217,20 +278,45 @@
     'Tòng Sát': 'Tòng Sát cách: Nhật chủ thuận theo Quan Sát – thành công trong tổ chức quyền lực, biết phục tùng để được trọng dụng.',
     'Chuyên Vượng': 'Chuyên Vượng cách: một khí độc vượng – cá tính cực mạnh, chuyên sâu; thuận thế thì thành tựu lớn, nghịch thế thì gãy.'
   };
+  // Tổ hợp thập thần. tk: true = lý thuyết phổ biến, không có trong bài giảng BTK1 (chỉ để tham khảo)
   T.toHop = {
-    satAn: 'Sát Ấn tương sinh: áp lực được chuyển hóa thành học hỏi và uy tín – người càng khó khăn càng trưởng thành, hợp vai trò lãnh đạo chuyên môn.',
-    thucCheSat: 'Thực thần chế Sát: dùng tài năng, sự đánh giá tinh tế để chế ngự áp lực/quyền uy – xử lý được cả cấp trên nóng nảy.',
-    thuongBoiAn: 'Thương quan bội Ấn: tài hoa có kiểm soát – sáng tạo được nuôi bằng kiến thức, hợp học thuật, nghệ thuật có chiều sâu.',
-    thuongKienQuan: 'Thương quan kiến Quan: dễ va chạm cấp trên, quy định; cần học cách thể hiện cá tính mà không phá khung.',
-    taiSinhQuan: 'Tài sinh Quan: tiền bạc hỗ trợ danh vị, làm ăn đi đôi với uy tín; vợ (nam) hoặc tài sản giúp sự nghiệp.',
-    thucSinhTai: 'Thực Thương sinh Tài: tài năng biến thành tiền – kiếm tiền bằng sản phẩm, sáng tạo, chuyên môn của mình.',
-    kieuDoatThuc: 'Kiêu thần đoạt Thực (Thiên Ấn khắc Thực thần): tiếp thu rất nhiều thông tin xung quanh, thấy vấn đề người khác lờ đi và nói ra – dễ bất lợi trong việc được lòng người; cẩn thận ăn uống, trầm cảm nhẹ.',
-    kiepDoatTai: 'Kiếp tài đoạt Tài: tiền dễ bị chia, hao vì bạn bè – hùn hạp; nên tách bạch tài chính.',
-    taiPhaAn: 'Tài phá Ấn: vì tiền mà bỏ học, hoặc chuyện tiền bạc gây bất hòa với mẹ/người che chở; cần cân bằng giữa kiếm tiền và học hỏi.',
-    quanSatHonTap: 'Quan Sát hỗn tạp: cùng lúc có Chính Quan và Thất Sát lộ – hướng đi dễ phân tán, áp lực từ nhiều phía; với nữ có thể phức tạp chuyện tình cảm.',
-    taiDaThanNhuoc: 'Tài đa thân nhược: cơ hội tiền bạc nhiều nhưng sức không gánh nổi – nên hợp tác, xây năng lực trước khi ôm việc lớn.',
-    thanVuongThemAn: 'Thân vượng thêm Ấn: dễ trì trệ, suy nghĩ quá mức (overthinking); cần hành động, tiết tú qua Thực Thương.',
-    thanVuongThemKiep: 'Thân vượng thêm Tỷ Kiếp: cái tôi rất cao, dễ phản tác dụng; Nhật chủ mạnh cần được khai thác và quản chế.'
+    satHoaThienQuan: '<b>Thất Sát hóa Thiên Quan</b> (buổi 21): Thất Sát đã được chế ngự (có Chính Ấn hoặc Thực Thần) – không còn hung hãn, nguy hiểm. Người này có khả năng huấn luyện, rèn luyện người khác bằng sự nghiêm khắc và kinh nghiệm của mình; sức khỏe cũng được giữ, ít gặp sự cố nặng.',
+    thucCheSat: '<b>Thực Thương chế Quan Sát</b> (buổi 16, 19): Thực Thần có khả năng đánh giá, nhận xét – nên “trị” được cả người nóng nảy, quyền uy như cấp trên Thất Sát.',
+    thuongKienQuan: '<b>Thương Quan khắc Chính Quan</b> (buổi 21): bất lợi trong chuyện thăng tiến và thi cử; dễ va chạm cấp trên, quy định.',
+    kieuDoatThuc: '<b>Kiêu thần đoạt Thực</b> (buổi 19 – Thiên Ấn khắc Thực Thần): thầy nhấn mạnh cách này <i>khó ăn khó ở chứ không phải xấu</i>. Người này tiếp thu rất nhiều thông tin xung quanh, thấy những vấn đề người khác lờ đi và nói ra – nên dễ bất lợi trong việc được lòng người.',
+    taiPhaAn: '<b>Tài vượng khắc Ấn</b> (buổi 17): Tài quá nhiều khắc mất Ấn – thường không đủ kiên nhẫn học cho tới khi kiến thức vững để kiếm tiền, hay hứng thú với cách kiếm tiền nhanh; Tài quá nhiều còn kéo theo nợ nần, có khi dẫn tới phá sản.',
+    quanSatHonTap: '<b>Quan Sát hỗn tạp</b> (buổi 21): cùng lúc có Chính Quan và Thất Sát lộ – áp lực từ nhiều phía, hướng đi dễ phân tán; với nữ có thể phức tạp chuyện tình cảm.',
+    satLoQuanTang: '<b>Sát lộ, Quan tàng</b> (buổi 21): Thất Sát lộ ở thiên can còn Chính Quan ẩn trong địa chi – trong mắt người khác mình có vẻ ngang ngược, hung hăng, nhưng bên trong là người có lý lẽ, nguyên tắc.',
+    quanSatKhongVong: '<b>Quan Sát rơi vào Không vong</b> (buổi 21): có chức vụ nhưng không có thực quyền, hoặc nhận danh nghĩa mà không có công việc thực.',
+    quanTrenKiep: '<b>Quan nằm trên đầu Kiếp / Dương nhận</b> (buổi 21, 24): một trụ có Chính Quan/Thất Sát ở thiên can và Kiếp Tài ở địa chi. Ở trụ năm thường báo hiệu trong họ hàng có người gặp thương tích; có Nguyệt Đức, Thiên Đức, Thiên Ất thì giảm nhẹ sự cố.',
+    coDonNhieuKiep: '<b>Cô đơn vì Tỷ Kiếp quá nhiều</b> (buổi 18): đông bạn bè, anh em nhưng ai cũng giữ cái tôi riêng – vẫn thấy cô đơn.',
+    coDonKhongKiep: '<b>Cô đơn vì không có Tỷ Kiếp</b> (buổi 18): ít người đồng hành ngang hàng; cần các hoạt động định vị bản thân, tìm cộng đồng hợp với mình.',
+    coDonQuanKhac: '<b>Cô đơn vì Quan Sát khắc Tỷ Kiếp</b> (buổi 18): có bạn bè nhưng vị trí, trách nhiệm (như “lớp phó kỷ luật”, người giữ bí mật) khiến khó chia sẻ thật lòng.',
+    tranhDoatVoIch: '<b>Tranh đoạt vô ích</b> (buổi 18): Tỷ Kiếp tàng trong địa chi mà Tài và Quan Sát đều ít – hay vướng vào những cuộc tranh giành (chức vụ, quyền lợi) mà giành được cũng chẳng được lợi gì. Lời khuyên: đừng nghĩ nhiều đến chuyện tranh đoạt.',
+    tyKiepLo: 'Tỷ Kiếp <b>lộ</b> ở thiên can (buổi 18): bạn bè, đồng đội công khai – người ngoài nhìn vào biết ngay mình có nhiều bạn. Tỷ Kiếp ở trụ nào thì có cạnh tranh ở lĩnh vực của trụ đó (Tỷ Kiên: cạnh tranh cùng ngành; Kiếp Tài: khác ngành).',
+    tyKiepTang: 'Tỷ Kiếp chỉ <b>tàng</b> trong địa chi (buổi 18): thường thân ngầm, “chơi ngầm” với người khác – quan hệ bạn bè kín đáo.',
+    thienTaiNhieu: '<b>Thiên Tài nhiều</b> (buổi 20): tin rằng nhiều chuyện giải quyết được bằng tiền, dễ đầu tư vào thứ rủi ro thất bại cao; cẩn thận sa đà cờ bạc, số đề, bị lừa.',
+    thanVuongThemAn: '<b>Nhật chủ vượng mà thêm nhiều Ấn</b> (buổi 21): dễ trì trệ, “bị over thinking”; cần hành động, tạo tác qua Thực Thương.',
+    thanVuongThemKiep: '<b>Nhật chủ vượng mà thêm nhiều Tỷ Kiếp</b> (buổi 21): cái tôi rất cao, dễ phản tác dụng; Nhật chủ mạnh cần được khai thác và quản chế.',
+    // Ngoài giáo trình – tham khảo
+    thuongBoiAn: 'Thương quan bội Ấn <i>(tham khảo – ngoài bài giảng)</i>: tài hoa có kiểm soát, sáng tạo được nuôi bằng kiến thức.',
+    taiSinhQuan: 'Tài sinh Quan <i>(tham khảo – ngoài bài giảng)</i>: tiền bạc hỗ trợ danh vị, làm ăn đi đôi với uy tín.',
+    thucSinhTai: 'Thực Thương sinh Tài <i>(tham khảo – ngoài bài giảng)</i>: tài năng biến thành tiền. Bài giảng có ý tương tự: Thực Thương là “thực tài” của Tài tinh – Tài là cơ hội kiếm tiền, Thực Thương là khả năng tự làm ra sản phẩm để nắm cơ hội đó.',
+    kiepDoatTai: 'Kiếp tài đoạt Tài <i>(tham khảo – ngoài bài giảng)</i>: tiền dễ bị chia, hao vì bạn bè – hùn hạp; nên tách bạch tài chính.',
+    taiDaThanNhuoc: 'Tài đa thân nhược <i>(tham khảo – ngoài bài giảng)</i>: cơ hội tiền bạc nhiều nhưng sức không gánh nổi – nên hợp tác, xây năng lực trước.'
+  };
+  // Cấu trúc lá số theo thập thần nổi trội (cách thầy gọi “cách cục” của một lá số)
+  T.cauTruc = {
+    0: 'thiên về Tỷ Kiên – sống theo bản sắc cá nhân, tự chủ, tư duy song hành',
+    1: 'thiên về Kiếp Tài – thích ganh đua, mạng lưới rộng, năng động',
+    2: 'thiên về Thực Thần – sáng tạo nhẹ nhàng, biết tận hưởng, có khả năng đánh giá',
+    3: 'thiên về Thương Quan – phá cách, tạo xu thế mới, thích thách thức',
+    4: 'thiên về Thiên Tài – nhạy cơ hội, buôn bán, đầu tư',
+    5: 'thiên về Chính Tài – chăm chỉ, rõ ràng thù lao, giỏi quản lý',
+    6: 'thiên về Thất Sát – bản lĩnh, chịu áp lực, quyết liệt',
+    7: 'thiên về Chính Quan – trách nhiệm, liêm chính, theo khuôn khổ',
+    8: 'thiên về Thiên Ấn – trực giác, kiến thức độc lạ, dự đoán',
+    9: 'thiên về Chính Ấn – ham học, bao dung, cần sự rõ ràng an toàn'
   };
 
   BT.tt = T;
