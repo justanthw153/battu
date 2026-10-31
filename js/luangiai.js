@@ -27,7 +27,10 @@
     var q = x.q, k, txt = '';
     if (x.tang === 'can') {
       k = cs.key(x.x, x.y);
-      if (q.loai === 'hop') txt = T.canHop[k];
+      if (q.loai === 'hop') {
+        var coNgay = x.a === 2 || x.b === 2;
+        txt = coNgay ? T.canHop[k] : T.canHop[k].split(':')[0] + '. ' + (x.a === undefined ? T.canHopNgoaiVan : T.canHopNgoai);
+      }
       if (q.loai === 'xung') txt = cs.CAN[x.x] + '–' + cs.CAN[x.y] + ' xung. ' + T.canXung;
     } else if (x.tang === 'chi') {
       k = cs.key(x.x, x.y);
@@ -64,7 +67,7 @@
       '<div><b>Nhật chủ</b><div class="big">' + tenCan(d) + ' ' + cs.HANH[cs.CAN_HANH[d]] + '</div><small>' + cs.amDuong(d) + ' ' + cs.HANH[cs.CAN_HANH[d]] + ' – ' + c.hinhTuong + '</small></div>' +
       '<div><b>Vượng suy</b><div class="big">' + vs.muc + '</div><small>Phe ta (Tỷ Kiếp + Ấn) ≈ ' + vs.pctPhe.toFixed(0) + '% · ' + (vs.dacLenh ? 'Đắc lệnh' : 'Thất lệnh') + ' (' + vs.trangThaiLenh + ')</small></div>' +
       '<div><b>Cấu trúc</b><div class="big">' + cc.ten + '</div><small>' + (dt.cachDac ? 'Cách đặc biệt (ngoài bài giảng)' : 'Thập thần nổi trội nhất') + '</small></div>' +
-      '<div><b>Dụng / Hỷ thần</b><div class="big">' + tagHanh(dt.dung) + ' · ' + tagHanh(dt.hy) + '</div><small>Kỵ: ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + '</small></div>' +
+      '<div><b>Dụng / Hỷ thần</b><div class="big">' + tagHanh(dt.dung) + ' · ' + tagHanh(dt.hy) + '</div><small>' + (dt.cauNoi && !dt.cauNoi.laKy ? 'Cầu nối: ' + tagHanh(dt.cauNoi.hanh) + ' · ' : '') + 'Kỵ: ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + '</small></div>' +
       '</div>';
     var tom = [];
     tom.push('Bạn là người <b>' + c.ten + ' ' + cs.HANH[cs.CAN_HANH[d]] + '</b> (' + c.hinhTuong.toLowerCase() + '). ' + c.tinhCach.split('. ')[0] + '.');
@@ -73,6 +76,7 @@
     var ttTop = ls.thapThan.pct.map(function (v, i) { return [v, i]; }).sort(function (a, b) { return b[0] - a[0]; });
     tom.push('Thập thần chủ đạo: <b>' + ttName(ttTop[0][1]) + '</b> và <b>' + ttName(ttTop[1][1]) + '</b> – ' + T.thapThan[ttTop[0][1]].tuKhoa.toLowerCase() + '; ' + T.thapThan[ttTop[1][1]].tuKhoa.toLowerCase() + '.');
     tom.push(dt.lyDo);
+    if (dt.cauNoi && !dt.cauNoi.laKy) tom.push(cs.HANH[dt.cauNoi.tu] + ' khắc ' + cs.HANH[dt.cauNoi.den] + ' nên cần ' + tagHanh(dt.cauNoi.hanh) + ' làm cầu nối (' + cs.HANH[dt.cauNoi.tu] + ' sinh ' + cs.HANH[dt.cauNoi.hanh] + ', ' + cs.HANH[dt.cauNoi.hanh] + ' sinh ' + cs.HANH[dt.cauNoi.den] + ') – ' + cs.HANH[dt.cauNoi.hanh] + ' cũng là hành có ích.');
     if (dt.dieuHau) tom.push(dt.dieuHau.ghiChu);
     return sec('tong-quan', 'Tổng quan lá số', h + li(tom));
   }
@@ -245,6 +249,14 @@
     return h;
   }
 
+  // Giải thích hành cầu nối (thông quan) – buổi 5, 19, 24
+  function moTaCauNoi(dt) {
+    var c = dt.cauNoi; if (!c) return '';
+    var a = cs.HANH[c.tu], b = cs.HANH[c.den], x = cs.HANH[c.hanh];
+    var vai = function (h) { return h === dt.dung ? 'dụng thần' : 'hỷ thần'; };
+    if (c.laKy) return '<b>Lưu ý về cầu nối:</b> ' + a + ' (' + vai(c.tu) + ') khắc ' + b + ' (' + vai(c.den) + '); hành nối hai bên là ' + tagHanh(c.hanh) + ' (' + a + ' sinh ' + x + ', ' + x + ' sinh ' + b + ') nhưng ' + x + ' đang là kỵ thần của lá số – nên chỉ dùng ' + x + ' ở mức vừa phải, đủ để ' + a + ' và ' + b + ' không triệt tiêu nhau.';
+    return '<b>Hành cầu nối: ' + tagHanh(c.hanh) + '.</b> ' + a + ' (' + vai(c.tu) + ') vốn khắc ' + b + ' (' + vai(c.den) + ') – nếu chỉ có hai hành này thì chúng dễ triệt tiêu nhau. ' + x + ' đứng giữa vòng tương sinh: <b>' + a + ' sinh ' + x + ', ' + x + ' sinh ' + b + '</b>, nên sức của ' + a + ' không đánh vào ' + b + ' mà chảy qua ' + x + ' để nuôi ' + b + '. Thầy gọi đây là ngũ hành trung gian (thông quan) – ví dụ buổi 5: lá số nhiều Thổ và Mộc thì Hỏa là trung gian giải mâu thuẫn; buổi 19: “muốn xử lý Thủy với Thổ thì phải có trung gian là Hỏa”. Vì vậy ' + x + ' cũng là hành có ích.';
+  }
   function dungThan(ls) {
     var dt = ls.dungThan, out = giaiThichDungThan(ls);
     if (dt.cachDac) out += p('<b>Cách đặc biệt: ' + dt.cachDac + '</b> – ' + T.cachCuc[dt.cachDac]);
@@ -252,12 +264,14 @@
     var bang = '<div class="dt-grid">';
     var muc = [['Dụng thần', dt.dung, 'Hành quan trọng nhất giúp lá số cân bằng.'], ['Hỷ thần', dt.hy, 'Hành hỗ trợ dụng thần – thường là những thứ bản năng bạn tự tìm đến (màu sắc, hoạt động khiến bạn dễ chịu).']];
     if (dt.dieuHau && !dt.dieuHau.xungDot && dt.dieuHau.hanh !== dt.dung && dt.dieuHau.hanh !== dt.hy) muc.push(['Hỷ thần theo tháng sinh', dt.dieuHau.hanh, 'Hành làm dịu sức ép của mùa sinh (tiêu chuẩn 1 của bài giảng).']);
+    if (dt.cauNoi && !dt.cauNoi.laKy && (!dt.dieuHau || dt.dieuHau.xungDot || dt.dieuHau.hanh !== dt.cauNoi.hanh)) muc.push(['Hành cầu nối', dt.cauNoi.hanh, 'Nối ' + cs.HANH[dt.cauNoi.tu] + ' sang ' + cs.HANH[dt.cauNoi.den] + ': ' + cs.HANH[dt.cauNoi.tu] + ' sinh ' + cs.HANH[dt.cauNoi.hanh] + ', ' + cs.HANH[dt.cauNoi.hanh] + ' sinh ' + cs.HANH[dt.cauNoi.den] + ' (thông quan).']);
     muc.forEach(function (m) {
       var hh = T.hanh[m[1]];
       bang += '<div class="dt-card b-' + hk(m[1]) + '"><b>' + m[0] + ': ' + cs.HANH[m[1]] + '</b><small>' + m[2] + '</small><ul><li>Màu: ' + hh.mau + '</li><li>Hướng: ' + hh.huong + '</li><li>Hoạt động bổ sung: ' + hh.hoatDong + '</li><li>Ngành nghề: ' + hh.nghe + '</li></ul></div>';
     });
     bang += '</div>';
     out += bang;
+    if (dt.cauNoi) out += p(moTaCauNoi(dt));
     out += p('<b>Kỵ thần</b>: ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + ' – những năm/vận mang hành này nhiều thì dễ mất cân bằng; không cần né tránh tuyệt đối mà nên chủ động điều hòa bằng dụng – hỷ thần.');
     if (dt.nhan.length) out += p('<b>Nhàn thần</b>: ' + dt.nhan.map(function (x) { return tagHanh(x); }).join(', ') + ' – ảnh hưởng trung tính.');
     return sec('dung-than', 'Vượng suy & Dụng thần', out, 'Giải thích từng bước theo 4 điều kiện xét vượng suy của buổi 24: lệnh tháng, Ấn/Tỷ Kiếp sinh trợ, thấu căn (chi ngày), hợp hóa/tam hợp sinh trợ.');
@@ -281,8 +295,22 @@
       out += '<div class="tt-item"><b>' + t.ten + '</b> <small>(' + x[0].toFixed(0) + '%) – ' + t.tuKhoa + '</small>' + p(t.tichCuc) + (many ? p('<i>Khá nhiều:</i> ' + t.nhieu) : p('<i>Lưu ý:</i> ' + t.tieuCuc)) + p('<i>Ngành phù hợp:</i> ' + t.nghe) + '</div>';
     });
     var thieu = [];
-    for (var n = 0; n < 5; n++) if (ls.nhom[n] < 4) thieu.push('<b>Thiếu ' + cs.NHOM[n] + '</b>: ' + [T.thapThan[0].thieu, T.thapThan[2].thieu, T.thapThan[5].thieu, T.thapThan[7].thieu, T.thapThan[9].thieu][n]);
-    if (thieu.length) out += '<h4>Thập thần khuyết</h4>' + li(thieu);
+    var nhomCua = function (k) { return Math.floor(k / 2); };
+    for (var n = 0; n < 5; n++) {
+      if (ls.nhom[n] >= 4) continue;
+      var dong = '<b>Thiếu ' + cs.NHOM[n] + '</b>: ' + T.thieuNhom[n];
+      var van = ls.daiVan.ds.filter(function (v) { return nhomCua(cs.thapThan(ls.nhatChu, v.can)) === n || nhomCua(cs.thapThan(ls.nhatChu, cs.TANG_CAN[v.chi][0][0])) === n; });
+      dong += van.length ? ' Đại vận có gặp lại nhóm này (' + van.map(function (v) { return cs.CAN[v.can] + ' ' + cs.CHI[v.chi] + ' từ ' + v.namBatDau; }).join(', ') + ') – giai đoạn đó được bù cả sự việc, cơ hội.' : ' Đại vận cũng hầu như không gặp lại nên đây là điểm cần chủ động bổ sung bằng lối sống, hoạt động thuộc hành tương ứng.';
+      var canBu = [];
+      ls.tru.forEach(function (t, i) {
+        if (!t) return;
+        var ds2 = (i === 2 ? [] : [t.can]).concat(t.tangCan.map(function (tc) { return tc.can; }));
+        ds2.forEach(function (c) { if (T.canBuNhom[n].indexOf(c) >= 0 && canBu.indexOf(c) < 0) canBu.push(c); });
+      });
+      if (canBu.length) dong += ' Tuy vậy lá số có can ' + canBu.map(function (c) { return cs.CAN[c]; }).join(', ') + ' mang tính cách gần với ' + cs.NHOM[n] + ', nên vẫn có lối nghĩ của nhóm này – chỉ không bù được sự việc, cơ hội và người thân tương ứng (buổi 21).';
+      thieu.push(dong);
+    }
+    if (thieu.length) out += '<h4>Thập thần khuyết (buổi 21)</h4>' + li(thieu);
     // Theo vị trí
     var pos = [];
     ls.tru.forEach(function (t, i) {
@@ -332,7 +360,8 @@
     var coLo = function (k) { return lo.indexOf(k) >= 0; };
     var tang = function (k) { return ls.tru.some(function (t) { return t && t.tangCan.some(function (tc) { return tc.thapThan === k; }); }); };
     // Có trong bài giảng
-    if (co(6) && (co(9) || co(2))) r.push(T.toHop.satHoaThienQuan);
+    var vuongSat = vs.muc === 'Thân vượng' || vs.muc === 'Trung hòa';
+    if (co(6) && ((vuongSat && co(2)) || co(9) || co(8))) r.push(T.toHop.satHoaThienQuan);
     if ((co(2) || co(3)) && (co(6) || co(7))) r.push(T.toHop.thucCheSat);
     if (coLo(3) && (coLo(7) || tang(7))) r.push(T.toHop.thuongKienQuan);
     var kieu = coLo(8) && (coLo(2) || ls.tru.some(function (t) { return t && t.thapThanCan === 8 && t.tangCan[0].thapThan === 2; }));
@@ -419,6 +448,9 @@
       var line = '<b>' + k + '</b> <span class="vt">(' + gom[k].join(', ') + ')</span>: ' + (T.thanSat[k] || '');
       (T.saoTot.indexOf(k) >= 0 ? tot : xau).push(line);
     });
+    var thapAc = ls.thanSatDacBiet.filter(function (z) { return z.ten === 'Thập Ác Đại Bại'; });
+    if (thapAc.length) xau.push('<b>Thập Ác trong lá số của bạn</b>: ' + thapAc.map(function (z) { return 'trụ ' + z.viTri + ' – ' + T.thapAcNgay[z.can + '-' + z.chi]; }).join(' ') +
+      (thapAc.length >= 2 ? ' Có nhiều trụ Thập ác: tài năng nổi bật hơn nhưng cũng cần chăm sóc tâm lý nhiều hơn.' : ''));
     if (tot.length) out += '<h4>Cát tinh – quý nhân</h4>' + li(tot);
     if (xau.length) out += '<h4>Sao cần lưu ý</h4>' + li(xau);
     out += p('<i>Thần sát là “tượng sao” được tính từ tương tác can chi – mang tính gợi ý; hãy hiểu bản chất can chi tạo ra nó hơn là sợ hãi tên gọi. Sao nằm ở trụ nào thì ứng vào lĩnh vực/giai đoạn của trụ đó.</i>');
@@ -479,10 +511,20 @@
     var thienTaiLo = ls.canLo.filter(function (k) { return k === 4; }).length + ls.tru.filter(function (t) { return t && t.tangCan[0].thapThan === 4; }).length;
     if (thienTaiLo >= 2) out.push('Có từ 2 Thiên Tài trở lên: trong đầu đã có ý tưởng buôn bán – nên bắt đầu với vốn nhỏ.');
     // Tài khố
-    var dh = cs.CAN_HANH[ls.nhatChu], taiH = mod(dh + 2, 5);
-    var kho = { 4: 4, 10: 1, 1: 3, 7: 0 }; // Thìn kho Thủy, Tuất kho Hỏa, Sửu kho Kim, Mùi kho Mộc
-    var coKho = ls.tru.filter(function (t) { return t && kho[t.chi] === taiH; });
-    if (coKho.length) out.push('Có <b>Tài khố</b> (' + coKho.map(function (t) { return cs.CHI[t.chi] + ' trụ ' + t.viTri; }).join(', ') + '): dễ giữ được tiền mình kiếm ra, và có thể giữ tiền cho người khác.');
+    var dh = cs.CAN_HANH[ls.nhatChu];
+    var chiKho = [10, 1, 4, 7, 10][dh]; // theo hành Nhật chủ 0 Mộc,1 Hỏa,2 Thổ,3 Kim,4 Thủy: Tuất, Sửu, Thìn, Mùi, Tuất
+    var coKho = ls.tru.filter(function (t) { return t && t.chi === chiKho; });
+    var vanKho = ls.daiVan.ds.filter(function (v) { return v.chi === chiKho; });
+    if (coKho.length) {
+      var thucThuong = pct[2] + pct[3], ct = pct[5] - pct[4];
+      out.push('Có <b>Tài khố</b> ' + cs.CHI[chiKho] + ' (trụ ' + coKho.map(function (t) { return t.viTri; }).join(', ') + ', buổi 20): dễ giữ được tiền mình kiếm ra, và có thể giữ tiền cho người khác. ' +
+        (thucThuong >= 15 ? 'Thực Thương nhiều nên lượng tiền kiếm được và giữ được đều lớn. ' : (thucThuong < 5 ? 'Thực Thương ít nên kiếm tiền khá vất vả, nhưng tích lũy được. ' : '')) +
+        (ct > 3 ? 'Chính Tài trội hơn: đi làm (làm thuê) có lợi hơn tự kinh doanh. ' : (ct < -3 ? 'Thiên Tài trội hơn: hợp tự kinh doanh, buôn bán. ' : '')) +
+        'Năm ' + cs.CHI[mod(chiKho + 6, 12)] + ' xung mở kho là năm thuận để kiếm tiền.' +
+        (coKho.some(function (t) { return ls.khongVong.indexOf(t.chi) >= 0; }) ? ' Lưu ý: Tài khố rơi vào Không vong – cẩn thận mất tiền đột ngột.' : '') +
+        (coKho.some(function (t) { return t.thanSat.some(function (z) { return z.ten === 'Kiếp Sát'; }); }) ? ' Tài khố gặp Kiếp sát – cẩn thận mất trộm, giữ kỹ chỗ cất tiền.' : ''));
+    } else if (vanKho.length) out.push('Lá số gốc không có Tài khố (' + cs.CHI[chiKho] + '), nhưng gặp trong đại vận ' + vanKho.map(function (v) { return cs.CAN[v.can] + ' ' + cs.CHI[v.chi] + ' (từ ' + v.namBatDau + ')'; }).join(', ') + ' – giai đoạn đó dễ tích lũy hơn (buổi 20).');
+    else if ((pct[4] + pct[5]) > 20) out.push('Tài nhiều nhưng không có Tài khố (' + cs.CHI[chiKho] + '): tiền vào nhiều thì ra cũng nhiều – nên có kỷ luật tiết kiệm (buổi 20).');
     if (nhom[2] > 30 && vs.score < 46) out.push('Tài nhiều mà thân nhược: “thấy tiền nhưng gánh không nổi” – ưu tiên xây năng lực, hợp tác, tránh ôm đồm.');
     if (vs.score >= 56 && nhom[2] < 10) out.push('Thân vượng mà Tài yếu: năng lực có thừa nhưng cần học cách định giá và thương mại hóa năng lực.');
     var g = ls.tru[3];
@@ -541,6 +583,7 @@
     return { score: score, muc: muc[0], lop: muc[1], qh: qh };
   }
 
+  function laThapAc(ls, i) { return ls.thanSatDacBiet.some(function (z) { return z.ten === 'Thập Ác Đại Bại' && z.viTri === VI_TRI[i]; }); }
   function luanTruVan(ls, s, b, loai) {
     var d = ls.nhatChu, ttC = cs.thapThan(d, s), ttB = cs.thapThan(d, cs.TANG_CAN[b][0][0]);
     var dg = danhGiaTru(ls, s, b), out = [];
@@ -554,12 +597,13 @@
         if (q.loai === 'phucngam') out.push('<b>Phục ngâm trụ ' + vt + '</b>: ' + T.tru[vt].van + ' ' + T.phucNgamThem);
         else {
           out.push('<b>Phản ngâm (thiên khắc địa xung) trụ ' + vt + '</b> – liên quan ' + LV_TRU[x.b] + ': cảm xúc dễ hỗn loạn, gặp chuyện trái với tư tưởng và cảm nhận của mình, dễ “hoài nghi nhân sinh”. Nên có người hỗ trợ cân bằng cảm xúc và học cách linh hoạt trong suy nghĩ.');
-          if (ls.thanSatDacBiet.some(function (z) { return z.ten === 'Thập Ác Đại Bại'; })) out.push(T.thapAcPhanNgam);
+          if (laThapAc(ls, x.b)) out.push(T.thapAcPhanNgam);
         }
         return;
       }
       if (x.tang === 'chi' && ['xung', 'pha', 'hai', 'hinh', 'tuhinh'].indexOf(q.loai) >= 0) {
         out.push('<b>' + nhanQuanHe(q) + ' trụ ' + vt + '</b> (' + cs.CHI[x.x] + '–' + cs.CHI[x.y] + '): ảnh hưởng ' + LV_TRU[x.b] + '. ' + moTaQuanHe(x) + (q.loai !== 'tuhinh' ? ' ' + T.tru[vt].van : ''));
+        if (q.loai === 'xung' && laThapAc(ls, x.b)) out.push(T.thapAcPhanNgam);
       } else if (x.tang === 'chi' && q.loai === 'luchop') {
         out.push('<b>Lục hợp trụ ' + vt + '</b>: thuận hòa, gắn kết trong ' + LV_TRU[x.b] + '. ' + moTaQuanHe(x));
       } else if (x.tang === 'chi' && q.loai === 'banhop' && q.conTrungTam) {

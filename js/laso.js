@@ -279,8 +279,22 @@
     if (!ky.length) ky = [T];
     var hanhTot = [dung, hy];
     if (dieuHau && hanhTot.indexOf(dieuHau.hanh) < 0 && ky.indexOf(dieuHau.hanh) < 0) hanhTot.push(dieuHau.hanh);
+    // Hành cầu nối – thông quan (buổi 5, 19, 24: “ngũ hành trung gian”): khi dụng thần và hỷ thần khắc nhau
+    // (ví dụ Mộc khắc Thổ), hành đứng giữa vòng tương sinh nối hai bên (Mộc sinh Hỏa, Hỏa sinh Thổ) nên cũng có ích.
+    var cauNoi = null;
+    var noi = function (a, b) { // a khắc b → hành nối là a+1 (a sinh X, X sinh b)
+      if (mod(b - a, 5) === 2) return { hanh: mod(a + 1, 5), tu: a, den: b };
+      return null;
+    };
+    var cn = noi(hy, dung) || noi(dung, hy);
+    if (cn && ky.indexOf(cn.hanh) < 0 && hanhTot.indexOf(cn.hanh) < 0) {
+      cauNoi = cn;
+      hanhTot.push(cn.hanh);
+    } else if (cn && ky.indexOf(cn.hanh) >= 0) {
+      cauNoi = { hanh: cn.hanh, tu: cn.tu, den: cn.den, laKy: true };
+    }
     var trung = [0, 1, 2, 3, 4].filter(function (x) { return hanhTot.indexOf(x) < 0 && ky.indexOf(x) < 0; });
-    ls.dungThan = { dung: dung, hy: hy, ky: ky, nhan: trung, dieuHau: dieuHau, cachDac: cachDac, lyDo: lyDo, tot: hanhTot, thuaMua: thuaMua, ghiChuCoDien: ghiChuCoDien };
+    ls.dungThan = { dung: dung, hy: hy, ky: ky, nhan: trung, dieuHau: dieuHau, cauNoi: cauNoi, cachDac: cachDac, lyDo: lyDo, tot: hanhTot, thuaMua: thuaMua, ghiChuCoDien: ghiChuCoDien };
   }
 
   // Đánh giá một hành với lá số: +2 dụng, +1.5 hỷ/điều hậu, 0 nhàn, -1.5 kỵ
@@ -289,6 +303,7 @@
     if (h === dt.dung) return 2;
     if (h === dt.hy) return 1.5;
     if (dt.dieuHau && !dt.dieuHau.xungDot && h === dt.dieuHau.hanh) return 1.2;
+    if (dt.cauNoi && !dt.cauNoi.laKy && h === dt.cauNoi.hanh) return 1;
     if (dt.ky.indexOf(h) >= 0) return (h === dt.ky[0] ? -1.5 : -1.2);
     return 0;
   }

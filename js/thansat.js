@@ -38,6 +38,8 @@
   var KHOI_CANG = ['6-4', '6-10', '8-4', '4-10'];
   var CO_LOAN = ['1-5', '3-5', '7-11', '4-8', '0-2', '4-6', '8-0', '2-6'];
   var KIM_THAN = ['1-1', '5-5', '9-9'];
+  // Giáp Dần, Ất Sửu, Ất Hợi, Bính Tý, Bính Tuất, Đinh Dậu, Mậu Thân, Kỷ Mùi, Canh Ngọ, Tân Tỵ, Nhâm Thìn, Quý Mão
+  var PHUC_TINH_NGAY = ['0-2', '1-1', '1-11', '2-0', '2-10', '3-9', '4-8', '5-7', '6-6', '7-5', '8-4', '9-3'];
 
   function khongVong(s, b) { return [mod(b - s + 10, 12), mod(b - s + 11, 12)]; }
 
@@ -107,7 +109,14 @@
   function saoDacBiet(ls) {
     var D = ls.tru[2], H = ls.tru[3], M = ls.tru[1];
     var k = D.can + '-' + D.chi, r = [];
-    if (THAP_AC.indexOf(k) >= 0) r.push({ ten: 'Thập Ác Đại Bại', viTri: 'Ngày' });
+    // Thập ác (buổi 5, 6, 8): xét trụ THÁNG, NGÀY, GIỜ – không tính trụ năm (cả lứa tuổi cùng có)
+    [[M, 'Tháng'], [D, 'Ngày'], [H, 'Giờ']].forEach(function (p) {
+      if (p[0] && THAP_AC.indexOf(p[0].can + '-' + p[0].chi) >= 0) r.push({ ten: 'Thập Ác Đại Bại', viTri: p[1], can: p[0].can, chi: p[0].chi });
+    });
+    // Phúc Đức (buổi 20): chi ngày = chi tháng + 2 (tháng Dần – ngày Thìn, tháng Mão – ngày Tỵ, … tháng Hợi – ngày Sửu)
+    if (mod(M.chi + 2, 12) === D.chi) r.push({ ten: 'Phúc Đức', viTri: 'Tháng – Ngày' });
+    // Phúc Tinh theo ngày sinh (buổi 20)
+    if (PHUC_TINH_NGAY.indexOf(k) >= 0) r.push({ ten: 'Phúc Tinh (ngày sinh)', viTri: 'Ngày' });
     if (AM_DUONG_SAI.indexOf(k) >= 0) r.push({ ten: 'Âm Dương Sai Thác', viTri: 'Ngày' });
     if (KHOI_CANG.indexOf(k) >= 0) r.push({ ten: 'Khôi Cang', viTri: 'Ngày' });
     if (CO_LOAN.indexOf(k) >= 0) r.push({ ten: 'Cô Loan Sát', viTri: 'Ngày' });
@@ -129,5 +138,5 @@
     return r;
   }
 
-  BT.ts = { saoTrenTru: saoTrenTru, saoDacBiet: saoDacBiet, khongVong: khongVong };
+  BT.ts = { saoTrenTru: saoTrenTru, saoDacBiet: saoDacBiet, khongVong: khongVong, THAP_AC: THAP_AC };
 })();
