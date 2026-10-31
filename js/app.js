@@ -146,10 +146,15 @@
   }
   function xemHopKhac(e) {
     e.preventDefault();
-    if (!hienTai) { alert('Hãy lập lá số người thứ nhất trước (form "Thông tin sinh" phía trên).'); return; }
+    var msg = function (t) { $('h-msg').textContent = t; $('h-msg').hidden = !t; };
+    if (!hienTai) { msg('⚠ Chưa có người thứ nhất: hãy nhập ô "Thông tin sinh" ở trên và bấm "Lập lá số & luận giải" trước, rồi mới bấm Xem hợp – khắc.'); $('form').scrollIntoView({ behavior: 'smooth' }); return; }
+    var trong = ['h-ngay', 'h-thang', 'h-nam'].filter(function (id) { return !$(id).value; });
+    if (!$('h-khonggio').checked && (!$('h-gio').value || $('h-phut').value === '')) trong.push('giờ');
+    if (trong.length) { msg('⚠ Vui lòng nhập đủ ngày, tháng, năm sinh' + (trong.indexOf('giờ') >= 0 ? ' và giờ phút (hoặc tích "Không rõ giờ sinh")' : '') + ' của người thứ hai.'); return; }
     var inp = docFormB(); // chọn từ danh sách đã điền sẵn vào form
     if (!inp) return;
-    if (inp.y < 1900 || inp.y > 2100) { alert('Năm sinh nên trong khoảng 1900–2100.'); return; }
+    if (inp.y < 1900 || inp.y > 2100 || inp.d < 1 || inp.d > 31 || inp.m < 1 || inp.m > 12) { msg('⚠ Ngày tháng năm chưa hợp lệ (năm trong khoảng 1900–2100).'); return; }
+    msg('');
     try {
       var B = BT.ls.lapLaSo(inp), old = $('hop-khac');
       if (old) old.remove();
