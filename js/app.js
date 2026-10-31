@@ -3,6 +3,7 @@
   var cs = BT.cs, lg = BT.lg, $ = function (id) { return document.getElementById(id); };
   var VI_TRI = ['Năm', 'Tháng', 'Ngày', 'Giờ'];
   var hienTai = null;
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   var KEY = 'battu.laso.v1';
 
   function luuDS() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
@@ -18,7 +19,7 @@
       d = s.d; m = s.m; y = s.y;
     }
     return {
-      ten: $('f-ten').value.trim(), gioiTinh: document.querySelector('input[name=gt]:checked').value,
+      ten: $('f-ten').value.trim().slice(0, 60), gioiTinh: document.querySelector('input[name=gt]:checked').value,
       y: y, m: m, d: d, h: +$('f-gio').value, mi: +$('f-phut').value, tz: tz,
       khongGio: $('f-khonggio').checked, gioMatTroi: $('f-gmt').checked, kinhDo: +$('f-kinhdo').value || 105.8,
       tyMuon: $('f-tymuon').value, lichNhap: lich
@@ -64,7 +65,7 @@
     hienTai = ls;
     var inp = ls.input, al = ls.amLich;
     var info = '<div class="info">' +
-      '<div><b>' + (ls.ten || 'Lá số') + '</b> · ' + (ls.gioiTinh === 'nam' ? 'Nam' : 'Nữ') + ' · ' + (ls.daiVan.thuan ? (ls.gioiTinh === 'nam' ? 'Dương nam' : 'Âm nữ') : (ls.gioiTinh === 'nam' ? 'Âm nam' : 'Dương nữ')) + '</div>' +
+      '<div><b>' + esc(ls.ten || 'Lá số') + '</b> · ' + (ls.gioiTinh === 'nam' ? 'Nam' : 'Nữ') + ' · ' + (ls.daiVan.thuan ? (ls.gioiTinh === 'nam' ? 'Dương nam' : 'Âm nữ') : (ls.gioiTinh === 'nam' ? 'Âm nam' : 'Dương nữ')) + '</div>' +
       '<div>Dương lịch: ' + inp.d + '/' + inp.m + '/' + inp.y + (inp.khongGio ? ' (không rõ giờ)' : ' ' + String(inp.h).padStart(2, '0') + ':' + String(inp.mi).padStart(2, '0')) + ' (GMT' + (inp.tz >= 0 ? '+' : '') + inp.tz + ')</div>' +
       '<div>Âm lịch: ' + al.d + '/' + al.m + (al.leap ? ' (nhuận)' : '') + '/' + al.y + ' – năm ' + cs.CAN[ls.tru[0].can] + ' ' + cs.CHI[ls.tru[0].chi] + ' (' + ls.tru[0].napAm + ')</div>' +
       '<div>Tiết: ' + ls.tiet.truoc.ten + ' (' + fmtJD(ls.tiet.truoc.jd, ls.tz) + ') → ' + ls.tiet.sau.ten + ' (' + fmtJD(ls.tiet.sau.jd, ls.tz) + ')</div>' +
@@ -112,7 +113,7 @@
     var ds = luuDS();
     $('ds-luu').innerHTML = ds.length ? ds.map(function (x, i) {
       var t = x.input;
-      return '<li><button class="lnk" data-i="' + i + '">' + (t.ten || 'Không tên') + ' <small>' + t.d + '/' + t.m + '/' + t.y + ' · ' + (t.gioiTinh === 'nam' ? 'Nam' : 'Nữ') + '</small></button><button class="x" data-x="' + i + '" title="Xóa">×</button></li>';
+      return '<li><button class="lnk" data-i="' + i + '">' + esc(t.ten || 'Không tên') + ' <small>' + (+t.d) + '/' + (+t.m) + '/' + (+t.y) + ' · ' + (t.gioiTinh === 'nam' ? 'Nam' : 'Nữ') + '</small></button><button class="x" data-x="' + i + '" title="Xóa">×</button></li>';
     }).join('') : '<li class="empty">Chưa có lá số nào được lưu.</li>';
     document.querySelectorAll('#ds-luu .lnk').forEach(function (b) { b.onclick = function () { var inp = luuDS()[+b.dataset.i].input; ganForm(inp); hienThi(BT.ls.lapLaSo(inp)); }; });
     document.querySelectorAll('#ds-luu .x').forEach(function (b) { b.onclick = function () { var d = luuDS(); d.splice(+b.dataset.x, 1); ghiDS(d); veDS(); }; });
