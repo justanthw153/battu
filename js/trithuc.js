@@ -158,8 +158,41 @@
     '4-9': 'Mậu–Quý hợp hóa Hỏa (Vô tình chi hợp): mang tính Hỏa – xác định một mục tiêu chính xác và chăm chăm đạt tới. Khi yêu thì nhiệt tình, hết lòng cho người trước mặt; xong chuyện lại quay về việc mình đang chú tâm, không mặn mà níu giữ. Trải qua những mối quan hệ nhạt dần nhưng có được sự thống nhất giữa trong và ngoài. Hay gặp chia ly bất ngờ, giữ bí mật trong lòng, khó diễn đạt cảm xúc; có giai đoạn “thân bất do kỷ”.'
   };
   // Hợp can giữa hai trụ không có Nhật can: không thành tính cách, chỉ nói quan hệ giữa người của hai trụ (buổi 7)
-  T.canHopNgoai = 'Cặp hợp này không có Nhật can nên <b>không thành tính cách của bạn</b>; nó chỉ nói về quan hệ giữa những người thuộc hai trụ (ví dụ năm – giờ: con cái với ông bà, họ hàng; tháng – giờ: nhân sự với cấp trên): thân thiết, có sức hút nhưng thường không lâu dài.';
-  T.canHopNgoaiVan = 'Can của vận/năm hợp với một trụ không phải trụ ngày: không đổi tính cách của bạn, mà là giai đoạn có thêm gắn kết (hoặc vướng bận) với những người, việc thuộc trụ đó.';
+  T.canHopNgoai = 'Cặp hợp này không có Nhật can nên <b>không phải tính cách cốt lõi</b> (ngày sinh mới là chủ đạo). Nó mờ hơn, thể hiện ở phần tinh thần, cách đối nhân xử thế và hệ giá trị; đồng thời nói về quan hệ giữa những người thuộc hai trụ (năm – giờ: con cái với ông bà, họ hàng; tháng – giờ: nhân sự với cấp trên): thân thiết, có sức hút nhưng thường không lâu dài (buổi 7, 24).';
+  // Hợp can trong đại vận, lưu niên: loại sự việc (buổi 24)
+  T.canHopVan = {
+    '0-5': 'Giáp–Kỷ hợp: xung đột trong gia đình hoặc nội bộ công ty (xung đột về vị trí, cái tôi); có người phải đứng ra trung gian, đảm bảo, chịu trách nhiệm.',
+    '1-6': 'Ất–Canh hợp: học một điều mới; kế hoạch bị delay; hao tổn bất ngờ (sức khỏe, hư hỏng đồ đạc); chuyện giấu kín bị lộ hoặc mình tự giãi bày.',
+    '2-7': 'Bính–Tân hợp: có người quay lưng, trở mặt; trục trặc giấy tờ, hợp đồng, nội quy, pháp luật – làm gì cũng nên có hợp đồng. Thiệt hại thường không lớn nhưng là bài học đắt giá.',
+    '3-8': 'Đinh–Nhâm hợp: cơ hội xuất hiện, có người offer cho mình; đồng thời có chuyện bao che, bênh vực, nghi kỵ trong tập thể vì thông tin không minh bạch. Cần tỉnh táo về đạo đức và khéo cư xử.',
+    '4-9': 'Mậu–Quý hợp: một mối quan hệ nhạt dần rồi rời đi, cảm giác người xung quanh không hiểu mình; đổi lại mở ra kết nối sâu với một bộ môn, tôn giáo hay tâm linh.'
+  };
+  T.canHopVanTru = [
+    'Hợp với can trụ năm: thường liên quan họ hàng – lục đục hoặc chuyển giao quyền lực, trách nhiệm trong dòng họ.',
+    'Hợp với can trụ tháng: khả năng đổi việc cao; có sự việc trong công việc và quan hệ bạn bè ảnh hưởng đến cuộc sống.',
+    'Hợp với Nhật can: thể hiện rõ nhất, tính cách của bạn thay đổi theo tính chất của cặp hợp.',
+    'Hợp với can trụ giờ: liên quan con cái, nhân sự, sản phẩm và đời sống tinh thần.'
+  ];
+  T.canHopGhiChu = 'Hợp hóa <b>không làm mất hành</b> của hai can (buổi 24): nó tạo ra những tình huống khiến tính cách đổi đi, hành kết quả cho biết tính chất của sự thay đổi. Hai can chỉ “mất” khi bị khắc.';
+  // Quy luật can/chi khi so hai trụ ngày, hoặc trụ ngày với năm/vận (buổi 23)
+  T.canChiSoSanh = {
+    hoaKhac: 'Can hòa nhưng chi khắc: bên ngoài trông hài hòa, dễ chịu, bên trong có áp lực ngầm.',
+    khacHoa: 'Can khắc nhưng chi hợp: bên ngoài trông chật vật, không hợp, nhưng bên trong lại có sự hài hòa, dễ chịu.'
+  };
+  // Không vong đi với hành hỷ (buổi 23): Tỷ Kiếp, Thực Thương, Tài, Quan Sát, Ấn
+  T.kvHy = [
+    'Tỷ Kiếp đang có lợi mà gặp Không vong: hay thấy bạn bè làm cạn năng lượng của mình, dễ bị lợi dụng.',
+    'Thực Thương đang có lợi mà gặp Không vong: khó đưa tài năng đến công chúng; con cái, nhân sự ít trợ lực.',
+    'Tài đang có lợi mà gặp Không vong: khó kiểm soát tiền của trụ này, tiền lương có lúc “bốc hơi”.',
+    'Quan Sát đang có lợi mà gặp Không vong: có chức mà ít thực quyền, có thể mất chức hoặc tự nghỉ đột ngột.',
+    'Ấn đang có lợi mà gặp Không vong: có lúc mất tỉnh táo trong nhận thức, thiếu vị tha.'
+  ];
+  T.dichMaTT = ['đi chơi, giao lưu, mở rộng quan hệ', 'đi phỏng vấn, thuyết trình, biểu diễn', 'đi kiếm tiền, giao hàng, ký hợp đồng', 'đi vì trách nhiệm, công vụ', 'đi học, du học'];
+  T.tamKy = {
+    0: 'Thiên thượng Tam Kỳ (Giáp Mậu Canh): gánh được những việc trọng đại, được kính trọng.',
+    1: 'Địa hạ Tam Kỳ (Ất Bính Đinh): nắm bắt và tự tạo cơ hội, xây nền tảng, quy trình.',
+    2: 'Nhân trung Tam Kỳ (Nhâm Quý Tân): hòa hợp rất tốt, có tài khí, giỏi dùng người.'
+  };
   T.canXung = 'Thiên can xung (Giáp–Canh, Ất–Tân, Bính–Nhâm, Đinh–Quý): xung đột ở bề mặt, trong quan điểm và hành động; lý trí và mong muốn giằng co.';
 
   // ===== Địa chi: lục hợp =====
@@ -274,50 +307,56 @@
   // ===== Thần sát =====
   T.thanSat = {
     'Thiên Ất Quý Nhân': 'Quý nhân bậc nhất: gặp nạn có người cứu, thoát hiểm thần kỳ (Stephen King bị xe tông vẫn sống sót). Dễ được giúp đỡ đúng lúc; hóa giải hung sát.',
-    'Thái Cực Quý Nhân': 'Thiên về sự công bằng, nhân văn; dễ được tôn trọng, gia tăng địa vị; nửa là quyền tinh (công danh) nửa là sao hóa giải. Có duyên với triết học, tâm linh.',
+    'Thái Cực Quý Nhân': 'Thiên về sự công bằng, nhân văn; dễ ghi thành tích, được tập thể tôn trọng, gia tăng địa vị; nửa là quyền tinh, nửa là sao hóa giải. Ham học, nhận ra vấn đề nằm ở đâu; có duyên với huyền học, đông y (buổi 23).',
     'Văn Xương': 'Thông minh, học giỏi, văn chương; thi cử thuận; hóa giải hung bằng trí tuệ.',
-    'Quốc Ấn Quý Nhân': 'Chủ quyền hành, chức vụ, con dấu; may mắn trong thăng tiến – không hẳn lương cao mà là được trao vị trí, được công nhận; tính công bằng, nhân văn.',
-    'Phúc Tinh Quý Nhân': 'Phúc khí, hóa giải tai họa – biến tình cảnh nguy hiểm thành ít nguy hiểm, thậm chí thành lợi thế; giúp hóa giải sự cố kiểu Kiếp sát. Người có sao này điềm đạm, xử lý vấn đề bình tĩnh, tuy có thể hơi khó gần, thích tự do đến – đi.',
+    'Quốc Ấn Quý Nhân': 'May mắn trong thăng tiến – không hẳn lương cao mà là bất ngờ được trao vị trí (ví dụ leader rời đi và chọn mình); tính công bằng, nhân văn. Nhược điểm: dễ tự ái khi bị nhận xét về công việc, sản phẩm (buổi 23).',
+    'Phúc Tinh Quý Nhân': 'Phúc Tinh Quý Nhân (buổi 23, khác Phúc Tinh theo ngày sinh): khéo léo trong cư xử nên có các mối quan hệ tốt, hàng xóm và người quen sẵn lòng giúp; không phải lo nhiều về chỗ ăn ở; hóa giải bớt một số sự cố. Người tuổi này với mình thường giúp đỡ qua lại.',
     'Lộc Thần': 'Sao về tiền (buổi 22): đạt thành tựu, được thưởng, làm tốt nên được thêm tiền; cũng chủ về nhân duyên tốt, dễ được quý nhân ủng hộ. Ở trụ nào thì lộc đến từ phương diện đó.',
     'Ngũ Phú': 'Ngũ Phú (buổi 22): nhờ mối quan hệ với người có tài, có địa vị mà kiếm được tài lộc (ví dụ gặp người môi giới giỏi, có tâm chỉ đúng hướng đầu tư).',
     'Thiên Ách – Thiên Sát': 'Thiên Ách – Thiên Sát (buổi 22, cùng một cách tính): Thiên Ách là bị cấp trên chèn ép, nhận quá nhiều việc và trách nhiệm đến mức sinh bệnh; Thiên Sát là “tai họa từ trên trời rơi xuống” – nghĩa bóng là việc bị đổ lên đầu, bị vu khống; nghĩa đen là cẩn thận đồ vật rơi trúng đầu (đội mũ bảo hiểm cẩn thận). Có Thiên Ất, Thiên giải, Địa giải đi cùng thì nhẹ đi.',
     'Tức Thần': 'Tức Thần (buổi 22): liên quan sức khỏe đường hô hấp – về lâu dài dễ ho, viêm mũi dị ứng, nặng thì hen suyễn.',
-    'Thiên Không': 'Thiên Không (buổi 23): sự vỡ mộng, trống rỗng ở trụ nó đóng – trụ tháng: việc/hợp tác hứa hẹn nhưng thực tế không như vậy, cần kiểm tra mục tiêu có thực tế không; trụ ngày: dễ vỡ mộng sau kết hôn, có lúc vô định; trụ giờ: kỳ vọng cao vào con cái/sản phẩm dễ vỡ mộng, tài sản – tiết kiệm có thể mất giá trị nên chia nhỏ. Không phải là xấu hoàn toàn: là lời nhắc sống ở hiện tại và tỉnh táo.',
-    'Kình Dương': 'Quyết liệt, mạnh mẽ, dám làm; nhưng gắn với “cướp” – cẩn thận mất mát, va chạm, phẫu thuật, cướp giật trộm cắp. Quan nằm trên đầu Kình dương ở trụ năm: họ hàng có người thương tích.',
+    'Thiên Không': 'Thiên Không (buổi 23): sự vỡ mộng, trống rỗng ở trụ nó đóng – trụ tháng: việc/hợp tác hứa hẹn nhưng thực tế không như vậy, dễ tranh đoạt những thứ rỗng, cần kiểm tra mục tiêu có thực tế không; trụ ngày: dễ vỡ mộng sau kết hôn, có lúc vô định; trụ giờ: kỳ vọng cao vào con cái/sản phẩm dễ vỡ mộng, tài sản – tiết kiệm có thể mất giá trị nên chia nhỏ. Không xấu hoàn toàn: người này thông minh, nhìn ra điều người khác không thấy, hợp tham mưu, cố vấn. Lời nhắc: sống ở hiện tại, thực tế, đừng toan tính và đừng thỏa hiệp vì lời hứa hẹn.',
+    'Kình Dương': 'Dương Nhẫn (buổi 22) chỉ xét ở tháng sinh khi chi tháng tàng Kiếp Tài của Nhật can, hoặc gặp trong vận, năm; Kiếp Tài không đồng nghĩa với Dương Nhẫn. Năng lượng mạnh, xung động: xông xáo, tiên phong, ưa cạnh tranh; hợp công an, quân đội. Gắn với va quẹt, hình thương, đánh nhau, phẫu thuật; Nhật can dương thì mạnh và sự cố nặng hơn, Nhật can âm thì nhẹ hơn. Vận hoặc năm xung chữ này là lúc dễ gặp sự cố.',
     'Kim Dư': 'Số hay được người đưa đón, chở đi (ở trụ ngày: hay được bạn bè chở); có duyên với môi giới, giới thiệu sản phẩm – người khác giới thiệu không được nhưng mình đi thì được.',
     'Học Đường': 'Năng lực học tập (buổi 23 – tính theo ngũ hành nạp âm năm sinh: mệnh Kim gặp Tân Tỵ, Mộc gặp Kỷ Hợi, Thủy gặp Giáp Thân, Thổ gặp Mậu Thân, Hỏa gặp Bính Dần ở trụ tháng/ngày/giờ); cùng Từ Quán là dấu hiệu nhà nghiên cứu, thành tích học thuật cao; đi với Thiên Y hợp học ngành y. Cũng dùng để chọn thầy, gia sư hợp tuổi.',
-    'Hồng Diễm': 'Cởi mở với nhiều quan điểm, ý kiến nên dễ được thiện cảm; quyến rũ, đa tình.',
-    'Từ Quán': 'Thông minh học thuật – giải được bài khó, học một môn tới thông thạo; hợp giáo dục. Lưu niên xung/hại trụ có Từ Quán thì năng lực này bị ảnh hưởng.',
-    'Đào Hoa': 'Sức hút, duyên dáng, quyến rũ (Mộc của sự thu hút); có từ 2 chữ Tý/Ngọ/Mão/Dậu trở lên thường ngoại hình có nét. Gặp hung sát thì cẩn thận chuyện tình cảm rắc rối.',
-    'Dịch Mã': 'Thay đổi, dịch chuyển cả nghĩa đen lẫn nghĩa bóng: ở trụ nào thì vì phương diện đó mà di chuyển nhiều (trụ giờ: đi lại nhiều vì con cái). Hợp công việc đi lại, xuất ngoại.',
-    'Hoa Cái': 'Thích nghiên cứu lĩnh vực trừu tượng, siêu hình: tín ngưỡng, tôn giáo, nghệ thuật, hội họa; cô độc thanh cao. Cùng trụ với Thiên/Chính Ấn: kiến thức sâu rộng trong một lĩnh vực.',
-    'Tướng Tinh': 'Nghiêm, có thần thái khiến người khác kính nể hoặc nể sợ; liên quan công danh, khả năng lãnh đạo. Ở trụ năm: ra ngoài xã hội có uy.',
-    'Kiếp Sát': 'Sự cố diễn ra nhanh, cướp bóc, tai nạn bất ngờ; tính cách quyết liệt, nhanh nhạy. Đi với Kình dương: cẩn thận cướp giật. Đi với Mão–Tuất hợp trong vận: phẫu thuật, dao kéo.',
+    'Hồng Diễm': 'Dễ thương, cởi mở với nhiều quan điểm nên dễ được thiện cảm; nhu cầu tình cảm cao, đa sầu đa cảm, dễ rung động. Không hẳn là sẽ có người yêu, mà là biết cách tiếp cận dễ chịu, có duyên. Đi với sao thị phi thì dễ mang tiếng về tình cảm (buổi 22).',
+    'Từ Quán': 'Thông minh học thuật – giải được bài khó, học một môn tới thông thạo; hợp giáo dục. Ở trụ tháng: học vì công việc, bạn bè; ở trụ giờ: học vì con, nhân sự, về già vẫn học mạnh. Lưu niên xung/hại trụ có Từ Quán thì việc học, nghiên cứu dễ đình trệ (buổi 22).',
+    'Đào Hoa': 'Đào Hoa (còn gọi Hàm Trì, buổi 22): cuốn hút dù không nhất thiết đẹp – qua cách nói chuyện, tông giọng hay một đường nét. Từ 2 Đào Hoa trở lên: cuốn hút cả người cùng giới và khác giới, dễ yêu, nhiều cuộc tình, phức tạp. Có từ 2 chữ Tý/Ngọ/Mão/Dậu trở lên thường ngoại hình có nét. Người có ngày hoặc năm sinh là chữ Đào Hoa của mình thường dễ để ý mình.',
+    'Dịch Mã': 'Thay đổi, dịch chuyển cả nghĩa đen lẫn nghĩa bóng: ở trụ nào thì vì phương diện đó mà di chuyển nhiều (tháng: đổi chỗ làm, chỗ ở; ngày: vì người yêu, hôn phối; giờ: vì con, sản phẩm, nhân sự). Từ 2 Dịch Mã trở lên thì đi rất nhiều (buổi 23).',
+    'Hoa Cái': 'Thích nghiên cứu lĩnh vực trừu tượng, siêu hình: tín ngưỡng, tôn giáo, nghệ thuật, hội họa; thích ở một mình, hành xử hơi khó hiểu, bướng (rõ nhất ở trụ ngày, kèm tính biết lắng nghe, che chở). Cùng trụ với Thiên/Chính Ấn: kiến thức sâu rộng trong một lĩnh vực. Vận, năm gặp sao này thì nhạy với chuyện tâm linh hơn (buổi 23).',
+    'Tướng Tinh': 'Nghiêm, có thần thái khiến người khác kính nể hoặc nể sợ; có quyền hành (đi với Quan Sát: đốc thúc, thi hành; đi với Tài: quyết định thu chi). Ở trụ năm: người ngoài thấy có uy; ở trụ tháng: uy nghiêm trong công việc. Từ 2 Tướng Tinh trở lên, nhất là từ 3: cái tôi rất cao, hay thị uy, dễ bị ác cảm (buổi 23).',
+    'Kiếp Sát': 'Thông minh, có năng lực đạt điều mình muốn nhưng thiếu kiên nhẫn, có thể dùng sự thông minh để chèn ép người khác. Sự cố diễn ra nhanh: trộm, móc túi, bị gài bẫy, bị lừa. Đi với Thiên Ất/Thiên Đức: cuốn hút và biết dùng thông minh đúng chỗ. Cùng trụ Tỷ Kiếp: thích đồ có cồn. Cùng trụ Thất Sát: sự cố gây hao tổn, nhẹ hơn nếu có quý nhân, Ấn hoặc Thực Thương chế. Đi với Mão–Tuất hợp trong vận: phẫu thuật, có khi là thẩm mỹ (buổi 23, 24).',
     'Vong Thần': 'Vong Thần (buổi 23) nghe đáng sợ nhưng thiên về đầu óc: óc chiến lược, tư duy tốt, lý trí rất cao, khó bị cám dỗ bởi dục vọng – ở trụ ngày thường là người chung thủy; ở trụ tháng là người nghiện việc. Vong Thần nằm ở trụ nào thì người này hết mình cho lĩnh vực của trụ đó (trụ giờ: hết mình vì con, vì sản phẩm). Đi cùng Tử/Tuyệt hoặc thân nhược thì dễ lạnh lùng, mưu tính nhiều – “lý trí sử dụng họ”. Cùng Không Vong ở trụ tháng: dễ đột ngột mất việc.',
     'Tai Sát': 'Tai họa bất ngờ, kiện tụng, thương tích; cần cẩn trọng khi di chuyển.',
-    'Cô Thần': 'Cảm giác cô đơn; ít nhiều trải qua chuyện buồn trong tình cảm hôn nhân (không nhất thiết ly hôn).',
-    'Quả Tú': 'Cảm giác lẻ loi trong hôn nhân, tình cảm; tự lập, độc lập về cảm xúc.',
-    'Hồng Loan': 'Vui vẻ, lạc quan, muốn tâm sự – chia sẻ; duyên tình cảm, cưới hỏi.',
-    'Thiên Hỷ': 'Mang lại cảm giác an tâm, hài lòng cho người khác; không chấp hơn thua lâu – có nghĩ đến nhưng rồi bỏ qua; tin vui, hỷ sự.',
-    'Thiên Đức Quý Nhân': 'Nhân từ, hiền hậu; hóa hung thành cát, giảm nhẹ tai họa. Năm gặp Thiên Đức: người phối ngẫu hiền hơn.',
-    'Nguyệt Đức Quý Nhân': 'Nhân từ, hiền hậu, phúc đức; giảm nhẹ sự cố (kể cả cách “Quan đè Kình dương”).',
-    'Thiên Y': 'Năng lực chữa lành, tìm ra “phương thuốc” cho người khác; đi với Học Đường/Từ Quán hợp học y.',
-    'Không Vong': 'Trống rỗng – điều thuộc trụ đó dễ hư hao hoặc vốn vô hình; tài sản đầu tư vào thứ không hữu hình có thể biến mất. Ngày vào Không Vong + Vong Thần + Kiếp Sát: cẩn thận tai nạn bất ngờ. Mặt tích cực: hợp tâm linh, triết học, buông bỏ.',
-    'Nguyên Thần': 'Nguyên Thần (buổi 23) – tác động khác nhau: với dương nam / âm nữ là lên xuống thất thường, dễ vướng thị phi, bị phạt, rắc rối pháp lý; với âm nam / dương nữ là vấn đề sức khỏe, sự cố tai nạn làm tổn hao tài lộc. Nếu Nguyên Thần gặp bán tam hợp trên lá số hoặc trong vận thì chuyển thành lành.',
-    'Thiên La': 'Thiên La (nam ngày Tuất gặp Hợi): dễ bị vướng víu, trói buộc, khó thoát; cần kiên nhẫn.',
-    'Địa Võng': 'Địa Võng (nữ ngày Thìn gặp Tỵ): dễ vướng lưới rắc rối, kiện tụng; cần cẩn trọng giấy tờ.',
+    'Cô Thần': 'Cảm giác không được thấu hiểu, muốn không gian riêng, có góc nhìn riêng (độc đáo hoặc lập dị); ít nhiều có chuyện buồn trong tình cảm, không nhất thiết ly hôn. Trụ năm: người ngoài thấy khó gần, họ hàng ít gần gũi; trụ tháng: ít gần anh em bạn bè; trụ giờ: cô đơn về tinh thần, khó gần con. Mặt tốt: tập trung học tập, sự nghiệp (buổi 22).',
+    'Quả Tú': 'Hay cảm thấy mình bị bỏ rơi, người khác không thích mình; có chuyện buồn trong tình cảm, không nhất thiết ly hôn. Vị trí theo trụ giống Cô Thần. Mặt tốt: tập trung học tập, sự nghiệp (buổi 22).',
+    'Hồng Loan': 'Nói chuyện có duyên, mềm mỏng, tinh tế nên người khác thích tâm sự với mình; dễ kết nối sâu trong tình cảm. Ở trụ ngày, tháng: làm ăn hợp tác suôn sẻ vì quan hệ hài hòa (buổi 22).',
+    'Thiên Hỷ': 'Mang lại cảm giác an tâm, hài lòng cho người khác; không chấp hơn thua lâu, bớt trách móc, lạc quan. Ở trụ ngày, tháng: người ta hay tìm đến tâm sự; ở trụ giờ: sản phẩm mang tính chúc phúc, bình an (buổi 22).',
+    'Thiên Đức Quý Nhân': 'Làm tính cách nhân từ, hiền đi; chủ về sự cao quý, dễ được giúp đỡ, giảm nhẹ tai họa. Đi cùng Ấn: ít gặp sự cố nặng, rắc rối thường có giải pháp. Năm gặp Thiên Đức: người phối ngẫu hiền hơn (buổi 23).',
+    'Nguyệt Đức Quý Nhân': 'Làm tính cách nhân từ, hiền đi; chủ về phúc khí, giảm nhẹ sự cố (kể cả cách “Quan đè Kình dương”). Đi cùng Ấn: ít gặp sự cố nặng (buổi 23).',
+    'Thiên Y': 'Có bệnh thì hay tìm được thuốc hay; có năng lực tìm ra “phương thuốc”, giải pháp cho người khác, học được huyền học, đông y, tâm lý; đi với Học Đường/Từ Quán hợp học y. Năm, vận gặp sao này thường là lúc phải dùng thuốc; cũng liên quan huyết áp thấp (buổi 22).',
+    'Không Vong': 'Không Vong (buổi 23) <b>không có nghĩa là bỏ mất trụ đó</b>: nó “khóa” trụ, giảm ảnh hưởng của trụ lên các trụ khác, và mình khó kiểm soát những việc diễn ra trong trụ (Không vong ở trụ tháng vẫn có sự nghiệp, chỉ trầy trật hơn). Đi với sát tinh thì tốt (mất tai họa); đi với sao hóa giải, sao học tập, công danh, tài chính thì mất bớt cái tốt. Ngày vào Không Vong + Vong Thần + Kiếp Sát: cẩn thận tai nạn bất ngờ.',
+    'Nguyên Thần': 'Nguyên Thần (buổi 23) – tác động khác nhau: với dương nam / âm nữ là lên xuống thất thường, dễ vướng thị phi, bị phạt, rắc rối pháp lý; với âm nam / dương nữ là vấn đề sức khỏe, sự cố tai nạn làm tổn hao tài lộc. Nếu chữ Nguyên Thần gặp bán tam hợp của chính nó trên lá số hoặc trong vận (ví dụ Tuất gặp Dần hoặc Ngọ) thì chuyển thành may mắn.',
+    'Thiên La': 'Thiên La (buổi 23 – nam, ngày Tuất gặp Hợi hoặc ngày Hợi gặp Tuất): đường tiến thân như bị chặn; phiền phức về kiện tụng, tranh cãi nội bộ, dây dưa lâu khó dứt. Thân cường thì tìm được giải pháp; hành Kim vượng giúp dứt ra được, Kim ít hoặc là kỵ thì mệt hơn. Dễ phát triển giác quan tâm linh.',
+    'Địa Võng': 'Địa Võng (buổi 23 – nữ, ngày Thìn gặp Tỵ hoặc ngày Tỵ gặp Thìn): như sa vào một tình thế khó ra (ví dụ hôn nhân rối mà khó ly hôn); phiền phức, dây dưa lâu. Thân cường thì tìm được giải pháp; hành Kim vượng giúp dứt ra được, Kim ít hoặc là kỵ thì mệt hơn. Dễ phát triển giác quan tâm linh.',
     'Thiên La Địa Võng (Thìn–Tuất)': 'Có đủ Thìn và Tuất: cảm giác bị trói buộc giữa trời và đất, nhiều trở ngại; nhưng cũng là người kiên trì, hợp ngành luật, y, tâm linh.',
-    'Thập Ác Đại Bại': 'Thập ác (xét ở trụ tháng, ngày, giờ; không xét trụ năm) <b>không có nghĩa là người ác</b>: đây là can chi tạo ra tài năng đi kèm một “tật”, thường là sự bùng nổ đến từ việc tiết chế quá mức một phẩm chất (quá nhịn, quá chiều, quá lo, quá nhận trách nhiệm) ở khía cạnh của trụ chứa nó (tháng: công việc; ngày: bản thân, hôn phối; giờ: con cái, nội tâm). “Đại bại” là phạm sai lầm nghiêm trọng dẫn đến thất bại. Tật dễ bùng lên khi gặp vận hoặc năm <b>xung</b> trụ đó. Có Thiên Ất, Thiên Đức, Nguyệt Đức quý nhân thì được hóa giải, thiên về mặt tài năng. Nhiều trụ Thập ác thì rất giỏi, nghĩ được điều người khác không nghĩ tới nhưng cũng nhiều rắc rối tâm lý hơn.',
-    'Âm Dương Sai Thác': 'Ngày Âm dương sai thác: chuyện hôn nhân – họ hàng nhà phối ngẫu dễ trắc trở, lệch pha.',
+    'Thập Ác Đại Bại': 'Thập ác (xét ở trụ tháng, ngày, giờ; không xét trụ năm) <b>không có nghĩa là người ác</b>: đây là can chi tạo ra tài năng đi kèm một “tật”, thường là sự bùng nổ đến từ việc tiết chế quá mức một phẩm chất (quá nhịn, quá chiều, quá lo, quá nhận trách nhiệm) ở khía cạnh của trụ chứa nó (tháng: công việc; ngày: bản thân, hôn phối; giờ: con cái, nội tâm). “Đại bại” là phạm sai lầm nghiêm trọng dẫn đến thất bại. Rõ nhất ở trụ ngày; ở tháng, giờ là cách đối đãi trong công việc, với anh em, với con. Chỉ thật sự cần lưu ý khi <b>năm sinh hoặc đại vận phản ngâm</b> trụ đó (Giáp Thìn – năm Canh Tuất, Bính Thân – Nhâm Dần, Ất Tỵ – vận Tân Hợi); hành vi lúc đó thiên về tự hủy. Có Thiên Ất, Thiên Đức, Nguyệt Đức quý nhân thì chuyển sang mặt tài năng; trụ Thập ác gặp Không vong thì hết tính đại bại (buổi 23, 24). Nhiều trụ Thập ác thì rất giỏi, nghĩ được điều người khác không nghĩ tới nhưng cũng nhiều rắc rối tâm lý hơn.',
+    'Âm Dương Sai Thác': 'Ngày Âm dương sai thác (buổi 23): chuyện tình cảm thường không như ý, hai người khó hòa hợp hoàn toàn, chưa đến mức ly hôn hay chia tay.',
+    'Lục Tú': 'Ngày Lục Tú (buổi 23): có một tài năng ưu tú phát huy được trong công việc; kèm vài điểm cần giữ (Bính Ngọ rất nóng, Kỷ Sửu hay nghĩ “không bao giờ đủ”).',
+    'Nhật Quý': 'Ngày Nhật Quý (buổi 23): có đạo đức; biết cách lách nhưng tự điều chỉnh để không làm, về lâu dài được người khác quý mến.',
+    'Đa Mưu': 'Ngày Đa Mưu (buổi 23): thông minh, giỏi tư duy, nhìn nhận và chiến lược.',
+    'Thoái Thần': 'Ngày Thoái Thần (buổi 23): công việc dễ có rắc rối, thăng tiến khó hoặc cực hơn người khác, không phải là không thăng tiến được.',
+    'Nhật Phá': 'Nhật Phá (buổi 23 – chi ngày xung chi tháng hoặc chi giờ): bất ổn trong nội bộ công ty, gia đạo hoặc tâm lý, thường xuyên cảnh giác, ảnh hưởng tình cảm và tài chính. Hợp lĩnh vực phá án, xây dựng, tháo dỡ công trình.',
+    'Tam Đài Quý Nhân': 'Tam Đài Quý Nhân (buổi 22 – ba chi liền nhau đúng thứ tự Dần–Thìn–Thân, Mão–Tỵ–Ngọ hoặc Hợi–Tý–Dậu): thành tích đầu bảng, giữ được phong độ, may mắn trong thi cử, dễ thắng cử.',
     'Khôi Cang': 'Ngày Khôi cang: thông minh, quyết đoán, có uy, tính cương; hợp lãnh đạo nhưng hôn nhân cần mềm mỏng.',
     'Cô Loan Sát': 'Ngày Cô loan: tình cảm dễ cô quạnh, khó hòa hợp; nên chủ động vun đắp quan hệ.',
     'Kim Thần': 'Giờ Kim thần: tính cương nghị, quyết đoán; cần Hỏa chế mới phát huy.',
     'Phúc Đức': 'Phúc Đức (buổi 20, tính theo tháng sinh và chi ngày): cảm giác đủ đầy, khả năng chuyển trở ngại thành nhân duyên tốt; tiền tài thường tự tìm đến khi làm điều mình thích. Năm/tháng xung, hại, phá chi ngày thì cảm giác này giảm.',
     'Phúc Tinh (ngày sinh)': 'Phúc Tinh theo ngày sinh (buổi 20): giai đoạn trung niên có vận may tiền bạc; chí cầu tiến cao, giỏi tạo mạng lưới quan hệ nên dễ có việc tốt, lương cao. Năm xung trụ ngày thì may mắn giảm.',
-    'Thiên Xá': 'Ngày Thiên xá: được “ân xá” – gặp lỗi lầm dễ được tha thứ, hóa giải; tai qua nạn khỏi.',
+    'Thiên Xá': 'Thiên Xá (buổi 23): gặp kiện tụng, bị phạt, bị kiểm tra thường được tha; bản thân cũng dễ bỏ qua, vị tha hơn. Hóa giải mạnh các việc về pháp luật và tranh cãi giữa người với người.',
     'Tam Kỳ Quý Nhân': 'Tam kỳ quý nhân: tài năng xuất chúng, tư duy độc đáo, dễ thành danh; nếu kèm Từ quán, Học đường là tổ hợp học thuật rất mạnh.'
   };
-  T.saoTot = ['Ngũ Phú', 'Thiên Ất Quý Nhân', 'Thái Cực Quý Nhân', 'Văn Xương', 'Quốc Ấn Quý Nhân', 'Phúc Tinh Quý Nhân', 'Phúc Đức', 'Phúc Tinh (ngày sinh)', 'Lộc Thần', 'Kim Dư', 'Học Đường', 'Từ Quán', 'Tướng Tinh', 'Hồng Loan', 'Thiên Hỷ', 'Thiên Đức Quý Nhân', 'Nguyệt Đức Quý Nhân', 'Thiên Y', 'Thiên Xá', 'Tam Kỳ Quý Nhân'];
+  T.saoTot = ['Ngũ Phú', 'Thiên Ất Quý Nhân', 'Thái Cực Quý Nhân', 'Văn Xương', 'Quốc Ấn Quý Nhân', 'Phúc Tinh Quý Nhân', 'Phúc Đức', 'Phúc Tinh (ngày sinh)', 'Lục Tú', 'Nhật Quý', 'Đa Mưu', 'Tam Đài Quý Nhân', 'Lộc Thần', 'Kim Dư', 'Học Đường', 'Từ Quán', 'Tướng Tinh', 'Hồng Loan', 'Thiên Hỷ', 'Thiên Đức Quý Nhân', 'Nguyệt Đức Quý Nhân', 'Thiên Y', 'Thiên Xá', 'Tam Kỳ Quý Nhân'];
 
   // ===== Cách cục =====
   T.cachCuc = {
@@ -346,6 +385,21 @@
   ];
   // Thiên can mang tính cách gần với nhóm thập thần (buổi 21): bù được TÍNH CÁCH, không bù được sự việc, cơ hội, lục thân
   T.canBuNhom = [[5, 0], [2, 7], [8, 3], [1, 6], [4, 9]]; // Kỷ, Giáp | Bính, Tân | Nhâm, Đinh | Ất, Canh | Mậu, Quý
+  // Mức vượng suy ảnh hưởng thế nào (buổi 20, 21, 24): [khi gặp, thân vượng, thân nhược]
+  T.vuongSuyBang = [
+    ['Tài (tiền, cơ hội)', 'Thuận lợi hơn để nắm cơ hội và tự chủ.', 'Nhiều cơ hội nhưng khó tự chủ, dễ có sự cố về tiền và lao lực.'],
+    ['Quan Sát (chức vụ, áp lực)', 'Gánh được; biến động thành cơ hội chứng minh năng lực.', 'Có Ấn đỡ thì vẫn ổn; không có Ấn thì mệt vì thủ tục, thi cử, chức vụ, dễ stress.'],
+    ['Thực Thương (sáng tạo, chi sức)', 'Là chỗ để dùng sức, phát huy năng lực.', 'Dễ hao sức, nhiều ý tưởng quá mà đuối.'],
+    ['Ấn, Tỷ Kiếp (nâng đỡ)', 'Dễ thừa: cái tôi cao, nghĩ nhiều, trì trệ; trừ khi gặp nhiều Thất Sát thì mới cần Ấn đỡ.', 'Rất có lợi: nhờ thầy, người thân, bạn bè mà vững lên.'],
+    ['Sự cố, tai ách', 'Thường chỉ là bài học, nắm lại được thế chủ động.', 'Dễ thấy nặng hơn, cần sao giải và người hỗ trợ.']
+  ];
+  T.vuongSuyMuc = {
+    'Cực vượng': 'Lá số đạt đủ các điều kiện nên năng lượng thừa, “may quá hóa xui”. Bạn cần được thử thách và sử dụng sức, không cần bơm thêm.',
+    'Thân vượng': 'Sức của bạn đủ để gánh tiền bạc, trách nhiệm và áp lực; hãy đọc cột Thân vượng.',
+    'Trung hòa': 'Sức của bạn nằm giữa hai cột. Vận hoặc năm làm bạn mạnh lên hay yếu đi thì đọc nghiêng về cột tương ứng.',
+    'Thân nhược': 'Sức của bạn cần được nâng đỡ; hãy đọc cột Thân nhược.',
+    'Cực nhược': 'Sức của bạn rất cần được nâng đỡ; hãy đọc cột Thân nhược và ưu tiên người đồng hành, việc học.'
+  };
   // Tổ hợp thập thần. tk: true = lý thuyết phổ biến, không có trong bài giảng BTK1 (chỉ để tham khảo)
   T.toHop = {
     satHoaThienQuan: '<b>Thất Sát hóa Thiên Quan</b> (buổi 21): Thất Sát đã được chế ngự, đạt một trong ba điều kiện: (1) Nhật chủ cường vượng và có Thực Thần chế Sát; (2) Nhật chủ suy nhưng có Chính Ấn (tạm dùng Thiên Ấn); (3) có cả Tài lẫn Ấn, Thất Sát làm trung gian hòa giải Tài khắc Ấn, nên có tiền mà vẫn giữ phẩm giá. Lúc này Thất Sát không còn hung hãn, tai ách xảy ra nhẹ như một bài học. Người này có khả năng huấn luyện, rèn luyện người khác bằng sự nghiêm khắc và kinh nghiệm của mình; sức khỏe cũng được giữ, ít gặp sự cố nặng.',

@@ -28,8 +28,8 @@
     if (x.tang === 'can') {
       k = cs.key(x.x, x.y);
       if (q.loai === 'hop') {
-        var coNgay = x.a === 2 || x.b === 2;
-        txt = coNgay ? T.canHop[k] : T.canHop[k].split(':')[0] + '. ' + (x.a === undefined ? T.canHopNgoaiVan : T.canHopNgoai);
+        if (x.a === undefined) txt = T.canHopVan[k] + ' ' + T.canHopVanTru[x.b];
+        else txt = (x.a === 2 || x.b === 2) ? T.canHop[k] + ' ' + T.canHopGhiChu : T.canHop[k].split(':')[0] + '. ' + T.canHopNgoai;
       }
       if (q.loai === 'xung') txt = cs.CAN[x.x] + '–' + cs.CAN[x.y] + ' xung. ' + T.canXung;
     } else if (x.tang === 'chi') {
@@ -257,6 +257,21 @@
     if (c.laKy) return '<b>Lưu ý về cầu nối:</b> ' + a + ' (' + vai(c.tu) + ') khắc ' + b + ' (' + vai(c.den) + '); hành nối hai bên là ' + tagHanh(c.hanh) + ' (' + a + ' sinh ' + x + ', ' + x + ' sinh ' + b + ') nhưng ' + x + ' đang là kỵ thần của lá số – nên chỉ dùng ' + x + ' ở mức vừa phải, đủ để ' + a + ' và ' + b + ' không triệt tiêu nhau.';
     return '<b>Hành cầu nối: ' + tagHanh(c.hanh) + '.</b> ' + a + ' (' + vai(c.tu) + ') vốn khắc ' + b + ' (' + vai(c.den) + ') – nếu chỉ có hai hành này thì chúng dễ triệt tiêu nhau. ' + x + ' đứng giữa vòng tương sinh: <b>' + a + ' sinh ' + x + ', ' + x + ' sinh ' + b + '</b>, nên sức của ' + a + ' không đánh vào ' + b + ' mà chảy qua ' + x + ' để nuôi ' + b + '. Thầy gọi đây là ngũ hành trung gian (thông quan) – ví dụ buổi 5: lá số nhiều Thổ và Mộc thì Hỏa là trung gian giải mâu thuẫn; buổi 19: “muốn xử lý Thủy với Thổ thì phải có trung gian là Hỏa”. Vì vậy ' + x + ' cũng là hành có ích.';
   }
+  function vuongSuyAnhHuong(ls) {
+    var vs = ls.vuongSuy, vuong = vs.muc.indexOf('vượng') >= 0, nhuoc = vs.muc.indexOf('nhược') >= 0;
+    var o = '<h4>Mức vượng suy ảnh hưởng thế nào (buổi 20, 21, 24)</h4>' +
+      p('Đây là <b>sức gánh</b> của bạn, không phải điểm tốt xấu của lá số: cùng một sự việc có thể là cơ hội với người này và là gánh nặng với người khác. Mức của bạn là <b>' + vs.muc + '</b>. ' + T.vuongSuyMuc[vs.muc]);
+    if (ls.dungThan.cachDac) o += p('<i>Lá số thuộc cách đặc biệt nêu ở trên nên cần đọc bảng này cùng với mô tả của cách đó.</i>');
+    o += '<div class="scroll-x"><table class="tbl vs-bang"><thead><tr><th>Khi gặp</th><th' + (vuong ? ' class="vs-on"' : '') + '>Thân vượng</th><th' + (nhuoc ? ' class="vs-on"' : '') + '>Thân nhược</th></tr></thead><tbody>' +
+      T.vuongSuyBang.map(function (d) { return '<tr><th>' + d[0] + '</th><td' + (vuong ? ' class="vs-on"' : '') + '>' + d[1] + '</td><td' + (nhuoc ? ' class="vs-on"' : '') + '>' + d[2] + '</td></tr>'; }).join('') + '</tbody></table></div>';
+    var doi = [];
+    if (!vs.dacLenh) doi.push('Bạn không được lệnh tháng nên sức đến từ các yếu tố khác: vận nhiều Tài (khắc Ấn) hoặc nhiều Quan Sát (khắc Tỷ Kiếp) sẽ làm bạn yếu đi, có khi nhiều tiền hơn mà nhiều vấn đề hơn, tinh thần cũng thụ động hơn.');
+    else doi.push('Bạn được lệnh tháng nên sức khá vững, trừ khi vận gặp quá nhiều Tài hoặc Quan Sát.');
+    if (vs.thauCan && vs.thauCan.length) doi.push('Bạn có thấu căn ở chi ngày ' + cs.CHI[ls.tru[2].chi] + ': năm hoặc vận xung (nặng nhất), hình, hại chữ này sẽ làm sức giảm.');
+    if (nhuoc) doi.push('Nhược không có nghĩa là xấu: người có Ấn hoặc Tỷ Kiếp thường nhờ trưởng bối, anh em, việc học mà vững dần theo thời gian.');
+    doi.push('Nhược không tự động cần thêm Ấn, vượng cũng không tự động cần tiết bớt: chọn dụng thần còn phải xem hành nào đang thừa, hành nào thiếu, như đã giải thích ở trên.');
+    return o + li(doi);
+  }
   function dungThan(ls) {
     var dt = ls.dungThan, out = giaiThichDungThan(ls);
     if (dt.cachDac) out += p('<b>Cách đặc biệt: ' + dt.cachDac + '</b> – ' + T.cachCuc[dt.cachDac]);
@@ -274,6 +289,7 @@
     if (dt.cauNoi) out += p(moTaCauNoi(dt));
     out += p('<b>Kỵ thần</b>: ' + dt.ky.map(function (x) { return tagHanh(x); }).join(', ') + ' – những năm/vận mang hành này nhiều thì dễ mất cân bằng; không cần né tránh tuyệt đối mà nên chủ động điều hòa bằng dụng – hỷ thần.');
     if (dt.nhan.length) out += p('<b>Nhàn thần</b>: ' + dt.nhan.map(function (x) { return tagHanh(x); }).join(', ') + ' – ảnh hưởng trung tính.');
+    out += vuongSuyAnhHuong(ls);
     return sec('dung-than', 'Vượng suy & Dụng thần', out, 'Giải thích từng bước theo 4 điều kiện xét vượng suy của buổi 24: lệnh tháng, Ấn/Tỷ Kiếp sinh trợ, thấu căn (chi ngày), hợp hóa/tam hợp sinh trợ.');
   }
 
@@ -436,6 +452,52 @@
   }
 
   // ===== 8. Thần sát =====
+  function coSao(t, ten) { return t.thanSat.some(function (z) { return z.ten === ten; }); }
+  function thanSatTheoTru(ls, gom) {
+    var out = [], kv = ls.khongVong, chis = ls.tru.filter(Boolean).map(function (t) { return t.chi; }), nam = ls.gioiTinh === 'nam';
+    var soKV = 0, coDuc = ['Thiên Ất Quý Nhân', 'Thiên Đức Quý Nhân', 'Nguyệt Đức Quý Nhân'];
+    ls.tru.forEach(function (t, i) {
+      if (!t) return;
+      var nhom = Math.floor(t.thapThanCan / 2), ts = cs.truongSinh(t.can, t.chi);
+      if (i !== 2 && coSao(t, 'Dịch Mã')) {
+        out.push('<b>Dịch Mã trụ ' + VI_TRI[i] + '</b>: can trụ là ' + ttName(t.thapThanCan) + ' nên hay ' + T.dichMaTT[nhom] + '. ' + (ts === 9 ? 'Ngồi Tuyệt: thay đổi đến nhanh, có phần cực đoan.' : (ts === 6 ? 'Ngồi Bệnh: thay đổi miễn cưỡng, mình không phải người chủ động.' : ((ts === 0 || ts === 3) ? 'Ngồi ' + (ts === 0 ? 'Trường Sinh' : 'Lâm Quan') + ': thay đổi theo hướng tốt.' : ''))));
+      }
+      if (coSao(t, 'Vong Thần')) {
+        var yeu = ts === 6 || ts === 7 || ts === 9 || ls.vuongSuy.muc === 'Thân nhược' || ls.vuongSuy.muc === 'Cực nhược';
+        out.push('<b>Vong Thần trụ ' + VI_TRI[i] + '</b>: ' + (yeu ? 'dễ có cảm giác hụt hẫng, không rõ thật giả ở khía cạnh của trụ này, sinh ra bất cần, “lý trí dùng mình”; nên vạch rõ nguyên tắc và ranh giới sống.' : 'đủ lực nên vẫn giữ được ranh giới đạo đức: lý trí, nhiều mưu, chung thủy, hết mình cho khía cạnh của trụ này.'));
+      }
+      if (coSao(t, 'Nguyên Thần')) {
+        var banHop = chis.indexOf(mod(t.chi + 4, 12)) >= 0 || chis.indexOf(mod(t.chi + 8, 12)) >= 0;
+        if (banHop) out.push('<b>Nguyên Thần trụ ' + VI_TRI[i] + '</b> gặp bán tam hợp trên lá số: chuyển thành may mắn bất ngờ.');
+      }
+      if (i === 2 || kv.indexOf(t.chi) < 0) return;
+      // Không vong đóng trên trụ này
+      soKV++;
+      var ds = ['<b>Không vong trụ ' + VI_TRI[i] + '</b> (' + cs.CHI[t.chi] + '): khó kiểm soát các việc của trụ này.'];
+      var diem = BT.ls.diemHanh(ls, cs.CAN_HANH[t.can]);
+      if (diem < 0) ds.push(ttName(t.thapThanCan) + ' ở trụ này thuộc hành kỵ, gặp Không vong lại tốt vì bớt gây rắc rối.');
+      else if (diem > 0) ds.push(T.kvHy[nhom]);
+      if (t.thapThanCan === 8) ds.push('Thiên Ấn đi với Không vong: nên cẩn thận khi học huyền học, tâm linh vì trực giác dễ sai lệch.');
+      if (t.can === 2 || t.can === 3) ds.push('Can Bính/Đinh gặp Không vong: có thể giàu lên đột ngột, giữ được hay không tùy cách sống.');
+      if (t.can === 6 || t.can === 7) ds.push('Can Canh/Tân gặp Không vong: có thể nổi danh hoặc mang tiếng đột ngột.');
+      if (['Kiếp Sát', 'Kình Dương', 'Tai Sát'].some(function (z) { return coSao(t, z); })) ds.push('Sát tinh ở trụ này được Không vong làm giảm tai họa.');
+      if (coDuc.some(function (z) { return coSao(t, z); })) ds.push('Sao quý nhân ở trụ này bị mất bớt tác dụng.');
+      if (i === 3 && (nam ? nhom === 2 : nhom === 3)) ds.push('Sao phối ngẫu ở trụ giờ gặp Không vong: về hậu vận có xu hướng sống độc thân.');
+      out.push(ds.join(' '));
+    });
+    if (soKV >= 3) out.push('<b>Tam Không</b> (ba trụ đều Không vong, “phản vi kỳ cách”): rắc rối lại được tháo gỡ; bớt định kiến nên có thể làm đơn giản mà vẫn thành; hay có may mắn hoặc sự cố bất ngờ.');
+    ls.thanSatDacBiet.filter(function (z) { return z.ten === 'Thập Ác Đại Bại'; }).forEach(function (z) {
+      var i = VI_TRI.indexOf(z.viTri), Y = ls.tru[0];
+      if (Math.abs(Y.can - z.can) % 10 !== 0 && (mod(Y.can - z.can, 10) === 6 || mod(z.can - Y.can, 10) === 6) && mod(Y.chi - z.chi, 12) === 6) out.push('<b>Năm sinh phản ngâm trụ Thập ác ' + z.viTri + '</b>: đây là trường hợp thật sự cần lưu ý, dễ phạm sai lầm nghiêm trọng khi cảm xúc lên cao.');
+      if (i !== 2 && kv.indexOf(z.chi) >= 0) out.push('<b>Trụ Thập ác ' + z.viTri + ' gặp Không vong</b>: được hóa giải, hết tính đại bại.');
+    });
+    if (coSaoLa(gom, 'Thiên La') || coSaoLa(gom, 'Địa Võng')) {
+      var kim = ls.nguHanh.pct[3], dKim = BT.ls.diemHanh(ls, 3);
+      out.push('<b>' + (nam ? 'Thiên La' : 'Địa Võng') + '</b>: ' + (kim < 10 || dKim < 0 ? 'hành Kim đang ít hoặc là hành kỵ nên khó dứt điểm những việc dây dưa, cần chủ động bổ sung Kim hợp lý trong lối sống.' : 'hành Kim đang đủ lực, mấy chuyện dây dưa rồi sẽ dứt được.'));
+    }
+    return out;
+  }
+  function coSaoLa(gom, ten) { return !!gom[ten]; }
   function thanSat(ls) {
     var out = '', all = [];
     ls.tru.forEach(function (t, i) { if (t) t.thanSat.forEach(function (s) { all.push({ ten: s.ten, viTri: VI_TRI[i] }); }); });
@@ -451,8 +513,11 @@
     var thapAc = ls.thanSatDacBiet.filter(function (z) { return z.ten === 'Thập Ác Đại Bại'; });
     if (thapAc.length) xau.push('<b>Thập Ác trong lá số của bạn</b>: ' + thapAc.map(function (z) { return 'trụ ' + z.viTri + ' – ' + T.thapAcNgay[z.can + '-' + z.chi]; }).join(' ') +
       (thapAc.length >= 2 ? ' Có nhiều trụ Thập ác: tài năng nổi bật hơn nhưng cũng cần chăm sóc tâm lý nhiều hơn.' : ''));
+    ls.thanSatDacBiet.forEach(function (z) { if (z.ten === 'Tam Kỳ Quý Nhân') tot.push(T.tamKy[z.loaiKy]); });
     if (tot.length) out += '<h4>Cát tinh – quý nhân</h4>' + li(tot);
     if (xau.length) out += '<h4>Sao cần lưu ý</h4>' + li(xau);
+    var tt = thanSatTheoTru(ls, gom);
+    if (tt.length) out += '<h4>Đọc sao theo vị trí trong lá số (buổi 22–24)</h4>' + li(tt);
     out += p('<i>Thần sát là “tượng sao” được tính từ tương tác can chi – mang tính gợi ý; hãy hiểu bản chất can chi tạo ra nó hơn là sợ hãi tên gọi. Sao nằm ở trụ nào thì ứng vào lĩnh vực/giai đoạn của trụ đó.</i>');
     out += p('Không vong (theo trụ ngày): <b>' + ls.khongVong.map(function (b) { return cs.CHI[b]; }).join(', ') + '</b> – những năm/tháng mang các chi này, điều thuộc về chúng dễ “trống rỗng”, khó nắm bắt.');
     return sec('than-sat', 'Thần sát', out);
@@ -583,6 +648,17 @@
     return { score: score, muc: muc[0], lop: muc[1], qh: qh };
   }
 
+  function canChiSoVoiNgay(ls, s, b) {
+    var D = ls.tru[2], hs = cs.CAN_HANH[s], hd = cs.CAN_HANH[D.can], r = mod(hs - hd, 5);
+    var canHoa = s === D.can || cs.quanHeCan(s, D.can).some(function (q) { return q.loai === 'hop'; });
+    var canKhac = (r === 2 || r === 3) && !canHoa;
+    var qh = cs.quanHeChi(b, D.chi);
+    var chiKhac = qh.some(function (q) { return ['xung', 'pha', 'hai', 'hinh', 'tuhinh'].indexOf(q.loai) >= 0; });
+    var chiHop = !chiKhac && qh.some(function (q) { return q.loai === 'luchop' || q.loai === 'banhop'; });
+    if (canHoa && chiKhac) return T.canChiSoSanh.hoaKhac;
+    if (canKhac && chiHop) return T.canChiSoSanh.khacHoa;
+    return '';
+  }
   function laThapAc(ls, i) { return ls.thanSatDacBiet.some(function (z) { return z.ten === 'Thập Ác Đại Bại' && z.viTri === VI_TRI[i]; }); }
   function luanTruVan(ls, s, b, loai) {
     var d = ls.nhatChu, ttC = cs.thapThan(d, s), ttB = cs.thapThan(d, cs.TANG_CAN[b][0][0]);
@@ -604,6 +680,7 @@
       if (x.tang === 'chi' && ['xung', 'pha', 'hai', 'hinh', 'tuhinh'].indexOf(q.loai) >= 0) {
         out.push('<b>' + nhanQuanHe(q) + ' trụ ' + vt + '</b> (' + cs.CHI[x.x] + '–' + cs.CHI[x.y] + '): ảnh hưởng ' + LV_TRU[x.b] + '. ' + moTaQuanHe(x) + (q.loai !== 'tuhinh' ? ' ' + T.tru[vt].van : ''));
         if (q.loai === 'xung' && laThapAc(ls, x.b)) out.push(T.thapAcPhanNgam);
+        if (q.loai === 'xung' && x.b === 1 && coSao(ls.tru[1], 'Kình Dương')) out.push('<b>Xung chữ Dương Nhẫn</b> ở tháng sinh: dễ gặp tai nạn, sự cố trong giai đoạn này (buổi 22).');
       } else if (x.tang === 'chi' && q.loai === 'luchop') {
         out.push('<b>Lục hợp trụ ' + vt + '</b>: thuận hòa, gắn kết trong ' + LV_TRU[x.b] + '. ' + moTaQuanHe(x));
       } else if (x.tang === 'chi' && q.loai === 'banhop' && q.conTrungTam) {
@@ -617,6 +694,9 @@
     // Không vong
     if (ls.khongVong.indexOf(b) >= 0) out.push('<b>Rơi vào Không vong</b>: kế hoạch dễ hụt hẫng, nên tránh đầu tư vào thứ vô hình, thiếu kiểm chứng.');
     var sao = BT.ts.saoTrenTru(ls, s, b, loai).map(function (x) { return x.ten; });
+    if (sao.indexOf('Nguyên Thần') >= 0 && ls.tru.some(function (t) { return t && (t.chi === mod(b + 4, 12) || t.chi === mod(b + 8, 12)); })) out.push('<b>Nguyên Thần</b> gặp bán tam hợp trên lá số: chuyển thành may mắn bất ngờ (buổi 24).');
+    var soNgay = canChiSoVoiNgay(ls, s, b);
+    if (soNgay) out.push('So với trụ ngày (buổi 23): ' + soNgay);
     var tenVan = loai === 'Đại vận' ? 'Vận này' : 'Năm này';
     var dh = cs.CAN_HANH[d];
     // Ba nhóm địa chi (buổi 7): tương tác của chi vận/năm với chi ngày

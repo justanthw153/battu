@@ -13,7 +13,7 @@
     quocAn: [[10], [11], [1], [2], [1], [2], [4], [5], [7], [8]],
     phucTinh: [[2, 0], [1, 3], [2, 0], [11], [8], [7], [6], [5], [4], [1, 3]],
     locThan: [[2], [3], [5], [6], [5], [6], [8], [9], [11], [0]],
-    duongNhan: [[3], [4], [6], [7], [6], [7], [9], [10], [0], [1]],
+    duongNhan: [[3], [2], [6], [5], [6], [5], [9], [8], [0], [11]], // buổi 22: chi tháng tàng Kiếp Tài của Nhật can
     kimDu: [[4], [5], [7], [8], [7], [8], [10], [11], [1], [2]],
     hocDuong: [[11], [6], [2], [9], [2], [9], [5], [0], [8], [3]],
     hongDiem: [[6, 8], [6, 8], [2], [7], [4], [4], [10], [9], [0], [8]], // buổi 22: can Giáp/Ất gặp Ngọ hoặc Thân
@@ -39,6 +39,11 @@
   var CO_LOAN = ['1-5', '3-5', '7-11', '4-8', '0-2', '4-6', '8-0', '2-6'];
   var KIM_THAN = ['1-1', '5-5', '9-9'];
   // Giáp Dần, Ất Sửu, Ất Hợi, Bính Tý, Bính Tuất, Đinh Dậu, Mậu Thân, Kỷ Mùi, Canh Ngọ, Tân Tỵ, Nhâm Thìn, Quý Mão
+  var HONG_DIEM_NGAY = ['2-2', '3-7', '9-7', '7-7', '1-7', '0-10', '6-10', '5-7'];
+  var LUC_TU = ['4-0', '5-1', '7-5', '3-7', '2-6', '5-7'];
+  var NHAT_QUY = ['9-3', '3-9', '3-11', '9-5'];
+  var DA_MUU = ['7-5', '4-0'];
+  var THOAI_THAN = ['3-1', '3-7', '8-4', '8-10'];
   var PHUC_TINH_NGAY = ['0-2', '1-1', '1-11', '2-0', '2-10', '3-9', '4-8', '5-7', '6-6', '7-5', '8-4', '9-3'];
 
   function khongVong(s, b) { return [mod(b - s + 10, 12), mod(b - s + 11, 12)]; }
@@ -57,7 +62,8 @@
     if (BANG.phucTinh[dS].indexOf(b) >= 0 || BANG.phucTinh[yS].indexOf(b) >= 0) add('Phúc Tinh Quý Nhân', 'can ngày/năm');
     // Lộc Thần, Kim Dư: dùng thiên can lộ ra của ngày và năm sinh (buổi 22)
     if (BANG.locThan[dS].indexOf(b) >= 0 || BANG.locThan[yS].indexOf(b) >= 0) add('Lộc Thần', 'can ngày/năm');
-    if (BANG.duongNhan[dS].indexOf(b) >= 0) add('Kình Dương', 'can ngày');
+    // Dương nhẫn (buổi 22): trên lá số gốc CHỈ xét trụ tháng; ngoài ra gặp trong đại vận, lưu niên
+    if (BANG.duongNhan[dS].indexOf(b) >= 0 && ['Năm', 'Ngày', 'Giờ'].indexOf(viTri) < 0) add('Kình Dương', 'can ngày');
     if (BANG.kimDu[dS].indexOf(b) >= 0 || BANG.kimDu[yS].indexOf(b) >= 0) add('Kim Dư', 'can ngày/năm');
     var hd = HOC_DUONG[hanhNapAm(Y.napAm)];
     if (viTri !== 'Năm' && hd && hd[0] === s && hd[1] === b) add('Học Đường', 'nạp âm năm sinh');
@@ -79,9 +85,11 @@
       if (BANG[p[0]][gy] === b || BANG[p[0]][gd] === b) add(p[1], 'chi năm/ngày');
     });
     // Cô thần quả tú theo chi năm
+    // Buổi 22: tính theo tuổi hoặc ngày sinh
     var mua = Math.floor(mod(Y.chi - 11, 12) / 3); // 0: Hợi Tý Sửu, 1: Dần Mão Thìn, 2: Tỵ Ngọ Mùi, 3: Thân Dậu Tuất
-    if ([2, 5, 8, 11][mua] === b) add('Cô Thần', 'chi năm');
-    if ([10, 1, 4, 7][mua] === b) add('Quả Tú', 'chi năm');
+    var muaN = Math.floor(mod(D.chi - 11, 12) / 3);
+    if ([2, 5, 8, 11][mua] === b || [2, 5, 8, 11][muaN] === b) add('Cô Thần', 'chi năm/ngày');
+    if ([10, 1, 4, 7][mua] === b || [10, 1, 4, 7][muaN] === b) add('Quả Tú', 'chi năm/ngày');
     var hl = mod(3 - Y.chi, 12);
     if (hl === b) add('Hồng Loan', 'chi năm');
     if (mod(hl + 6, 12) === b) add('Thiên Hỷ', 'chi năm');
@@ -100,8 +108,12 @@
     var nt = duongNam ? mod(Y.chi + 7, 12) : mod(Y.chi + 5, 12);
     if (nt === b && viTri !== 'Năm') add('Nguyên Thần', 'chi năm');
     // Thiên la địa võng
-    if (ls.gioiTinh === 'nam' && D.chi === 10 && b === 11) add('Thiên La', 'ngày Tuất gặp Hợi');
-    if (ls.gioiTinh === 'nu' && D.chi === 4 && b === 5) add('Địa Võng', 'ngày Thìn gặp Tỵ');
+    // Buổi 23: ngày Tuất gặp Hợi hoặc ngày Hợi gặp Tuất (nam); ngày Thìn gặp Tỵ hoặc ngày Tỵ gặp Thìn (nữ); gặp cả trong vận, năm
+    if (ls.gioiTinh === 'nam' && ((D.chi === 10 && b === 11) || (D.chi === 11 && b === 10))) add('Thiên La', 'chi ngày');
+    if (ls.gioiTinh === 'nu' && ((D.chi === 4 && b === 5) || (D.chi === 5 && b === 4))) add('Địa Võng', 'chi ngày');
+    // Thiên Xá (buổi 23): theo mùa sinh, không giới hạn ở trụ ngày
+    var txa = [[4, 2], [0, 6], [4, 8], [0, 0]][Math.floor(mod(M.chi - 2, 12) / 3)];
+    if (s === txa[0] && b === txa[1]) add('Thiên Xá', 'chi tháng');
     return out;
   }
 
@@ -121,9 +133,21 @@
     if (KHOI_CANG.indexOf(k) >= 0) r.push({ ten: 'Khôi Cang', viTri: 'Ngày' });
     if (CO_LOAN.indexOf(k) >= 0) r.push({ ten: 'Cô Loan Sát', viTri: 'Ngày' });
     if (H && KIM_THAN.indexOf(H.can + '-' + H.chi) >= 0) r.push({ ten: 'Kim Thần', viTri: 'Giờ' });
-    var mua = Math.floor(mod(M.chi - 2, 12) / 3); // 0 xuân,1 hạ,2 thu,3 đông
-    var thienXa = [[4, 2], [0, 6], [4, 8], [0, 0]][mua];
-    if (D.can === thienXa[0] && D.chi === thienXa[1]) r.push({ ten: 'Thiên Xá', viTri: 'Ngày' });
+    // Các sao chỉ xét ngày sinh (buổi 22, 23)
+    if (HONG_DIEM_NGAY.indexOf(k) >= 0) r.push({ ten: 'Hồng Diễm', viTri: 'Ngày' });
+    if (LUC_TU.indexOf(k) >= 0) r.push({ ten: 'Lục Tú', viTri: 'Ngày' });
+    if (NHAT_QUY.indexOf(k) >= 0) r.push({ ten: 'Nhật Quý', viTri: 'Ngày' });
+    if (DA_MUU.indexOf(k) >= 0) r.push({ ten: 'Đa Mưu', viTri: 'Ngày' });
+    if (THOAI_THAN.indexOf(k) >= 0) r.push({ ten: 'Thoái Thần', viTri: 'Ngày' });
+    // Nhật Phá (buổi 23): chi ngày xung chi tháng hoặc chi giờ
+    if (mod(D.chi - M.chi, 12) === 6 || (H && mod(D.chi - H.chi, 12) === 6)) r.push({ ten: 'Nhật Phá', viTri: 'Ngày' });
+    // Tam Đài Quý Nhân (buổi 22): ba chi liền nhau đúng thứ tự, chỉ xét trên lá số gốc
+    var dsChi = ls.tru.filter(Boolean).map(function (t) { return t.chi; });
+    [[2, 4, 8], [3, 5, 6], [11, 0, 9]].forEach(function (t) {
+      for (var i = 0; i + 2 < dsChi.length; i++) {
+        if (dsChi[i] === t[0] && dsChi[i + 1] === t[1] && dsChi[i + 2] === t[2]) r.push({ ten: 'Tam Đài Quý Nhân', viTri: 'Toàn cục' });
+      }
+    });
     // Thiên la địa võng dạng (a): có cả Thìn và Tuất
     var chis = ls.tru.filter(Boolean).map(function (t) { return t.chi; });
     if (chis.indexOf(4) >= 0 && chis.indexOf(10) >= 0) r.push({ ten: 'Thiên La Địa Võng (Thìn–Tuất)', viTri: 'Toàn cục' });
@@ -132,7 +156,7 @@
     var bo = [[0, 4, 6, 'Thiên thượng Tam kỳ (Giáp Mậu Canh)'], [1, 2, 3, 'Địa hạ Tam kỳ (Ất Bính Đinh)'], [8, 9, 7, 'Nhân trung Tam kỳ (Nhâm Quý Tân)']];
     bo.forEach(function (t) {
       for (var i = 0; i + 2 < cans.length; i++) {
-        if (cans[i] === t[0] && cans[i + 1] === t[1] && cans[i + 2] === t[2]) r.push({ ten: 'Tam Kỳ Quý Nhân', ghiChu: t[3], viTri: 'Toàn cục' });
+        if (cans[i] === t[0] && cans[i + 1] === t[1] && cans[i + 2] === t[2]) r.push({ ten: 'Tam Kỳ Quý Nhân', ghiChu: t[3], loaiKy: bo.indexOf(t), viTri: 'Toàn cục' });
       }
     });
     return r;

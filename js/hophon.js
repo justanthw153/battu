@@ -89,6 +89,13 @@
     var ttDay = A.tru[2].can === B.tru[2].can && A.tru[2].chi === B.tru[2].chi;
     if (ttDay) { mcN.d -= 0.5; mcN.ct.push('Trụ ngày trùng nhau (phục ngâm): ' + T.phucNgam); }
     if (mod(A.tru[2].can - B.tru[2].can, 10) === 6 || mod(B.tru[2].can - A.tru[2].can, 10) === 6) if (mod(A.tru[2].chi - B.tru[2].chi, 12) === 6) { mcN.d = -2; mcN.ct.push('<b>Thiên khắc địa xung giữa hai trụ ngày</b>: khác biệt rất lớn từ quan điểm đến lối sống – cần nhiều nỗ lực để dung hòa.'); }
+    var qCan = A.tru[2].can === B.tru[2].can || cs.quanHeCan(A.tru[2].can, B.tru[2].can).some(function (q) { return q.loai === 'hop'; });
+    var rHanh = mod(cs.CAN_HANH[A.tru[2].can] - cs.CAN_HANH[B.tru[2].can], 5);
+    var qChi = cs.quanHeChi(A.tru[2].chi, B.tru[2].chi);
+    var chiXau = qChi.some(function (q) { return ['xung', 'pha', 'hai', 'hinh', 'tuhinh'].indexOf(q.loai) >= 0; });
+    var chiTot = !chiXau && qChi.some(function (q) { return q.loai === 'luchop' || q.loai === 'banhop'; });
+    if (qCan && chiXau) mcN.ct.push('Quy luật can/chi (buổi 23): ' + T.canChiSoSanh.hoaKhac);
+    else if (!qCan && (rHanh === 2 || rHanh === 3) && chiTot) mcN.ct.push('Quy luật can/chi (buổi 23): ' + T.canChiSoSanh.khacHoa);
     muc.push(mcN);
 
     // 3. Chi năm (tuổi)

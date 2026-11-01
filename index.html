@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Luận Giải Bát Tự An Thư</title>
+<meta name="description" content="Lập lá số Tứ trụ và xem luận giải về tính cách, ngũ hành, dụng thần, đại vận, từ cơ bản dễ hiểu đến nâng cao chi tiết.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="vi_VN">
+<meta property="og:site_name" content="Luận Giải Bát Tự An Thư">
+<meta property="og:url" content="https://justanthw153.github.io/battu/">
+<meta property="og:title" content="Luận Giải Bát Tự An Thư">
+<meta property="og:description" content="Lập lá số Tứ trụ và xem luận giải về tính cách, ngũ hành, dụng thần, đại vận, từ cơ bản dễ hiểu đến nâng cao chi tiết.">
+<meta property="og:image" content="https://justanthw153.github.io/battu/og-image.png?v=2">
+<meta property="og:image:secure_url" content="https://justanthw153.github.io/battu/og-image.png?v=2">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Luận Giải Bát Tự An Thư: lập lá số Tứ trụ và xem luận giải">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{
   --bg:#f6f1e7; --card:#fffdf8; --ink:#2a2420; --mute:#7a6f63; --line:#e4d9c6; --accent:#8b2e1f; --accent2:#b8862b;
@@ -189,7 +203,71 @@ html{scroll-padding-top:70px}
 main,aside,.wrap>*,.tq-grid>*,.kv>*,.dt-grid>*{min-width:0}
 .wrap{grid-template-columns:320px minmax(0,1fr)}
 @media (max-width:900px){.wrap{grid-template-columns:minmax(0,1fr)}}
+/* Bảng tứ trụ trên điện thoại: nhãn thành dòng riêng để đủ chỗ cho cả 4 trụ */
+@media (max-width:560px){
+  table.bazi{display:block;min-width:0}
+  table.bazi thead,table.bazi tbody{display:block}
+  table.bazi tr{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+  table.bazi thead th:first-child{display:none}
+  table.bazi tbody th{grid-column:1/-1;width:auto;text-align:left;padding:3px 8px}
+  table.bazi th,table.bazi td{padding:5px 3px;min-width:0;overflow-wrap:break-word}
+  table.bazi .tc{white-space:normal;margin-bottom:4px;line-height:1.25}
+  table.bazi .tc small{display:block}
+  table.bazi .glyph small{text-align:center;line-height:1.2}
+  table.bazi .ts{max-width:100%;margin:2px 0}
+}
+.vs-bang .vs-on{background:var(--ok-bg)}
+.vs-bang th:first-child{width:27%}
+/* Bản Cơ bản */
+.cot-phai{min-width:0}
+#cb-bar{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px;margin-bottom:14px;position:sticky;top:64px;z-index:4;scroll-margin-top:70px}
+#ket-qua section{scroll-margin-top:124px}
+#cb-bar button{flex:1;padding:9px;border:0;border-radius:8px;background:transparent;color:var(--ink);font:inherit;font-weight:600;cursor:pointer}
+#cb-bar button.on{background:var(--accent);color:var(--card)}
+.cb-the{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+.cb-the h3{margin:0 0 6px;font-size:17px;color:var(--accent)}
+.cb-the,.cb-dau{scroll-margin-top:124px}
+.cb-lagi{margin:0 0 10px;color:var(--mute);font-size:13.5px;line-height:1.5}
+.cb-the h4{margin:10px 0 4px}
+.cb-tom{margin:10px 0;padding-left:18px;font-size:14px}
+.cb-tom li{margin-bottom:5px}
+.cb-tom small{color:var(--mute)}
+.cb-muc{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.cb-muc a{padding:4px 10px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--accent);text-decoration:none;background:var(--bg)}
+.cb-thanh-nhom{margin:0 0 12px}
+.cb-thanh{display:grid;grid-template-columns:86px 1fr 38px;align-items:center;gap:8px;font-size:13.5px;margin-bottom:5px}
+.cb-thanh small{text-align:right;color:var(--mute)}
+.cb-ray{height:11px;background:var(--bg);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.cb-ray i{display:block;height:100%}
+.cb-f{background:var(--accent2)}
+.cb-chip-hang{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.cb-chip{flex:1;min-width:88px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:6px 8px;font-weight:600;background:var(--bg)}
+.cb-chip small{display:block;font-weight:400;color:var(--mute);font-size:12px}
+.cb-chip.tot{border-color:var(--ok)} .cb-chip.xau{border-color:var(--bad)}
+.cb-nam.dang{outline:2px solid var(--accent)}
+.cb-kq{margin:0 0 10px;font-size:16px;line-height:1.6}
+.cb-y{display:block;margin-top:8px;font-size:15px}
+.cb-dong{border-top:1px solid var(--line);padding:8px 0}
+.cb-dong b{display:block;font-size:13px;color:var(--accent2)}
+.cb-dong p{margin:2px 0 0;font-size:14px}
+.cb-link{background:none;border:0;padding:6px 0 0;color:var(--accent);font:inherit;font-size:14px;cursor:pointer;text-decoration:underline}
+.cb-chu{color:var(--mute);font-size:13px;margin:10px 0 0}
+.cb-tru-hang{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cb-tru{text-align:center;border:1px solid var(--line);border-radius:10px;padding:8px 2px;background:var(--bg)}
+.cb-tru.la-ban{border-color:var(--accent);border-width:2px}
+.cb-tru small{display:block;color:var(--mute);font-size:12px}
+.cb-tru b{font-size:14px;font-weight:600}
+.cb-nam-hang{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px}
+.cb-nam-hang.dv{grid-template-columns:repeat(4,1fr)}
+.cb-nam{border-radius:10px;padding:8px 2px;text-align:center;font-size:12px;border:1px solid var(--line)}
+.cb-nam b{display:block;font-size:14px}
+.cb-nam small,.cb-nam span{display:block}
+@media (max-width:520px){.cb-nam-hang,.cb-nam-hang.dv{grid-template-columns:1fr}.cb-nam{display:grid;grid-template-columns:92px 1fr 104px;align-items:center;text-align:left;padding:8px 10px}}
+.cb-hd{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.cb-ngay{color:var(--mute);font-size:13px;margin:-4px 0 10px}
 @media print{
+  #cb-bar,.cb-link,.cb-muc,.cb-hd{display:none!important}
+  .cb-the{break-inside:avoid-page;border-color:#ccc}
   header,aside,.acts,.ln-ctl,#b-theme{display:none!important}
   .wrap{display:block;padding:0} body{background:#fff;color:#000}
   .card{break-inside:avoid-page;border-color:#ccc}
@@ -278,18 +356,19 @@ main,aside,.wrap>*,.tq-grid>*,.kv>*,.dt-grid>*{min-width:0}
     </form>
     <div class="card"><h2>Lá số đã lưu</h2><ul id="ds-luu"></ul><div class="hint">Lưu trên trình duyệt của bạn.</div></div>
   </aside>
-  <main id="ket-qua">
+  <div class="cot-phai"><div id="cb-bar" hidden><button type="button" id="cb-co" class="on">Cơ bản</button><button type="button" id="cb-nc">Nâng cao</button></div><div id="cb-view" hidden></div><main id="ket-qua">
     <div class="card empty-state"><div class="han">八字</div><p>Nhập ngày giờ sinh để lập lá số Tứ trụ và xem luận giải chi tiết:<br>tính cách, ngũ hành, dụng thần, thập thần, cách cục, thần sát, hôn nhân, sự nghiệp, sức khỏe, đại vận, lưu niên.</p></div>
-  </main>
+  </main></div>
 </div>
 <footer>Kiến thức tổng hợp từ khóa Bát Tự BTK1 (25 buổi) và lý thuyết Tứ trụ cổ điển. Bát tự là công cụ nhận thức vận mệnh để sống thuận theo quy luật – không phải để phán định tốt xấu.</footer>
-<script src="js/lich.js?v=21"></script>
-<script src="js/coso.js?v=21"></script>
-<script src="js/thansat.js?v=21"></script>
-<script src="js/trithuc.js?v=21"></script>
-<script src="js/laso.js?v=21"></script>
-<script src="js/luangiai.js?v=21"></script>
-<script src="js/hophon.js?v=21"></script>
-<script src="js/app.js?v=21"></script>
+<script src="js/lich.js?v=24"></script>
+<script src="js/coso.js?v=24"></script>
+<script src="js/thansat.js?v=24"></script>
+<script src="js/trithuc.js?v=24"></script>
+<script src="js/laso.js?v=24"></script>
+<script src="js/luangiai.js?v=24"></script>
+<script src="js/hophon.js?v=24"></script>
+<script src="js/coban.js?v=26"></script>
+<script src="js/app.js?v=24"></script>
 </body>
 </html>

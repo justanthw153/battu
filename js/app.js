@@ -85,6 +85,17 @@
       '<div><b>Dụng / Hỷ thần</b><div class="big">' + h(dt.dung) + ' · ' + h(dt.hy) + '</div><small>Kỵ: ' + dt.ky.map(h).join(', ') + '</small></div></div>';
   }
 
+  // Cơ bản / Nâng cao: dùng chung một lá số; mặc định Cơ bản, nhớ lựa chọn của người xem
+  var KEY_CHEDO = 'battu.chedo';
+  function laCoBan() { try { return localStorage.getItem(KEY_CHEDO) !== 'nangcao'; } catch (e) { return true; } }
+  function datCheDo(co) {
+    $('cb-co').classList.toggle('on', co); $('cb-nc').classList.toggle('on', !co);
+    $('cb-view').hidden = !co; $('ket-qua').hidden = co;
+    $('toc').closest('.card').hidden = co;
+    // Kết quả hợp – khắc hiển thị ở cả hai bản
+    var hk = $('hop-khac');
+    if (hk) { if (co) $('cb-view').insertBefore(hk, $('cb-view').firstChild); else $('la-so').insertAdjacentElement('afterend', hk); }
+  }
   function hienThi(ls) {
     hienTai = ls;
     var inp = ls.input, info = thongTin(ls);
@@ -107,7 +118,11 @@
     document.querySelectorAll('.dv-cell').forEach(function (b) { b.onclick = function () { chonDaiVan(+b.dataset.dv); }; });
     $('ln-xem').onclick = function () { xemNam(+$('ln-nam').value); };
     ganBangLN();
-    $('la-so').scrollIntoView({ behavior: 'smooth' });
+    $('cb-view').innerHTML = BT.cb.html(ls);
+    $('cb-bar').hidden = false;
+    var co = laCoBan();
+    datCheDo(co);
+    (co ? $('cb-bar') : $('la-so')).scrollIntoView({ behavior: 'smooth' });
   }
   function chonDaiVan(i) {
     document.querySelectorAll('.dv-cell').forEach(function (b) { b.classList.toggle('sel', +b.dataset.dv === i); });
@@ -174,6 +189,7 @@
       var B = BT.ls.lapLaSo(inp), old = $('hop-khac');
       if (old) old.remove();
       $('la-so').insertAdjacentHTML('afterend', BT.hh.html(hienTai, B, $('h-loai').value));
+      datCheDo(!$('cb-view').hidden);
       var tenB = esc(B.ten || 'Người thứ hai');
       $('hop-khac').querySelector('.hk-toc').insertAdjacentHTML('afterend',
         '<details class="hk-ls" id="hk-ls" open><summary>Lá số của ' + tenB + '</summary>' + thongTin(B) +
@@ -196,7 +212,7 @@
       };
       $('b-xem-b').onclick = function () {
         if (!confirm('Chuyển sang xem luận giải đầy đủ của ' + (B.ten || 'người thứ hai') + '? (Lá số đang mở sẽ được thay thế; hãy lưu lại nếu cần.)')) return;
-        ganForm(inp); hienThi(B); window.scrollTo({ top: 0, behavior: 'smooth' });
+        ganForm(inp); hienThi(B); datCheDo(false); window.scrollTo({ top: 0, behavior: 'smooth' });
       };
       // Mục lục bên trái: nhóm Hợp – khắc ở đầu, sau đó là lá số người thứ nhất
       var cu = $('toc').querySelector('.toc-hk'); if (cu) cu.remove();
@@ -232,6 +248,16 @@
     $('b-mau').onclick = function () {
       ganForm({ ten: 'Lá số mẫu', gioiTinh: 'nam', y: 1990, m: 8, d: 15, h: 9, mi: 30, tz: 7, kinhDo: 105.8, tyMuon: 'sau' });
       $('form').requestSubmit();
+    };
+    $('cb-bar').style.top = (document.querySelector('header').offsetHeight + 6) + 'px';
+    var chonCheDo = function (co) { try { localStorage.setItem(KEY_CHEDO, co ? 'coban' : 'nangcao'); } catch (e) { } datCheDo(co); $('cb-bar').scrollIntoView(); };
+    $('cb-co').onclick = function () { chonCheDo(true); };
+    $('cb-nc').onclick = function () { chonCheDo(false); };
+    $('cb-view').onclick = function (e) {
+      if (e.target.id === 'cb-luu') { $('b-luu').click(); e.target.textContent = '✓ Đã lưu'; return; }
+      if (e.target.id === 'cb-in') { $('b-in').click(); return; }
+      var t = e.target.closest('.cb-link'); if (!t) return;
+      datCheDo(false); var d = $(t.dataset.toi); if (d) d.scrollIntoView();
     };
     $('b-theme').onclick = function () {
       var r = document.documentElement, cur = r.getAttribute('data-theme');
